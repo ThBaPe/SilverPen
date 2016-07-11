@@ -84,11 +84,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-            	<groupId>org.primefaces</groupId>
-            	<artifactId>primefaces</artifactId>
-            	<version>6.0</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -198,6 +193,12 @@
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+        	<groupId>org.primefaces</groupId>
+        	<artifactId>primefaces</artifactId>
+        	<version>6.0</version>
         </dependency>
 
     </dependencies>
