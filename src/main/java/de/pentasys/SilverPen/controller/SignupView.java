@@ -2,6 +2,7 @@ package de.pentasys.SilverPen.controller;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 //import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -19,7 +20,25 @@ public class SignupView implements Serializable{
     protected String emailAdd;
     protected String passwd1;
     protected String passwd2;
+    private User regUser;
     
+    public User getRegUser() {
+        return regUser;
+    }
+
+
+    public void setRegUser(User regUser) {
+        this.regUser = regUser;
+    }
+
+    @Inject 
+    UserAccountService userService;
+        
+    
+    @PostConstruct
+    public void init() {
+        this.regUser = new User();
+    }
     
     
     public String getName() {
@@ -46,13 +65,7 @@ public class SignupView implements Serializable{
         this.newUser = newUser;
     }
 */
-    /*
-    @Produces
-    User newUser;
-    */
-    @Inject UserAccountService userService;
-    
-    
+ 
     public SignupView() {
 
     }
