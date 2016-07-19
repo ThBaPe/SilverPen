@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+	</h:head>
+	<h:body>
+
+	<h1>Konto erstellen</h1>
+	<h:form>
+	    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+
+	        <h:outputLabel for="EMail" value="E-Mail: *" />
+			<p:inputText id="EMail" value="#{signupView.emailAdd}" required="true" />
+	                      
+	        <h:outputLabel for="pwd1" value="Password: *" />
+	        <p:password id="pwd1" value="#{signupView.passwd1}" match="pwd2" label="Password 1" required="true" />
+	 
+	        <h:outputLabel for="pwd2" value="Password wiederholen: *" />
+	        <p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
+	    </h:panelGrid>
+	 
+	    <p:commandButton update="matchGrid" value="Save" />
+	</h:form>
+
+
+
+	</h:body>
+</html> 
