@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-//import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,10 +15,8 @@ import de.pentasys.SilverPen.service.UserAccountService;
 public class SignupView implements Serializable{
     
     private static final long serialVersionUID = -3965129195594384366L;
-    protected String name;
-    protected String emailAdd;
-    protected String passwd1;
-    protected String passwd2;
+    protected String emailAdd;  // Wird in der POJO nicht autom. generiert, daher müssen wir ihn manuel setzten
+    protected String passwd2;   // Zweites Passwd feld für die Einhabewiederholung
     private User regUser;
     
     public User getRegUser() {
@@ -40,13 +37,10 @@ public class SignupView implements Serializable{
         this.regUser = new User();
     }
     
-    
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void register() {
+        regUser.setEmail(this.emailAdd);
+        userService.register(regUser);
+        init();
     }
 
     public String getEmailAdd() {
@@ -56,26 +50,7 @@ public class SignupView implements Serializable{
     public void setEmailAdd(String emailAdd) {
         this.emailAdd = emailAdd;
     }
-/*
-    public User getNewUser() {
-        return newUser;
-    }
 
-    public void setNewUser(User newUser) {
-        this.newUser = newUser;
-    }
-*/
- 
-    public SignupView() {
-
-    }
-   
-    public String getPasswd1() {
-        return passwd1;
-    }
-    public void setPasswd1(String passwd1) {
-        this.passwd1 = passwd1;
-    }
     public String getPasswd2() {
         return passwd2;
     }
@@ -83,12 +58,6 @@ public class SignupView implements Serializable{
         this.passwd2 = passwd2;
     }
     
-    public void register() {
-        User createUser = new User();
-        createUser.setEmail(emailAdd);
-        createUser.setPassword(passwd1);
-        createUser.setUsername(name);
-        userService.register(createUser);
-    }
+
  
 }
