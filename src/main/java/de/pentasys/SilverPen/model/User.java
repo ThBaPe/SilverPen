@@ -16,12 +16,8 @@ public class User implements Serializable {
 	@Id
 	@Column(unique=true, nullable=false, precision=80)
 	private String email;
-	@Column(unique=true, nullable=false, precision=8)
+	@Column(unique=true, nullable=false, precision=20)
 	private String username;
-	@Column(nullable=false)
-	private String firstName;
-	@Column(nullable=false)
-	private String lastName;
 	@Column(nullable=false)
 	private String password;
 	private static final long serialVersionUID = 1L;
@@ -42,20 +38,6 @@ public class User implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}   
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}   
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}   
 	public String getPassword() {
 		return this.password;
