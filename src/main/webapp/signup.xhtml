@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:p="http://primefaces.org/ui"
 		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
@@ -8,10 +8,14 @@
 	<h:body>
 
 	<h1>Konto erstellen</h1>
+		
 	<h:form>
 	    <p:messages id="messages" showDetail="true" autoUpdate="true" />
 
 	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+
+	        <h:outputLabel for="Name" value="Name: *" />
+			<p:inputText id="Name" value="#{signupView.name}" required="true" />
 
 	        <h:outputLabel for="EMail" value="E-Mail: *" />
 			<p:inputText id="EMail" value="#{signupView.emailAdd}" required="true" />
@@ -23,7 +27,7 @@
 	        <p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
 	    </h:panelGrid>
 	 
-	    <p:commandButton update="matchGrid" value="Save" />
+	    <p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
 	</h:form>
 
 
