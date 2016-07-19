@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.service;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -17,12 +18,13 @@ import de.pentasys.SilverPen.model.User;
 public class UserAccountService {
     
     @PersistenceUnit
-    private EntityManager em;
+    private EntityManagerFactory emf;
     
     @Resource
     private UserTransaction utx;
     
     public void register(User user){
+        EntityManager em = emf.createEntityManager();
         try {
             utx.begin();
             
