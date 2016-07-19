@@ -87,6 +87,15 @@
         </dependencies>
     </dependencyManagement>
 
+	<repositories>
+    	<repository>
+        	<id>prime-repo</id>
+        	<name>PrimeFaces Maven Repository</name>
+        	<url>http://repository.primefaces.org</url>
+        	<layout>default</layout>
+    	</repository>
+	</repositories>
+
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. All 
@@ -195,11 +204,40 @@
             <scope>test</scope>
         </dependency>
 
+ 		<!-- Javaee API -->
+		<dependency>
+    		<groupId>javax</groupId>
+    		<artifactId>javaee-api</artifactId>
+    		<version>7.0</version>
+		</dependency>
+
         <dependency>
         	<groupId>org.primefaces</groupId>
         	<artifactId>primefaces</artifactId>
         	<version>6.0</version>
         </dependency>
+        
+	    <dependency>
+	    	<groupId>org.primefaces.themes</groupId>
+	    	<artifactId>blitzer</artifactId>
+	    	<version>1.0.8</version>
+	    	<scope>runtime</scope>
+	    </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-impl -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.13</version>
+        </dependency>
+        
 
     </dependencies>
 
