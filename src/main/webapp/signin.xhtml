@@ -18,8 +18,7 @@
 
 	<div class="titlebar">
 		<h:link class="titlebarItem" value="login" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-		<h:outputLabel class="titlebarItem" value="Hallo Benutzer" rendered="#{signinView.loggedIn}" />
-		
+		<h:outputLabel class="titlebarItem" value="#{sessionBean.currentUser.username}" rendered="#{signinView.loggedIn}" />
 	</div>
 	
 	<h1>Anmelden</h1>
