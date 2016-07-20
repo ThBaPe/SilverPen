@@ -3,12 +3,10 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
 
 import de.pentasys.SilverPen.model.User;
 
@@ -28,8 +26,7 @@ public class UserAccountService {
     public User register(User user){
         String password = user.getPassword();
         try {
-            String encryptedPassword = getEncryptedPassword(password, getSalt());
-            System.out.println(encryptedPassword);
+            String encryptedPassword = getEncryptedPassword(password, getSalt(user));
             user.setPassword(encryptedPassword);
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             // TODO Auto-generated catch block
@@ -48,10 +45,14 @@ public class UserAccountService {
      * @throws NoSuchAlgorithmException
      * @throws NoSuchProviderException
      */
-    private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException{
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
+    public static byte[] getSalt(User user) throws NoSuchAlgorithmException, NoSuchProviderException{
+        String key = user.getEmail().substring(0, 6);
+        key.concat(user.getUsername().substring(0, 2));
+        byte[] salt = key.getBytes();
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+        md.update(salt);
+        salt = md.digest(salt);
+        
         return salt;
     }
     
@@ -64,7 +65,7 @@ public class UserAccountService {
      * @return Das codierte Passwort
      * @throws NoSuchAlgorithmException
      */
-    private static String getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException{
+    public static String getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException{
         String encryptedPassword = null;
         
         MessageDigest md = MessageDigest.getInstance("MD5");
