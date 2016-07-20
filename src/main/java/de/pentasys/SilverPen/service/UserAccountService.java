@@ -3,18 +3,27 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.util.AlreadyLoggedInException;
+import de.pentasys.SilverPen.util.NoUserException;
+import de.pentasys.SilverPen.util.Validator;
+import de.pentasys.SilverPen.util.WrongPasswordException;
 
 @Stateless
 public class UserAccountService {
     
     @Inject
     EntityManager entityManager;
+    
+    @Inject
+    SessionBean session;
     
     /**
      * Das Benutzerobject wird der Methode durch den SignupView Controller übergeben. Aus diesem Objekt
@@ -34,6 +43,46 @@ public class UserAccountService {
         }
         entityManager.persist(user);
         return user;
+    }
+    
+    public void login(String name, String password) throws NoUserException, WrongPasswordException, AlreadyLoggedInException{
+        List<User> result;
+        if (Validator.isEmailValid(name)){
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u"
+                    +"FROM User u"
+                    +"WHERE u.email = '"+name+"'", User.class);
+            result = query.getResultList();
+        } else {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u"
+                    +"FROM User u"
+                    +"WHERE u.username = '"+name+"'", User.class);
+            result = query.getResultList();
+        }
+        
+        if (result.isEmpty()){
+            throw new NoUserException("No user found in Database with name = "+ name);
+        }
+        
+        User user = result.get(0);
+        
+        String checkPw = user.getPassword();
+        
+        try {
+            if(!checkPw.equals(getEncryptedPassword(password, getSalt(user)))){
+                throw new WrongPasswordException("Password incorrect!");
+            }
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+        
+        if(! (session == null)){
+            throw new AlreadyLoggedInException("The user "+name+" is already logged in!");
+        } else {
+            session.setCurrentUser(user);
+        }
+        
     }
     
     

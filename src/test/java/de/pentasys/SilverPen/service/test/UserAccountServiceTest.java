@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.UserAccountService;
+import de.pentasys.SilverPen.util.NoUserException;
+
 import static org.junit.Assert.*;
 
 public class UserAccountServiceTest {
