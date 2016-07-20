@@ -30,7 +30,7 @@
 
 			<p:inputText id="name" value="#{signinView.loginName}" placeholder="Benutzer Name oder EMail" required="true" />
 
-	        <p:password id="pwd" value="#{signupView.regUser.password}" placeholder="Passwort" required="true" />
+	        <p:password id="pwd" value="#{signinView.passwd}" placeholder="Passwort" required="true" />
 	    </h:panelGrid>
 	 
 	    <p:commandButton update="matchGrid" value="anmelden" action="#{signinView.login()}"/>
