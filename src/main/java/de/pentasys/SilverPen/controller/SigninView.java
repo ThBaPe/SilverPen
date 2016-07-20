@@ -42,13 +42,18 @@ public class SigninView implements Serializable{
     }
     
     public void login() {
-        try {
-            userService.login(loginName, passwd);
+
+            try {
+                userService.login(loginName, passwd);
+            } catch (NoUserException e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden", null)); 
+            } catch (WrongPasswordException e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Falsches Passwort", null)); 
+            } catch (AlreadyLoggedInException e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer ist bereits angemeldet", null)); 
+            }
             loggedIn = true;
-        } catch (NoUserException | WrongPasswordException | AlreadyLoggedInException e) {
-            // TODO Auto-generated catch block
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Benutzer konnte nicht angemeldet werden", null)); 
-        }
+
         init();
     }
 

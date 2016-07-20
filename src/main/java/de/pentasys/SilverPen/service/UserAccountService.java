@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -24,6 +25,9 @@ public class UserAccountService {
     
     @Inject
     SessionBean session;
+    
+    @Inject
+    Logger logger;
     
     /**
      * Das Benutzerobject wird der Methode durch den SignupView Controller übergeben. Aus diesem Objekt
@@ -49,14 +53,14 @@ public class UserAccountService {
         List<User> result;
         if (Validator.isEmailValid(name)){
             TypedQuery<User> query = entityManager.createQuery(
-                    "SELECT u"
-                    +"FROM User u"
+                    "SELECT u "
+                    +"FROM User u "
                     +"WHERE u.email = '"+name+"'", User.class);
             result = query.getResultList();
         } else {
             TypedQuery<User> query = entityManager.createQuery(
-                    "SELECT u"
-                    +"FROM User u"
+                    "SELECT u "
+                    +"FROM User u "
                     +"WHERE u.username = '"+name+"'", User.class);
             result = query.getResultList();
         }
@@ -68,16 +72,19 @@ public class UserAccountService {
         User user = result.get(0);
         
         String checkPw = user.getPassword();
+        System.out.println(checkPw);
         
         try {
-            if(!checkPw.equals(getEncryptedPassword(password, getSalt(user)))){
+            String encryptedPw = getEncryptedPassword(password, getSalt(user));
+            System.out.println(encryptedPw);
+            if(!checkPw.equals(encryptedPw)){
                 throw new WrongPasswordException("Password incorrect!");
             }
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
         
-        if(! (session == null)){
+        if(! (session.getCurrentUser() == null)){
             throw new AlreadyLoggedInException("The user "+name+" is already logged in!");
         } else {
             session.setCurrentUser(user);
@@ -95,13 +102,13 @@ public class UserAccountService {
      * @throws NoSuchProviderException
      */
     public static byte[] getSalt(User user) throws NoSuchAlgorithmException, NoSuchProviderException{
-        String key = user.getEmail().substring(0, 6);
-        key.concat(user.getUsername().substring(0, 2));
+        String key1 = user.getEmail().substring(0, 6);
+        String key2 = user.getUsername().substring(0, 2);
+        String key = key1+key2;
         byte[] salt = key.getBytes();
         MessageDigest md = MessageDigest.getInstance("SHA1");
         md.update(salt);
         salt = md.digest(salt);
-        
         return salt;
     }
     
@@ -116,7 +123,7 @@ public class UserAccountService {
      */
     public static String getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException{
         String encryptedPassword = null;
-        
+        System.out.println("PW to encrypt = "+password);
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(salt);
         byte[] bytes = md.digest(password.getBytes());
