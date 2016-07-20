@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+	
+	<STYLE type="text/css">
+ 	
+ 	.titlebar {background-color: red;}
+ 	.titlebarItem {color: white; margin-left: 3px;}
+ 	
+	</STYLE>
+	
+	</h:head>
+	<h:body>
+
+	<div class="titlebar">
+		<h:link class="titlebarItem" value="login" outcome="signin" rendered="#{!signinView.loggedIn}"/>
+		<h:outputLabel class="titlebarItem" value="Hallo Benutzer" rendered="#{signinView.loggedIn}" />
+		
+	</div>
+	
+	<h1>Anmelden</h1>
+		
+	<h:form>
+	    <p:messages id="messages" showDetail="false" autoUpdate="true" />
+
+	    <h:panelGrid columns="1" id="matchGrid" cellpadding="5">
+
+			<p:inputText id="name" value="#{signinView.loginName}" placeholder="Benutzer Name oder EMail" required="true" />
+
+	        <p:password id="pwd" value="#{signupView.regUser.password}" placeholder="Passwort" required="true" />
+	    </h:panelGrid>
+	 
+	    <p:commandButton update="matchGrid" value="anmelden" action="#{signinView.login()}"/>
+	</h:form>
+
+	 
+	<br/>
+	<br/>
+	<h:outputLabel value="Sie haben noch kein Konto?"/>
+	<br/>
+	<h:link value="Dann erstellen Sie jetzt eins!" outcome="signup"/>
+
+	</h:body>
+</html> 
