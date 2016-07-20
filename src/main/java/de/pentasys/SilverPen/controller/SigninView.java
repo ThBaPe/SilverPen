@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.UserAccountService;
+import de.pentasys.SilverPen.util.AlreadyLoggedInException;
+import de.pentasys.SilverPen.util.NoUserException;
+import de.pentasys.SilverPen.util.WrongPasswordException;
+
 
 @Named
 @RequestScoped
@@ -36,7 +41,13 @@ public class SigninView implements Serializable{
     }
     
     public void login() {
-        // userService.login(loginName,passwd);
+        try {
+            userService.login(loginName, passwd);
+            loggedIn = true;
+        } catch (NoUserException | WrongPasswordException | AlreadyLoggedInException e) {
+            // TODO Auto-generated catch block
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Benutzer konnte nicht angemeldet werden", null)); 
+        }
         init();
     }
 
