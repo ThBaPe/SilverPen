@@ -12,19 +12,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import de.pentasys.SilverPen.model.User;
-import de.pentasys.SilverPen.util.AlreadyLoggedInException;
-import de.pentasys.SilverPen.util.NoUserException;
-import de.pentasys.SilverPen.util.Validator;
-import de.pentasys.SilverPen.util.WrongPasswordException;
+import de.pentasys.SilverPen.util.*;
 
 @Stateless
 public class UserAccountService {
     
     @Inject
     EntityManager entityManager;
-    
-    @Inject
-    SessionBean session;
     
     @Inject
     Logger logger;
@@ -49,7 +43,7 @@ public class UserAccountService {
         return user;
     }
     
-    public User login(String name, String password) throws NoUserException, WrongPasswordException, AlreadyLoggedInException{
+    public User login(String name, String password) throws NoUserException, WrongPasswordException {
         List<User> result;
         if (Validator.isEmailValid(name)){
             TypedQuery<User> query = entityManager.createQuery(
@@ -133,8 +127,5 @@ public class UserAccountService {
         
         return encryptedPassword;
     }
-    
-    public User getLogInUser() {
-        return session.getCurrentUser();
-    }
+
 }

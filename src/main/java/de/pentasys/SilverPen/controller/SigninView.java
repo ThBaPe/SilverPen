@@ -10,12 +10,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.pentasys.SilverPen.model.User;
-import de.pentasys.SilverPen.service.SessionBean;
+import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
-import de.pentasys.SilverPen.util.AlreadyLoggedInException;
 import de.pentasys.SilverPen.util.NoUserException;
 import de.pentasys.SilverPen.util.WrongPasswordException;
-
+import java.util.logging.Logger;
 
 @Named
 @RequestScoped
@@ -28,37 +27,50 @@ public class SigninView implements Serializable{
     protected boolean loggedIn;
     
 
-    @Inject 
-    UserAccountService userService;
-
-    @Inject
-    SessionBean curSession;
+    @Inject private UserAccountService userService;
+    @Inject private LoginInfo curSession;
+    @Inject private Logger lg;
     
     @PostConstruct
     public void init() {
-        User curUser = userService.getLogInUser();
+        lg.info("SignInView: " + this );
+        lg.info("Injected LoginInfo: " + curSession);
+        User curUser = curSession.getCurrentUser();
+        lg.info("Injected LoginInfo.User: " + ((curUser == null) ? "NULL" : curUser));
+
         loginName = curUser != null ? curUser.getUsername() : "" ;//curSession.getCurrentUser().getUsername();
         passwd = "";
         loggedIn = curUser != null; // UsercurSession...
         
+        lg.info("LoginName: " + loginName);
+        lg.info("isLoggedIn: " + loggedIn);
+        
     }
     
     public String login() {
+        
+        try {
+            
+            if(curSession.getCurrentUser() != null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer ist bereits angemeldet", null));
+            } else {
+                curSession.setCurrentUser(userService.login(loginName, passwd));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Anmeldung war erfolgreich", null)); 
+                init();
 
-            try {
-                userService.login(loginName, passwd);
-            } catch (NoUserException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden", null)); 
-            } catch (WrongPasswordException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Falsches Passwort", null)); 
-            } catch (AlreadyLoggedInException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer ist bereits angemeldet", null)); 
             }
-            loggedIn = true;
-
-        init();
+            
+        } catch (NoUserException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden", null));
+        } catch (WrongPasswordException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Falsches Passwort", null)); 
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Interner unbekannter Fehler.", null)); 
+        }
+      //  ?faces-redirect=true
         return "signin.xhtml?faces-redirect=true";
     }
+    
 
     public String getLoginName() {
         return loginName;
