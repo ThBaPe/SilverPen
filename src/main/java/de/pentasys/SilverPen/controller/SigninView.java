@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.SessionBean;
 import de.pentasys.SilverPen.service.UserAccountService;
 import de.pentasys.SilverPen.util.AlreadyLoggedInException;
@@ -35,13 +36,14 @@ public class SigninView implements Serializable{
     
     @PostConstruct
     public void init() {
-        loginName = curSession.getCurrentUser() != null ? curSession.getCurrentUser().getUsername() : "" ;//curSession.getCurrentUser().getUsername();
+        User curUser = userService.getLogInUser();
+        loginName = curUser != null ? curUser.getUsername() : "" ;//curSession.getCurrentUser().getUsername();
         passwd = "";
-        loggedIn = curSession.getCurrentUser() != null; // UsercurSession...
+        loggedIn = curUser != null; // UsercurSession...
         
     }
     
-    public void login() {
+    public String login() {
 
             try {
                 userService.login(loginName, passwd);
@@ -55,6 +57,7 @@ public class SigninView implements Serializable{
             loggedIn = true;
 
         init();
+        return "signin.xhtml?faces-redirect=true";
     }
 
     public String getLoginName() {

@@ -139,4 +139,7 @@ public class UserAccountService {
         return encryptedPassword;
     }
     
+    public User getLogInUser() {
+        return session.getCurrentUser();
+    }
 }
