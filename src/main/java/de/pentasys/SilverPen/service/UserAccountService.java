@@ -49,7 +49,7 @@ public class UserAccountService {
         return user;
     }
     
-    public void login(String name, String password) throws NoUserException, WrongPasswordException, AlreadyLoggedInException{
+    public User login(String name, String password) throws NoUserException, WrongPasswordException, AlreadyLoggedInException{
         List<User> result;
         if (Validator.isEmailValid(name)){
             TypedQuery<User> query = entityManager.createQuery(
@@ -83,13 +83,8 @@ public class UserAccountService {
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
-        
-        if(! (session.getCurrentUser() == null)){
-            throw new AlreadyLoggedInException("The user "+name+" is already logged in!");
-        } else {
-            session.setCurrentUser(user);
-        }
-        
+            
+        return user;
     }
     
     
