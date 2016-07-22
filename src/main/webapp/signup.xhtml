@@ -16,11 +16,12 @@
 	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
 
 	        <h:outputLabel for="Name" value="Name: *" />
-			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true"
-			validatorMessage="Bitte tragen Sie ihre EMail im dafür vorgesehenen Feld ein. :-)">
-  				<f:validateRegex
-					pattern="(?! ^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$ )" />
-			
+			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
+							requiredMessage="Bitte setzten Sie ihren Benutzernamen"
+							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet. Lehrzeichen nur zur Worttrennung einsetzten">
+	  			<f:validateRegex pattern="^[a-zA-Z0-9]+([a-zA-Z0-9\s])*[a-zA-Z0-9]$"/>
+	  			<f:validateLength />
+	  			
 			</p:inputText>
 
 	        <h:outputLabel for="EMail" value="E-Mail: *" />
