@@ -19,7 +19,7 @@
 			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
 							requiredMessage="Bitte setzten Sie ihren Benutzernamen"
 							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet. Lehrzeichen nur zur Worttrennung einsetzten">
-	  			<f:validateRegex pattern="^[a-zA-Z0-9]+([a-zA-Z0-9\s])*[a-zA-Z0-9]$"/>
+	  			<f:validateRegex pattern="^[a-zA-Z0-9äüöÄÜÖ]+([a-zA-Z0-9\säüöÄÜÖ])*[a-zA-Z0-9äüöÄÜÖ]$"/>
 	  			<f:validateLength />
 	  			
 			</p:inputText>
