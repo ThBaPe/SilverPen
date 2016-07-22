@@ -49,6 +49,8 @@ public class SigninView implements Serializable{
     
     public String login() {
         
+        String retValue = "";
+        
         try {
             
             if(curSession.getCurrentUser() != null){
@@ -57,7 +59,7 @@ public class SigninView implements Serializable{
                 curSession.setCurrentUser(userService.login(loginName, passwd));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Anmeldung war erfolgreich", null)); 
                 init();
-
+                retValue = "signin.xhtml?faces-redirect=true";
             }
             
         } catch (NoUserException e) {
@@ -67,8 +69,8 @@ public class SigninView implements Serializable{
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Interner unbekannter Fehler.", null)); 
         }
-      //  ?faces-redirect=true
-        return "signin.xhtml?faces-redirect=true";
+
+        return retValue;
     }
     
 
