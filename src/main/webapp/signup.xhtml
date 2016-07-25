@@ -17,7 +17,7 @@
 	        <h:outputLabel for="Name" value="Name: *" />
 			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
 							requiredMessage="Bitte setzten Sie ihren Benutzernamen"
-							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet. Lehrzeichen nur zur Worttrennung einsetzten">
+							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet und eine Mindestlänge von zwei Zeichen wird verlangt. Lehrzeichen nur zur Worttrennung einsetzten">
 	  			<f:validateRegex pattern="^[a-zA-Z0-9äüöÄÜÖ]+([a-zA-Z0-9\säüöÄÜÖ])*[a-zA-Z0-9äüöÄÜÖ]$"/>
 			</p:inputText>
 

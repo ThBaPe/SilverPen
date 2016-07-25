@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.UserAccountService;
+import de.pentasys.SilverPen.util.UserExistsException;
+import de.pentasys.SilverPen.util.Validator;
 
 @Named
 @RequestScoped
@@ -39,10 +42,27 @@ public class SignupView implements Serializable{
     
     public void register() {
         regUser.setEmail(this.emailAdd);
-        userService.register(regUser);
+        
+        try {
+            
+            userService.register(regUser);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Anmeldung war erfolgreich", null));
+            
+        } catch (UserExistsException e) {
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden, da er bereits registriert ist.", null));
+        }
         init();
     }
 
+    public void checkUserName(javax.faces.context.FacesContext context, javax.faces.component.UIComponent component, java.lang.Object value) {
+        if(Validator.isEmailValid(regUser.getUsername())){
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Bitte tragen Sie ihre EMail im dafür vorgesehenen Feld ein. :-)", null));
+            }            
+    }
+
+ 
+    
     public String getEmailAdd() {
         return emailAdd;
     }

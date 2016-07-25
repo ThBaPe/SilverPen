@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
+import javax.transaction.SystemException;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.util.*;
 
@@ -23,23 +23,47 @@ public class UserAccountService {
     @Inject
     Logger logger;
     
+    
+    /**
+     * Prüft ob ein Benutzer bereit in der Datenbank geführt wird.
+     * @param userObj Der zu prüfende Benutzer
+     * @return Erfolgsstatus: true -> Benutzer ist eingetragen
+     */
+    private boolean existUserInDB(User userObj)
+    {
+        TypedQuery<User> query = entityManager.createNamedQuery(User.existsUser,User.class);
+        return query.setParameter("email", userObj.getEmail()).getResultList().size() > 0;
+    }
+    
     /**
      * Das Benutzerobject wird der Methode durch den SignupView Controller übergeben. Aus diesem Objekt
      * wird das Klartextpasswort codiert. Danach wird das Benutzerobjekt in die Datenbank geschrieben.
      * 
      * @param user Der User, der in die Datenbank geschrieben werden soll.
      * @return
+     * @throws SystemException 
+     * @throws UserExistsException 
      */
-    public User register(User user){
-        String password = user.getPassword();
-        try {
-            String encryptedPassword = getEncryptedPassword(password, getSalt(user));
-            user.setPassword(encryptedPassword);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public User register(User user) throws UserExistsException{
+        
+        if(existUserInDB(user)) { // Prüfen ob der Benutzer schon in der DB registriert ist
+            logger.warning("UserExists: " + "EMail: \"" + user.getEmail() + "\" Name: \""+ user.getUsername() + "\"");
+            
+            throw new UserExistsException(user);
         }
-        entityManager.persist(user);
+
+        try {
+         
+            String encryptedPassword = getEncryptedPassword(user.getPassword(), getSalt(user));
+            user.setPassword(encryptedPassword);
+            entityManager.persist(user);
+
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+
+            logger.warning("CryptAPI faild: " + e.getMessage());
+
+        }
+        
         return user;
     }
     
