@@ -19,20 +19,25 @@ public class SingUpTest {
     private StringBuffer verificationErrors = new StringBuffer();
 
     private final String domain = "@Selenium.de";
-    
+
     @Before
     public void setUp() throws Exception {
-      driver = new FirefoxDriver();
-      baseUrl = "http://localhost:8080/";
-      driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver = new FirefoxDriver();
+        baseUrl = "http://localhost:8080/";
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     /**
      * Durchläuft die Benutzer-Registrierung
-     * @param userName Der zu verwendene Benutzername (ebenfalls präfix für die MailAdd)
-     * @param expected Erwartetes 
+     * 
+     * @param userName
+     *            Der zu verwendene Benutzername (ebenfalls präfix für die
+     *            MailAdd)
+     * @param expected
+     *            Erwartetes
      */
     private void signupUser(String userName, boolean expected) {
+
         driver.get(baseUrl + "/SilverPen/signup.jsf");
         driver.findElement(By.id("j_idt5:Name")).clear();
         driver.findElement(By.id("j_idt5:Name")).sendKeys(userName);
@@ -45,75 +50,74 @@ public class SingUpTest {
         driver.findElement(By.id("j_idt5:j_idt10")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         String message = driver.findElement(By.id("j_idt5:messages")).getText();
         assertFalse(message.isEmpty());
-        
+
         boolean loginResultOK = message.contains("war erfolgreich");
         boolean loginResultFailIsReg = message.contains("bereits registriert");
-        
+
         // Ist es ein bekannter Zustand?
-        assertTrue(loginResultOK||loginResultFailIsReg);
+        assertTrue(loginResultOK || loginResultFailIsReg);
 
         assertTrue(expected ? loginResultOK : loginResultFailIsReg);
     }
-    
+
     @Test
     public void testSignUp() throws Exception {
 
-        String sUserName = UUID.randomUUID().toString().replace("-","");
-        
+        String sUserName = UUID.randomUUID().toString().replace("-", "");
+
         // Erste registrierung
         signupUser(sUserName, true);
-        
+
         // Erneutes registrieren darf nicht gelingen
         signupUser(sUserName, false);
-        
-      
+
     }
 
     @After
     public void tearDown() throws Exception {
-      driver.quit();
-      String verificationErrorString = verificationErrors.toString();
-      if (!"".equals(verificationErrorString)) {
-        fail(verificationErrorString);
-      }
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+        }
     }
 
     @SuppressWarnings("unused")
     private boolean isElementPresent(By by) {
-      try {
-        driver.findElement(by);
-        return true;
-      } catch (NoSuchElementException e) {
-        return false;
-      }
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @SuppressWarnings("unused")
     private boolean isAlertPresent() {
-      try {
-        driver.switchTo().alert();
-        return true;
-      } catch (NoAlertPresentException e) {
-        return false;
-      }
+        try {
+            driver.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException e) {
+            return false;
+        }
     }
-    
+
     @SuppressWarnings("unused")
     private String closeAlertAndGetItsText() {
-      try {
-        Alert alert = driver.switchTo().alert();
-        String alertText = alert.getText();
-        if (acceptNextAlert) {
-          alert.accept();
-        } else {
-          alert.dismiss();
+        try {
+            Alert alert = driver.switchTo().alert();
+            String alertText = alert.getText();
+            if (acceptNextAlert) {
+                alert.accept();
+            } else {
+                alert.dismiss();
+            }
+            return alertText;
+        } finally {
+            acceptNextAlert = true;
         }
-        return alertText;
-      } finally {
-        acceptNextAlert = true;
-      }
     }
 }
