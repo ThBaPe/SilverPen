@@ -23,26 +23,46 @@ public class SignInTest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @Test
-    public void testSignIn() throws Exception {
+    /**
+     * Durchläuft die Benutzer-Anmeldung
+     * @param name Der Benutzername ( nicht EMail)
+     * @param pwd Das Passwort
+     * @param expected erwartetes Ergebnis für die Ausführung
+     */
+    private void signinUser(String name, String pwd, boolean expected) {
         driver.get(baseUrl + "/SilverPen/signin.jsf");
         driver.findElement(By.id("j_idt9:name")).click();
         driver.findElement(By.id("j_idt9:name")).clear();
-        driver.findElement(By.id("j_idt9:name")).sendKeys("Thomas");
+        driver.findElement(By.id("j_idt9:name")).sendKeys(name);
         driver.findElement(By.id("j_idt9:pwd")).click();
         driver.findElement(By.id("j_idt9:pwd")).clear();
-        driver.findElement(By.id("j_idt9:pwd")).sendKeys("SilverPen");
+        driver.findElement(By.id("j_idt9:pwd")).sendKeys(pwd);
 
         driver.findElement(By.id("j_idt9:j_idt10")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String message = driver.findElement(By.className("titlebarItem")).getText();
+        String message = driver.findElement(By.id("j_idt9:messages")).getText();
+        String titleElementText = driver.findElement(By.className("titlebarItem")).getText();
         
-        assertFalse(message.isEmpty());
-        assertTrue(message.contains("Thomas"));
+        assertFalse(titleElementText.isEmpty());
         
+        boolean loginOK = titleElementText.contains(name);
+        boolean loginFailWrongPWD = message.contains("Falsches Passwort");
+        boolean loginFailUserNotExists = message.contains("konnte nicht angemeldet");
+
+        // Alle bekannten Zustände abfragen
+        assertTrue(loginOK || loginFailUserNotExists || loginFailWrongPWD);
         
+        assertTrue(expected ? loginOK : loginFailUserNotExists || loginFailWrongPWD);
+        
+    }
+    
+    @Test
+    public void testSignIn() throws Exception {
+        
+        signinUser("aaabbb", "nopwd", false);
+        signinUser("Thomas", "SilverPen", true);
     }
 
     @After
