@@ -8,10 +8,17 @@ import javax.persistence.*;
  * Entity implementation class for Entity: User
  *
  */
+
+
+
+@NamedQueries({
+    @NamedQuery(name="User.existsUser", query="SELECT c FROM User c WHERE c.email = :email")
+    })
 @Entity
 @Table(name="USER")
 public class User implements Serializable {
 
+        public static final String existsUser = "User.existsUser";
 	   
 	@Id
 	@Column(unique=true, nullable=false, precision=80)
@@ -30,7 +37,7 @@ public class User implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}   
 	public String getUsername() {
 		return this.username;
