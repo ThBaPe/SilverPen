@@ -1,0 +1,20 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<h:outputStylesheet name="css/main.css" />
+</h:head> 
+<body>
+	<header role="banner">
+		<center><h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" /></center>
+	</header>
+	<div class="titlebar">
+		<h:outputLabel class="titlebarItem" value="Benutzer: #{homeView.loginInfo.currentUser}" />
+	</div>
+
+</body> 
+</html>
