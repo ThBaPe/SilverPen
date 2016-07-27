@@ -1,13 +1,19 @@
 @CHARSET "ISO-8859-1";
+
 .titlebar {
 	background-color: red;
 }
 
 .titlebarItem {
+	font-family: 'Poiret One', cursive;
+	font-size: 1.5em;
 	color: white;
 	margin-left: 3px;
 }
 
 .headerLogo{
-	float: none;
+	display: block;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
 }

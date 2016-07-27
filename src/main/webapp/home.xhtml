@@ -3,17 +3,20 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui">
+
+<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'/>
 
 <h:head>
 	<h:outputStylesheet name="css/main.css" />
 </h:head> 
 <body>
 	<header role="banner">
-		<center><h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" /></center>
-	</header>
+		<h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" />
+		</header>
 	<div class="titlebar">
-		<h:outputLabel class="titlebarItem" value="Benutzer: #{homeView.loginInfo.currentUser}" />
+		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
+		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />	
 	</div>
 
 </body> 
