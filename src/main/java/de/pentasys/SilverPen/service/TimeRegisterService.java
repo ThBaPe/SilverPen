@@ -17,6 +17,11 @@ public class TimeRegisterService {
     @Inject
     Logger lg;
     
+    /**
+     * Übernimmt eine Stundenbuchung in die Datenbank
+     * @param loggedIn Der angemeldete Benutzer
+     * @param toTime Die zu verrechnende Zeit mit Beschreibung
+     */
     public void commitTime(User loggedIn, Hour toTime) {
         lg.info("Start: " + toTime.getStart() + "\nStop: " + toTime.getStop());
         em.persist(toTime);
