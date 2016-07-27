@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Einzelne Stundenbuchung
+ */
 @Entity
 @Table(name="HOUR")
 public class Hour {
