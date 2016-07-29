@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,6 +12,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.SystemException;
+
+import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.util.*;
 
@@ -33,6 +36,22 @@ public class UserAccountService {
     {
         TypedQuery<User> query = entityManager.createNamedQuery(User.existsUser,User.class);
         return query.setParameter("email", userObj.getEmail()).getResultList().size() > 0;
+    }
+    
+    public List<Role> listAllRoles() {
+         return entityManager.createNamedQuery(Role.findAll,Role.class).getResultList();
+    }
+
+    public List<Role> listAllRoles(User user) {
+        TypedQuery<Role> query = entityManager.createNamedQuery(Role.findByUser,Role.class);
+        return query.setParameter("user", user).getResultList();
+   }
+
+    
+    public void addUserRole(User user, Role addrole) {
+        entityManager.persist(addrole);
+        user.getRoles().add(addrole);
+        entityManager.persist(user);
     }
     
     /**
