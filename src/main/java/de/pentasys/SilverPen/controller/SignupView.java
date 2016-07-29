@@ -32,7 +32,7 @@ public class SignupView implements Serializable{
     public void setRegUser(User regUser) {
         this.regUser = regUser;
     }
-
+    
     @Inject 
     UserAccountService userService;
     
@@ -47,7 +47,7 @@ public class SignupView implements Serializable{
     
     public String register() {
         regUser.setEmail(this.emailAdd);
-        
+          
         try {
             
             userService.register(regUser);

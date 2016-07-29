@@ -3,7 +3,6 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,7 +14,10 @@ import javax.transaction.SystemException;
 
 import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
-import de.pentasys.SilverPen.util.*;
+import de.pentasys.SilverPen.util.NoUserException;
+import de.pentasys.SilverPen.util.UserExistsException;
+import de.pentasys.SilverPen.util.Validator;
+import de.pentasys.SilverPen.util.WrongPasswordException;
 
 @Stateless
 public class UserAccountService {
@@ -75,6 +77,15 @@ public class UserAccountService {
          
             String encryptedPassword = getEncryptedPassword(user.getPassword(), getSalt(user));
             user.setPassword(encryptedPassword);
+            
+            TypedQuery<Role> query = entityManager.createQuery(
+                    "SELECT r FROM Role r WHERE r.rolename = 'User'", Role.class);
+            Role role = query.getSingleResult();
+            user.getRoles().add(role);
+            
+            role.getUsers().add(user);
+            
+            entityManager.persist(role);
             entityManager.persist(user);
 
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
