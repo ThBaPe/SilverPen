@@ -24,6 +24,7 @@ public class TimeRegisterService {
      */
     public void commitTime(User loggedIn, Hour toTime) {
         lg.info("Start: " + toTime.getStart() + "\nStop: " + toTime.getStop());
+        toTime.setUser(loggedIn);
         em.persist(toTime);
     }
     
