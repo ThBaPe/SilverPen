@@ -11,8 +11,6 @@
 	<h:outputStylesheet name="css/main.css" />
 </h:head> 
 <body>
-
-  <p:messages id="messages" showDetail="false" autoUpdate="true" />
 	<header role="banner">
 		<h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" />
 		</header>
@@ -20,6 +18,10 @@
 		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
 		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />	
 	</div>
+	
+	
+  <p:messages id="messages" showDetail="false" autoUpdate="true" />
+	
 	
 <h:form id="form">
    <p:growl id="msgs" showDetail="true"/>	
@@ -39,28 +41,21 @@
        </p:column>
  
 
-       <p:column headerText="Start">
+       <p:column headerText="Start" style="width:3em" >
            <p:cellEditor>
                <f:facet name="output"><h:outputText value="#{curHour.start}"><f:convertDateTime pattern="HH:mm" /></h:outputText></f:facet>
-               <f:facet name="input"><p:inputText value="#{curHour.start}" style="width:100%"/></f:facet>
+               <f:facet name="input"><p:calendar id="timeStart" value="#{curHour.start}" pattern="HH:mm" timeOnly="true"/></f:facet>
            </p:cellEditor>
        </p:column>
 
-       <p:column headerText="Ende">
+       <p:column headerText="Ende" style="width:3em">
            <p:cellEditor>
                <f:facet name="output"><h:outputText value="#{curHour.stop}"><f:convertDateTime pattern="HH:mm" /></h:outputText></f:facet>
-               <f:facet name="input"><p:inputText value="#{curHour.stop}" style="width:100%"/></f:facet>
+               <f:facet name="input"><p:calendar id="timeStop" value="#{curHour.stop}" pattern="HH:mm" timeOnly="true"/></f:facet>
            </p:cellEditor>
        </p:column>
 
-<!-- 
-       <p:column headerText="Beschreibung">
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="#{hour.description}" /></f:facet>
-               <f:facet name="input"><p:inputText value="#{hour.description}" style="width:100%" /></f:facet>
-           </p:cellEditor>
-       </p:column>
--->
+
        <p:column style="width:32px">
            <p:rowEditor />
        </p:column>
