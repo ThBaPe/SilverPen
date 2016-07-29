@@ -90,11 +90,9 @@ public class UserAccountService {
         User user = result.get(0);
         
         String checkPw = user.getPassword();
-        System.out.println(checkPw);
         
         try {
             String encryptedPw = getEncryptedPassword(password, getSalt(user));
-            System.out.println(encryptedPw);
             if(!checkPw.equals(encryptedPw)){
                 throw new WrongPasswordException("Password incorrect!");
             }
@@ -136,7 +134,6 @@ public class UserAccountService {
      */
     public static String getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException{
         String encryptedPassword = null;
-        System.out.println("PW to encrypt = "+password);
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(salt);
         byte[] bytes = md.digest(password.getBytes());

@@ -17,3 +17,10 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.ui-growl {
+    position:absolute;
+    padding-top: 200px;
+    left: 40%;
+    z-index:9999;
+}

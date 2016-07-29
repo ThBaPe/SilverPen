@@ -8,7 +8,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
 import de.pentasys.SilverPen.util.UserExistsException;
 import de.pentasys.SilverPen.util.Validator;
@@ -33,6 +35,9 @@ public class SignupView implements Serializable{
 
     @Inject 
     UserAccountService userService;
+    
+    @Inject
+    LoginInfo curSession;
         
     
     @PostConstruct
@@ -40,19 +45,24 @@ public class SignupView implements Serializable{
         this.regUser = new User();
     }
     
-    public void register() {
+    public String register() {
         regUser.setEmail(this.emailAdd);
         
         try {
             
             userService.register(regUser);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Anmeldung war erfolgreich", null));
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Registrierung war erfolgreich", null));
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            
             
         } catch (UserExistsException e) {
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden, da er bereits registriert ist.", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer ist bereits registriert.", null));
         }
+        curSession.setCurrentUser(regUser);
         init();
+        return "home.xhtml?faces-redirect=true";
     }
 
     public void checkUserName(javax.faces.context.FacesContext context, javax.faces.component.UIComponent component, java.lang.Object value) {

@@ -4,13 +4,14 @@
 		xmlns:p="http://primefaces.org/ui"
 		xmlns:f="http://java.sun.com/jsf/core">
 	<h:head>
+		<h:outputStylesheet name="css/main.css" />
 	</h:head>
 	<h:body>
 
 	<h1>Konto erstellen</h1>
 		
 	<h:form>
-		<p:messages id="messages" showDetail="false" autoUpdate="true" />
+		<p:growl id="messages" autoUpdate="true" severity="info,warn,error,fatal" />
 	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
 	    
 

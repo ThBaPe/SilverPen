@@ -53,13 +53,17 @@ public class SigninView implements Serializable{
         
         try {
             
-            if(curSession.getCurrentUser() != null){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer ist bereits angemeldet", null));
+            if(curSession.getCurrentUser() != null){                
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer ist bereits angemeldet", null));
+                context.getExternalContext().getFlash().setKeepMessages(true);
             } else {
                 curSession.setCurrentUser(userService.login(loginName, passwd));
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Anmeldung war erfolgreich", null)); 
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Anmeldung war erfolgreich", null));
+                context.getExternalContext().getFlash().setKeepMessages(true);
                 init();
-                retValue = "signin.xhtml?faces-redirect=true";
+                retValue = "home.xhtml?faces-redirect=true";
             }
             
         } catch (NoUserException e) {
