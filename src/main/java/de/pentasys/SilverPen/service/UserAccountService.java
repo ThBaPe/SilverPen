@@ -81,6 +81,7 @@ public class UserAccountService {
             TypedQuery<Role> query = entityManager.createQuery(
                     "SELECT r FROM Role r WHERE r.rolename = 'User'", Role.class);
             Role role = query.getSingleResult();
+            
             user.getRoles().add(role);
             
             role.getUsers().add(user);

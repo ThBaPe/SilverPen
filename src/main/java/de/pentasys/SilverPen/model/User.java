@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.model;
 import java.io.Serializable;
 import java.lang.String;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.persistence.*;
 
@@ -28,7 +29,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ManyToMany(mappedBy = "users")
-    private Collection<Role> roles;
+    private Collection<Role> roles = new LinkedList<Role>();
 
     public User() {
         super();

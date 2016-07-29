@@ -1,6 +1,7 @@
 package de.pentasys.SilverPen.model;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Role {
     private String rolename;
 
     @ManyToMany
-    private Collection<User> users;
+    private Collection<User> users = new LinkedList<User>();
 
     public int getId() {
         return id;
