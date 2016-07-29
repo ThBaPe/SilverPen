@@ -18,10 +18,10 @@ public class Hour {
     private int id;
     
     @Column(nullable=false)
-    private java.sql.Timestamp start;
+    private java.util.Date start;
 
     @Column(nullable=false)
-    private java.sql.Timestamp stop;
+    private java.util.Date stop;
     
     @Column
     private String description;
@@ -37,19 +37,19 @@ public class Hour {
         this.id = id;
     }
 
-    public java.sql.Timestamp getStart() {
+    public java.util.Date getStart() {
         return start;
     }
 
-    public void setStart(java.sql.Timestamp start) {
+    public void setStart(java.util.Date start) {
         this.start = start;
     }
 
-    public java.sql.Timestamp getStop() {
+    public java.util.Date getStop() {
         return stop;
     }
 
-    public void setStop(java.sql.Timestamp stop) {
+    public void setStop(java.util.Date stop) {
         this.stop = stop;
     }
 
