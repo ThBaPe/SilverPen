@@ -28,10 +28,21 @@ public class HomeView {
 
  
     private List<Hour> commitDisplay;
+    private java.util.Date curDate;
     
+    public java.util.Date getCurDate() {
+        return curDate;
+    }
+
+    public void setCurDate(java.util.Date curDate) {
+        this.curDate = curDate;
+    }
+
     @Inject private TimeRegisterService serviceTime;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
+    
+    
     
     public List<Hour> getCommitDisplay() {
         return commitDisplay;
@@ -44,10 +55,11 @@ public class HomeView {
     @PostConstruct
     public void init() {
 
+        curDate = new Date();
         commitDisplay = new ArrayList<Hour>();
         Hour tmp = new Hour();
-        tmp.setStart(new Date());
-        tmp.setStop(new Date());
+        tmp.setStart(curDate);
+        tmp.setStop(curDate);
         commitDisplay.add(tmp);
     }
     
