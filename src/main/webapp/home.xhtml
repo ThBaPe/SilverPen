@@ -17,7 +17,9 @@
 	<div class="titlebar">
 		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
 		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />
-		<p:commandLink class="titlebarItem" id="logout" value="Logout" action="#{homeView.logout()}" />	
+		<h:form id="logout">
+			<p:commandButton id="logout_button" class="titlebarItem" value="Logout" action="#{homeView.logout()}" style="color: black;" />
+		</h:form>	
 	</div>
 	<div class="adminbar">
 		<p:button value="Benutzer registrieren" outcome="admin_signup" rendered="#{homeView.admin}" />
