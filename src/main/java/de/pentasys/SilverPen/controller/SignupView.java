@@ -75,6 +75,25 @@ public class SignupView implements Serializable{
         init();
         return "home.xhtml?faces-redirect=true";
     }
+    
+    public String register(boolean admin){
+        regUser.setEmail(this.emailAdd);
+        
+        try {
+            
+            userService.register(regUser, userRole);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Der Benutzer wurde erfolgreich registriert.", null));
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            
+            
+        } catch (UserExistsException e) {
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer ist bereits registriert.", null));
+        }
+        init();
+        return "home.xhtml?faces-redirect=true";
+    }
 
     public void checkUserName(javax.faces.context.FacesContext context, javax.faces.component.UIComponent component, java.lang.Object value) {
         if(Validator.isEmailValid(regUser.getUsername())){
