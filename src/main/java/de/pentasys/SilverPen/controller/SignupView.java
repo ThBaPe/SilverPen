@@ -52,7 +52,7 @@ public class SignupView implements Serializable{
             
             userService.register(regUser);
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Registrierung war erfolgreich", null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Der Benutzer wurde erfolgreich registriert.", null));
             context.getExternalContext().getFlash().setKeepMessages(true);
             
             

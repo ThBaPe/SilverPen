@@ -66,5 +66,20 @@ public class User implements Serializable {
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
+    
+    /**
+     * Prüft, ob dem Benutzer eine angegebene Rolle zugewiesen wurde
+     * 
+     * @param rolename Der Rollenname, nachdem gefragt wird
+     * @return true, wenn eine Rolle mit dem angegebenen Rollennamen in der roles Collection existiert; false, wenn die Rolle nicht existiert.
+     */
+    public boolean hasRole(String rolename){
+        for (Role role : roles){
+            if (role.getRolename().equals(rolename)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
