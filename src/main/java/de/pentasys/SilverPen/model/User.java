@@ -1,11 +1,18 @@
 package de.pentasys.SilverPen.model;
 
 import java.io.Serializable;
-import java.lang.String;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 
 /**
  * Entity implementation class for Entity: User
@@ -28,7 +35,7 @@ public class User implements Serializable {
     private String password;
     private static final long serialVersionUID = 1L;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Collection<Role> roles = new LinkedList<Role>();
 
     public User() {

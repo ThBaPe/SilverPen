@@ -102,5 +102,4 @@ public class SigninView implements Serializable{
         this.loggedIn = loggedIn;
     }
 
- 
 }

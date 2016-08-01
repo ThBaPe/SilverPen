@@ -1,6 +1,8 @@
 package de.pentasys.SilverPen.controller;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -9,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
@@ -23,6 +26,9 @@ public class SignupView implements Serializable{
     protected String emailAdd;  // Wird in der POJO nicht autom. generiert, daher müssen wir ihn manuel setzten
     protected String passwd2;   // Zweites Passwd feld für die Einhabewiederholung
     private User regUser;
+    private HashMap<String, String>userRoles;
+    private String userRole;
+    private boolean isAdmin;
     
     public User getRegUser() {
         return regUser;
@@ -43,6 +49,11 @@ public class SignupView implements Serializable{
     @PostConstruct
     public void init() {
         this.regUser = new User();
+        List<Role> roles = userService.listAllRoles();
+        userRoles = new HashMap<String, String>();
+        for(Role role : roles){
+            userRoles.put(role.getRolename(), role.getRolename());
+        }
     }
     
     public String register() {
@@ -50,7 +61,7 @@ public class SignupView implements Serializable{
           
         try {
             
-            userService.register(regUser);
+            userService.register(regUser, userRole);
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Der Benutzer wurde erfolgreich registriert.", null));
             context.getExternalContext().getFlash().setKeepMessages(true);
@@ -71,7 +82,6 @@ public class SignupView implements Serializable{
             }            
     }
 
- 
     
     public String getEmailAdd() {
         return emailAdd;
@@ -86,6 +96,36 @@ public class SignupView implements Serializable{
     }
     public void setPasswd2(String passwd2) {
         this.passwd2 = passwd2;
+    }
+
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+
+    public HashMap<String, String> getUserRoles() {
+        return userRoles;
+    }
+
+
+    public void setUserRoles(HashMap<String, String> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
     
 
