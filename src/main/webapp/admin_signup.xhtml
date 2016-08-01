@@ -33,7 +33,7 @@
 			
 			</p:inputText>
 			
-			<p:outputLabel for="role" value="Rolle: " rendered="#{homeView.curLogin.currentUser.hasRole('Admin')}"/>
+			<p:outputLabel for="role" value="Rolle: "/>
 			<p:selectOneMenu id="role" value="#{signupView.userRole}">
 				<f:selectItem itemLabel="Rolle auswählen" itemValue="" noSelectionOption="true"/>
 				<f:selectItems value="#{signupView.userRoles}" />
@@ -47,7 +47,7 @@
 	        <p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
 	    </h:panelGrid>
 	 
-	    <p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
+	    <p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register(true)}"/>
 	</h:form>
 
 
