@@ -13,12 +13,14 @@
 <body>
 	<header role="banner">
 		<h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" />
-		</header>
+	</header>
 	<div class="titlebar">
 		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
 		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />	
 	</div>
-	
+	<div class="adminbar">
+		<p:button value="Benutzer registrieren" outcome="#{homeView.registerUser()}" rendered="#{homeView.admin}" />
+	</div>
 	
   <p:messages id="messages" showDetail="false" autoUpdate="true" />
 	

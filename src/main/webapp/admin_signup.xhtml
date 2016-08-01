@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core">
+	<h:head>
+		<h:outputStylesheet name="css/main.css" />
+	</h:head>
+	<h:body>
+
+	<h1>Konto erstellen</h1>
+		
+	<h:form>
+		<p:growl id="messages" autoUpdate="true" severity="info,warn,error,fatal" />
+	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+	    
+
+	        <h:outputLabel for="Name" value="Name: *" />
+			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
+							requiredMessage="Bitte setzten Sie ihren Benutzernamen"
+							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet und eine Mindestlänge von zwei Zeichen wird verlangt. Lehrzeichen nur zur Worttrennung einsetzten">
+	  			<f:validateRegex pattern="^[a-zA-Z0-9äüöÄÜÖ]+([a-zA-Z0-9\säüöÄÜÖ])*[a-zA-Z0-9äüöÄÜÖ]$"/>
+			</p:inputText>
+
+	        <h:outputLabel for="EMail" value="E-Mail: *" />
+			<p:inputText id="EMail"  required="true"
+							requiredMessage="Bitte setzten Sie ihre EMail Adresse."
+							validatorMessage="Ungültiges EMail Format. Bitte erneut eingeben."
+							value="#{signupView.emailAdd}">
+
+	  			<f:validateRegex
+					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			
+			</p:inputText>
+			
+			<p:outputLabel for="role" value="Rolle: " rendered="#{homeView.curLogin.currentUser.hasRole('Admin')}"/>
+			<p:selectOneMenu id="role" value="#{signupView.userRole}">
+				<f:selectItem itemLabel="Rolle auswählen" itemValue="" noSelectionOption="true"/>
+				<f:selectItems value="#{signupView.userRoles}" />
+			</p:selectOneMenu>
+			
+	                      
+	        <h:outputLabel for="pwd1" value="Password: *" />
+	        <p:password id="pwd1" value="#{signupView.regUser.password}" match="pwd2" label="Password 1" required="true" />
+	 
+	        <h:outputLabel for="pwd2" value="Password wiederholen: *" />
+	        <p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
+	    </h:panelGrid>
+	 
+	    <p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
+	</h:form>
+
+
+
+	</h:body>
+</html> 

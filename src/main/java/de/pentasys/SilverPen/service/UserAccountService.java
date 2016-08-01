@@ -51,6 +51,10 @@ public class UserAccountService {
 
     
     public void addUserRole(User user, Role addrole) {
+        if (addrole == null){
+            addrole = new Role();
+            addrole.setRolename("User");
+        }
         entityManager.persist(addrole);
         user.getRoles().add(addrole);
         entityManager.persist(user);
@@ -65,7 +69,7 @@ public class UserAccountService {
      * @throws SystemException 
      * @throws UserExistsException 
      */
-    public User register(User user) throws UserExistsException{
+    public User register(User user, String role) throws UserExistsException{
         
         if(existUserInDB(user)) { // Prüfen ob der Benutzer schon in der DB registriert ist
             logger.warning("UserExists: " + "EMail: \"" + user.getEmail() + "\" Name: \""+ user.getUsername() + "\"");
@@ -78,15 +82,26 @@ public class UserAccountService {
             String encryptedPassword = getEncryptedPassword(user.getPassword(), getSalt(user));
             user.setPassword(encryptedPassword);
             
-            TypedQuery<Role> query = entityManager.createQuery(
-                    "SELECT r FROM Role r WHERE r.rolename = 'User'", Role.class);
-            Role role = query.getSingleResult();
+            Role userRole;
             
-            user.getRoles().add(role);
+            if (role == null){
+                TypedQuery<Role> query = entityManager.createQuery(
+                        "SELECT r "+
+                        "FROM Role r "+
+                        "WHERE rolename = 'User'", Role.class);
+                userRole = query.getSingleResult();
+            } else {
+                TypedQuery<Role> query = entityManager.createQuery(
+                        "SELECT r "+
+                        "FROM Role r "+
+                        "WHERE rolename = '"+role+"'", Role.class);
+                userRole = query.getSingleResult();
+            }
             
-            role.getUsers().add(user);
+            user.getRoles().add(userRole);
+            userRole.getUsers().add(user);
             
-            entityManager.persist(role);
+            entityManager.persist(userRole);
             entityManager.persist(user);
 
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
@@ -179,5 +194,5 @@ public class UserAccountService {
         
         return encryptedPassword;
     }
-
+    
 }

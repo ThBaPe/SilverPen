@@ -1,26 +1,23 @@
 package de.pentasys.SilverPen.controller;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.pentasys.SilverPen.model.Hour;
-import de.pentasys.SilverPen.model.User;
-import de.pentasys.SilverPen.service.LoginInfo;
-import de.pentasys.SilverPen.service.TimeRegisterService;
-
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-import javax.faces.context.FacesContext;
-import javax.faces.application.FacesMessage;
 
-import java.util.Date;
+import de.pentasys.SilverPen.model.Hour;
+import de.pentasys.SilverPen.service.LoginInfo;
+import de.pentasys.SilverPen.service.TimeRegisterService;
 
 @Named
 @RequestScoped
@@ -29,6 +26,7 @@ public class HomeView {
  
     private List<Hour> commitDisplay;
     private java.util.Date curDate;
+    private boolean isAdmin;
     
     public java.util.Date getCurDate() {
         return curDate;
@@ -44,12 +42,28 @@ public class HomeView {
     
     
     
+    public LoginInfo getCurLogin() {
+        return curLogin;
+    }
+
+    public void setCurLogin(LoginInfo curLogin) {
+        this.curLogin = curLogin;
+    }
+
     public List<Hour> getCommitDisplay() {
         return commitDisplay;
     }
 
     public void setCommitDisplay(List<Hour> commitDisplay) {
         this.commitDisplay = commitDisplay;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @PostConstruct
@@ -61,6 +75,8 @@ public class HomeView {
         tmp.setStart(curDate);
         tmp.setStop(curDate);
         commitDisplay.add(tmp);
+        
+        isAdmin = curLogin.getCurrentUser().hasRole("Admin");
     }
     
 
@@ -90,6 +106,10 @@ public class HomeView {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+    
+    public String registerUser(){
+        return "admin_signup.xhtml";
     }
     
 }
