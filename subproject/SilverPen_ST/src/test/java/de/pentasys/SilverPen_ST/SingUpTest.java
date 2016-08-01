@@ -39,19 +39,19 @@ public class SingUpTest {
     private void signupUser(String userName, boolean expected) {
 
         driver.get(baseUrl + "/SilverPen/signup.jsf");
-        driver.findElement(By.id("j_idt5:Name")).clear();
-        driver.findElement(By.id("j_idt5:Name")).sendKeys(userName);
-        driver.findElement(By.id("j_idt5:EMail")).clear();
-        driver.findElement(By.id("j_idt5:EMail")).sendKeys(userName + domain);
-        driver.findElement(By.id("j_idt5:pwd1")).clear();
-        driver.findElement(By.id("j_idt5:pwd1")).sendKeys(domain);
-        driver.findElement(By.id("j_idt5:pwd2")).clear();
-        driver.findElement(By.id("j_idt5:pwd2")).sendKeys(domain);
-        driver.findElement(By.id("j_idt5:j_idt10")).click();
+        driver.findElement(By.id("j_idt6:Name")).clear();
+        driver.findElement(By.id("j_idt6:Name")).sendKeys(userName);
+        driver.findElement(By.id("j_idt6:EMail")).clear();
+        driver.findElement(By.id("j_idt6:EMail")).sendKeys(userName + domain);
+        driver.findElement(By.id("j_idt6:pwd1")).clear();
+        driver.findElement(By.id("j_idt6:pwd1")).sendKeys(domain);
+        driver.findElement(By.id("j_idt6:pwd2")).clear();
+        driver.findElement(By.id("j_idt6:pwd2")).sendKeys(domain);
+        driver.findElement(By.id("j_idt6:j_idt11")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String message = driver.findElement(By.id("j_idt5:messages")).getText();
+        String message = driver.findElement(By.id("j_idt6:messages_container")).getText();
         assertFalse(message.isEmpty());
 
         boolean loginResultOK = message.contains("war erfolgreich");
