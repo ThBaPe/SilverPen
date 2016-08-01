@@ -20,19 +20,17 @@
 	</div>
 	
 	
-  <p:messages id="messages" showDetail="false" autoUpdate="true" />
-	
-	
 <h:form id="form">
-   <p:growl id="msgs" showDetail="true"/>	
+  <p:messages id="messages" showDetail="false" autoUpdate="true" />
+
 	
    <p:dataTable id="Hours" var="curHour" value="#{homeView.commitDisplay}" editable="true" style="margin-bottom:20px">
        <f:facet name="header">
            Row Editing
        </f:facet>
  
-       <p:ajax event="rowEdit" listener="#{homeView.onRowEdit}" update=":form:msgs" />
-       <p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}" update=":form:msgs" />
+       <p:ajax event="rowEdit" listener="#{homeView.onRowEdit}" update=":form:messages" />
+       <p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}" update=":form:messages" />
        <p:column headerText="Beschreibung">
            <p:cellEditor>
                <f:facet name="output"><h:outputText value="#{curHour.description}" /></f:facet>

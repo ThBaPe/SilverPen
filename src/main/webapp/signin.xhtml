@@ -19,7 +19,7 @@
 	<h1>Anmelden</h1>
 		
 	<h:form>
-		<p:growl id="messages" autoUpdate="true" severity="info,warn,error,fatal" />
+	<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
 	    <h:panelGrid columns="1" id="matchGrid" cellpadding="5">
 
 			<p:inputText id="name" value="#{signinView.loginName}" placeholder="Benutzer Name oder EMail" required="true" />

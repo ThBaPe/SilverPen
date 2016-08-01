@@ -47,11 +47,11 @@ public class SingUpTest {
         driver.findElement(By.id("j_idt6:pwd1")).sendKeys(domain);
         driver.findElement(By.id("j_idt6:pwd2")).clear();
         driver.findElement(By.id("j_idt6:pwd2")).sendKeys(domain);
-        driver.findElement(By.id("j_idt6:j_idt10")).click();
+        driver.findElement(By.id("j_idt6:j_idt11")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String message = driver.findElement(By.id("j_idt6:messages_container")).getText();
+        String message = driver.findElement(expected ? By.id("form:messages") : By.id("j_idt6:messages")).getText();
         assertFalse(message.isEmpty());
 
         boolean loginResultOK = message.contains("war erfolgreich");

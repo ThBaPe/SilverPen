@@ -41,8 +41,8 @@ public class SignInTest {
         driver.findElement(By.id("j_idt9:j_idt10")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        String message = driver.findElement(By.id("j_idt9:messages")).getText();
+        
+        String message = driver.findElement(expected ? By.id("form:messages") : By.id("j_idt9:messages")).getText();
         String titleElementText = driver.findElement(By.className("titlebarItem")).getText();
         
         assertFalse(titleElementText.isEmpty());
