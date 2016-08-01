@@ -112,4 +112,10 @@ public class HomeView {
         return "admin_signup.xhtml";
     }
     
+    public String logout(){
+        curLogin.setCurrentUser(null);
+        lg.info("User-State after logout: "+curLogin.getCurrentUser());
+        return "signin.xhtml?faces-redirect=true";
+    }
+    
 }

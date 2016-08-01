@@ -15,6 +15,10 @@ font-size: 90% !important;
 	margin-left: 3px;
 }
 
+.titlebarItem #logout{
+	float: right;
+}
+
 .headerLogo{
 	display: block;
 	width: 200px;
@@ -27,4 +31,9 @@ font-size: 90% !important;
     padding-top: 200px;
     left: 40%;
     z-index:9999;
+}
+
+.adminbar{
+	padding-top: 5px;
+	padding-bottom: 5px;
 }

@@ -16,10 +16,11 @@
 	</header>
 	<div class="titlebar">
 		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />	
+		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />
+		<p:commandLink class="titlebarItem" id="logout" value="Logout" action="#{homeView.logout()}" />	
 	</div>
 	<div class="adminbar">
-		<p:button value="Benutzer registrieren" outcome="#{homeView.registerUser()}" rendered="#{homeView.admin}" />
+		<p:button value="Benutzer registrieren" outcome="admin_signup" rendered="#{homeView.admin}" />
 	</div>
 	
   <p:messages id="messages" showDetail="false" autoUpdate="true" />
