@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<h:outputStylesheet name="css/main.css" />
+</h:head> 
+
+<body> 
+	<p:panel id="change_user_panel">
+		<div class="titlebar">
+			<p:outputLabel id="titlebarItem" value="Benutzerdaten ändern" />
+		</div>
+		
+		<h:form id="user_search">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Benutzername oder -email: " />
+				<p:autoComplete id="searchUser" value="return null;" completeMethod="#{userModView.completeSearch}" />
+				
+				<p:commandButton action="return null;" value="Suchen" />
+			</p:panelGrid>
+		</h:form>
+		
+	</p:panel>
+</body> 
+</html>

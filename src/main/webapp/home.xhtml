@@ -115,7 +115,7 @@
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{curHour.start}">
-									<f:convertDateTime pattern="HH:mm" />
+									 <f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin" />
 								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
@@ -129,7 +129,7 @@
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{curHour.stop}">
-									<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin" />
 								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
