@@ -1,86 +1,131 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Poiret+One'
+	rel='stylesheet' type='text/css' />
 
 <h:head>
 	<h:outputStylesheet name="css/main.css" />
-</h:head> 
+</h:head>
 <body>
 	<header role="banner">
-		<h:graphicImage styleClass="headerLogo" value="/resources/img/logo.jpg" width="10%" />
+		<h:graphicImage styleClass="headerLogo"
+			value="/resources/img/logo.jpg" width="10%" />
 	</header>
 	<div class="titlebar">
-		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />	
+		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!"
+			outcome="signin" rendered="#{!signinView.loggedIn}" />
+		<h:outputLabel class="titlebarItem"
+			value="Angemeldet:  #{signinView.loginName}"
+			rendered="#{signinView.loggedIn}" />
 	</div>
 	<div class="adminbar">
-		<p:button value="Benutzer registrieren" outcome="#{homeView.registerUser()}" rendered="#{homeView.admin}" />
+		<p:button value="Benutzer registrieren"
+			outcome="#{homeView.registerUser()}" rendered="#{homeView.admin}" />
 	</div>
-	
-<h:form id="form">
-  <p:messages id="messages" showDetail="false" autoUpdate="true" />
 
-	
-   <p:dataTable id="Hours" var="curHour" value="#{homeView.commitDisplay}" editable="true" style="margin-bottom:20px">
-       <f:facet name="header">
+
+	<h:form id="form">
+		<p:layout style="min-width:400px;min-height:300px;">
+			<p:layoutUnit position="west" resizable="true" size="300"
+				minSize="40">
+				<h:outputLabel value="#{homeView.curDate}" id="blub"/>
+				<p:calendar id="inline" value="#{homeView.curDate}" mode="inline" required="true"> 
+
+				</p:calendar>
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+
+				<p:messages id="messages" showDetail="false" autoUpdate="true" />
+
+
+				<p:dataTable id="Hours" var="curHour"
+					value="#{homeView.commitDisplay}" editable="true"
+					style="margin-bottom:20px">
+					<f:facet name="header">
            Row Editing
        </f:facet>
- 
-       <p:ajax event="rowEdit" listener="#{homeView.onRowEdit}" update=":form:messages" />
-       <p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}" update=":form:messages" />
-       <p:column headerText="Beschreibung">
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="#{curHour.description}" /></f:facet>
-               <f:facet name="input"><p:inputText id="modelInput" value="#{curHour.description}" style="width:100%"/></f:facet>
-           </p:cellEditor>
-       </p:column>
- 
-         <p:column headerText="Projekt" style="width:7em">
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="Dummyprojekt"/></f:facet>
-               <f:facet name="input"><h:outputText value="Dummyprojekt"/></f:facet>
-           </p:cellEditor>
-       </p:column>
-       
-        <p:column headerText="Kategorie" style="width:5em"  >
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="Sonstiges"/></f:facet>
-               <f:facet name="input"><h:outputText value="Sonstiges"/></f:facet>
-           </p:cellEditor>
-       </p:column>
- 
- 
-       <p:column headerText="Datum" style="width:15em" >
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="#{homeView.curDate}"><f:convertDateTime pattern="EEE, d MMM yyyy" /></h:outputText></f:facet>
-               <f:facet name="input"><p:calendar id="inline" value="#{homeView.curDate}" mode="inline" /></f:facet>
-           </p:cellEditor>
-       </p:column>
 
-       <p:column headerText="Start" style="width:3em" >
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="#{curHour.start}"><f:convertDateTime pattern="HH:mm" /></h:outputText></f:facet>
-               <f:facet name="input"><p:calendar id="timeStart" value="#{curHour.start}" pattern="HH:mm" timeOnly="true"/></f:facet>
-           </p:cellEditor>
-       </p:column>
+					<p:ajax event="rowEdit" listener="#{homeView.onRowEdit}"
+						update=":form:messages" />
+					<p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}"
+						update=":form:messages" />
+					<p:column headerText="Beschreibung">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{curHour.description}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{curHour.description}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
 
-       <p:column headerText="Ende" style="width:3em">
-           <p:cellEditor>
-               <f:facet name="output"><h:outputText value="#{curHour.stop}"><f:convertDateTime pattern="HH:mm" /></h:outputText></f:facet>
-               <f:facet name="input"><p:calendar id="timeStop" value="#{curHour.stop}" pattern="HH:mm" timeOnly="true"/></f:facet>
-           </p:cellEditor>
-       </p:column>
+					<p:column headerText="Projekt" style="width:7em">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="Dummyprojekt" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="Dummyprojekt" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Kategorie" style="width:5em">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="Sonstiges" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="Sonstiges" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Start" style="width:3em">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{curHour.start}">
+									<f:convertDateTime pattern="HH:mm" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar id="timeStart" value="#{curHour.start}"
+									pattern="HH:mm" timeOnly="true" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Ende" style="width:3em">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{curHour.stop}">
+									<f:convertDateTime pattern="HH:mm" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar id="timeStop" value="#{curHour.stop}"
+									pattern="HH:mm" timeOnly="true" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
 
 
-       <p:column style="width:32px">
-           <p:rowEditor />
-       </p:column>
-   </p:dataTable>
-</h:form>
-</body> 
+					<p:column style="width:32px">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+				<p:commandButton update="form" value="Buchen" action="#{homeView.commitTime()}"/>
+			</p:layoutUnit>
+		</p:layout>
+ 	</h:form>
+
+
+</body>
 </html>

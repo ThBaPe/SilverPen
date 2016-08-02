@@ -15,6 +15,7 @@ insert into ROLE_USER (roles_id, users_email) values (1,'je@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'js@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'pm@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'tb@silverpen.de')
+insert into ROLE_USER (roles_id, users_email) values (2,'tb@silverpen.de')
 INSERT INTO ROLE_USER (roles_id, users_email) VALUES (2,'bjoern.baumgarten@pentasys.de')
 
 
