@@ -24,7 +24,10 @@
 		</h:form>	
 	</div>
 	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
+	
 	<nav>
+	
+	
 		<h:form id="navigation">
 			<p:tieredMenu>
 				<p:submenu label="Projektstundenübersicht">
@@ -39,8 +42,14 @@
 					<p:menuitem value="Benutzer bearbeiten" actionListener="#{mainMenuView.changeUser()}" update="menumessages" />
 					<p:menuitem value="Benutzerübersicht" actionListener="#{mainMenuView.allUsers()}" update="menumessages" />
 				</p:submenu>
+				<p:submenu label="Projektverwaltung" rendered="#{homeView.admin}">
+					<p:menuitem value="Kundenprojekt anlegen" actionListener="return null;" />
+					<p:menuitem value="MA Zuordnung" actionListener="return null;" />
+				</p:submenu>
 			</p:tieredMenu>
 		</h:form>
+
+
 	</nav>	
 
 	<h:form id="main">

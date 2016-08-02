@@ -8,7 +8,7 @@
 	</h:head>
 	<h:body>
 
-	<p:panel id="signup_panel" style="width: 50%;">
+	<p:panel id="signup_panel" style="width: 40%;">
 		<div class="titlebar">
 			<p:outputLabel class="titlebarItem" value="Konto erstellen" />
 		</div>
@@ -43,6 +43,7 @@
 	    	</h:panelGrid>
 	 
 	    	<p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
+	    	<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='signin.xhtml'; return null;" style="float: right !important"/>
 		</h:form>
 		
 	</p:panel>
