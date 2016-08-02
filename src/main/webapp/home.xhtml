@@ -23,12 +23,27 @@
 			<p:commandButton id="logout_button" class="titlebarItem" value="Logout" action="#{homeView.logout()}" style="color: black !important;" />
 		</h:form>	
 	</div>
-	<div class="adminbar">
-		<p:button value="Benutzer registrieren" outcome="admin_signup" rendered="#{homeView.admin}"/>
-	</div>
+	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
+	<nav>
+		<h:form id="navigation">
+			<p:tieredMenu>
+				<p:submenu label="Projektstundenübersicht">
+					<p:menuitem value="Hochladen" actionListener="#{mainMenuView.upload()}" update="menumessages" />
+					<p:menuitem value="Verrechnet" actionListener="#{mainMenuView.invoiced()}" update="menumessages"></p:menuitem>
+				</p:submenu>
+				<p:submenu label="Urlaubsverwaltung">
+					<p:menuitem value="Urlaubsantrag" actionListener="#{mainMenuView.vacation()}" update="menumessages" />
+				</p:submenu>
+				<p:submenu label="Benutzerverwaltung" rendered="#{homeView.admin}" >
+					<p:menuitem value="Benutzer registrieren" outcome="admin_signup" />
+					<p:menuitem value="Benutzer bearbeiten" actionListener="#{mainMenuView.changeUser()}" update="menumessages" />
+					<p:menuitem value="Benutzerübersicht" actionListener="#{mainMenuView.allUsers()}" update="menumessages" />
+				</p:submenu>
+			</p:tieredMenu>
+		</h:form>
+	</nav>	
 
-
-	<h:form id="form">
+	<h:form id="main">
 		<p:layout style="min-width:400px;min-height:300px;">
 			<p:layoutUnit position="west" resizable="true" size="300"
 				minSize="40">
@@ -50,9 +65,9 @@
        </f:facet>
 
 					<p:ajax event="rowEdit" listener="#{homeView.onRowEdit}"
-						update=":form:messages" />
+						update=":main:messages" />
 					<p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}"
-						update=":form:messages" />
+						update=":main:messages" />
 					<p:column headerText="Beschreibung">
 						<p:cellEditor>
 							<f:facet name="output">
@@ -120,7 +135,7 @@
 						<p:rowEditor />
 					</p:column>
 				</p:dataTable>
-				<p:commandButton update="form" value="Buchen" action="#{homeView.commitTime()}"/>
+				<p:commandButton update="main" value="Buchen" action="#{homeView.commitTime()}"/>
 			</p:layoutUnit>
 		</p:layout>
  	</h:form>

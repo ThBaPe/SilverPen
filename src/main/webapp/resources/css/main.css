@@ -6,6 +6,7 @@ font-size: 90% !important;
 
 .titlebar {
 	background-color: #CC0000;
+	margin-bottom: 10px;
 }
 
 .titlebarItem {
@@ -45,4 +46,19 @@ font-size: 90% !important;
 #login_panel, #signup_panel{
 	margin-left: auto;
 	margin-right: auto;
+}
+
+nav{
+	float: left;
+	padding-right: 10px;
+}
+
+.ui-tieredmenu{
+	border-color: #CC0000 !important;
+	border-width: 2px !important;
+}
+
+#main{
+	width: 89%;
+	float: right;
 }
