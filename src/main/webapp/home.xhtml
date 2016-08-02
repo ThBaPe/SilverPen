@@ -18,9 +18,9 @@
 	</header>
 	<div class="titlebar">
 		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-		<h:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />
+		<p:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />
 		<h:form id="logout">
-			<p:commandButton id="logout_button" class="titlebarItem" value="Logout" action="#{homeView.logout()}" style="color: black !important;" />
+			<p:commandButton id="logout_button" class="titlebarItem" value="Logout" action="#{homeView.logout()}" style="color: black !important; font-size: small !important; margin-right: 5px;" />
 		</h:form>	
 	</div>
 	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />

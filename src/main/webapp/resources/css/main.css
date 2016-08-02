@@ -7,13 +7,15 @@ font-size: 90% !important;
 .titlebar {
 	background-color: #CC0000;
 	margin-bottom: 10px;
+	padding-bottom: 8px;
+	padding-top: 8px;
 }
 
 .titlebarItem {
-	font-family: 'Poiret One', cursive;
-	font-size: 1.5em;
+	/* font-family: 'Poiret One', cursive; */
+	font-size: 1em !important;
 	color: white !important;
-	margin-left: 3px;
+	padding-left: 3px;
 }
 
 .titlebarItem #logout{

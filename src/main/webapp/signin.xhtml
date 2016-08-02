@@ -12,11 +12,9 @@
 	<h:body>
 	<p:panel id="login_panel" style="width: 50%;">
 		<div class="titlebar">
-			<h:link class="titlebarItem" value="login" outcome="signin" rendered="#{!signinView.loggedIn}"/>
+			<p:outputLabel class="titlebarItem" value="Anmelden" rendered="#{!signinView.loggedIn}"/>
 			<h:outputLabel class="titlebarItem" value="Hallo #{signinView.loginName}" rendered="#{signinView.loggedIn}" />
 		</div>
-	
-		<h1>Anmelden</h1>
 		
 		<h:form>
 			<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
@@ -35,7 +33,7 @@
 		<br/>
 		<h:outputLabel value="Sie haben noch kein Konto?"/>
 		<br/>
-		<h:link value="Dann erstellen Sie jetzt eins!" outcome="signup"/>
+		<h:link value="Dann erstellen Sie jetzt eins!" outcome="signup" style="color: #CC0000;"/>
 	</p:panel>
 	</h:body>
 </html> 
