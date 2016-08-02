@@ -11,8 +11,12 @@ font-size: 90% !important;
 .titlebarItem {
 	font-family: 'Poiret One', cursive;
 	font-size: 1.5em;
-	color: white;
+	color: white !important;
 	margin-left: 3px;
+}
+
+.titlebarItem #logout{
+	float: right;
 }
 
 .headerLogo{
@@ -27,4 +31,18 @@ font-size: 90% !important;
     padding-top: 200px;
     left: 40%;
     z-index:9999;
+}
+
+.adminbar{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#logout{
+	float: right;
+}
+
+#login_panel, #signup_panel{
+	margin-left: auto;
+	margin-right: auto;
 }

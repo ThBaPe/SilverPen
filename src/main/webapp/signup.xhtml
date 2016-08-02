@@ -8,42 +8,44 @@
 	</h:head>
 	<h:body>
 
-	<h1>Konto erstellen</h1>
+	<p:panel id="signup_panel" style="width: 50%;">
+		<div class="titlebar">
+			<h:outputLabel class="titlebarItem" value="Konto erstellen" />
+		</div>
 		
 	<h:form>
 		<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
-	    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+	   	<h:panelGrid columns="2" id="matchGrid" cellpadding="5">
 	    
 
-	        <h:outputLabel for="Name" value="Name: *" />
-			<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
+	        	<h:outputLabel for="Name" value="Name: *" />
+				<p:inputText id="Name" value="#{signupView.regUser.username}" required="true" 
 							requiredMessage="Bitte setzten Sie ihren Benutzernamen"
 							validatorMessage="Bei der Eingabe des Benutzernamens sind keine Sonderzeichen gestattet und eine Mindestlänge von zwei Zeichen wird verlangt. Lehrzeichen nur zur Worttrennung einsetzten">
-	  			<f:validateRegex pattern="^[a-zA-Z0-9äüöÄÜÖ]+([a-zA-Z0-9\säüöÄÜÖ])*[a-zA-Z0-9äüöÄÜÖ]$"/>
-			</p:inputText>
+	  				<f:validateRegex pattern="^[a-zA-Z0-9äüöÄÜÖ]+([a-zA-Z0-9\säüöÄÜÖ])*[a-zA-Z0-9äüöÄÜÖ]$"/>
+				</p:inputText>
 
-	        <h:outputLabel for="EMail" value="E-Mail: *" />
-			<p:inputText id="EMail"  required="true"
+	        	<h:outputLabel for="EMail" value="E-Mail: *" />
+				<p:inputText id="EMail"  required="true"
 							requiredMessage="Bitte setzten Sie ihre EMail Adresse."
 							validatorMessage="Ungültiges EMail Format. Bitte erneut eingeben."
 							value="#{signupView.emailAdd}">
 
-	  			<f:validateRegex
+	  				<f:validateRegex
 					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			
-			</p:inputText>
+				</p:inputText>
 	                      
-	        <h:outputLabel for="pwd1" value="Password: *" />
-	        <p:password id="pwd1" value="#{signupView.regUser.password}" match="pwd2" label="Password 1" required="true" />
+	        	<h:outputLabel for="pwd1" value="Password: *" />
+	        	<p:password id="pwd1" value="#{signupView.regUser.password}" match="pwd2" label="Password 1" required="true" />
 	 
-	        <h:outputLabel for="pwd2" value="Password wiederholen: *" />
-	        <p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
-	    </h:panelGrid>
+	        	<h:outputLabel for="pwd2" value="Password wiederholen: *" />
+	        	<p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
+	    	</h:panelGrid>
 	 
-	    <p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
-	</h:form>
-
-
-
+	    	<p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
+		</h:form>
+		
+	</p:panel>
 	</h:body>
 </html> 
