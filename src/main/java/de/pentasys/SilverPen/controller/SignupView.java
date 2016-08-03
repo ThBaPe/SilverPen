@@ -68,8 +68,9 @@ public class SignupView implements Serializable{
             
             
         } catch (UserExistsException e) {
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer ist bereits registriert.", null));
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer existiert bereits.", null));
+            context.getExternalContext().getFlash().setKeepMessages(true);
         }
         curSession.setCurrentUser(regUser);
         init();
@@ -88,8 +89,9 @@ public class SignupView implements Serializable{
             
             
         } catch (UserExistsException e) {
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer ist bereits registriert.", null));
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Der Benutzer existiert bereits.", null));
+            context.getExternalContext().getFlash().setKeepMessages(true);
         }
         init();
         return "home.xhtml?faces-redirect=true";

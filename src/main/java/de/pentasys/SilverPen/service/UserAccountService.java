@@ -37,7 +37,10 @@ public class UserAccountService {
     private boolean existUserInDB(User userObj)
     {
         TypedQuery<User> query = entityManager.createNamedQuery(User.existsUser,User.class);
-        return query.setParameter("email", userObj.getEmail()).getResultList().size() > 0;
+        boolean result = query.setParameter("email", userObj.getEmail()).getResultList().size() > 0;
+        
+        logger.info("Result of existUserInDB for user "+userObj.getEmail()+": "+result);
+        return result;
     }
     
     public List<Role> listAllRoles() {
@@ -70,11 +73,8 @@ public class UserAccountService {
      * @throws UserExistsException 
      */
     public User register(User user, String role) throws UserExistsException{
-        
-        if(existUserInDB(user)) { // Prüfen ob der Benutzer schon in der DB registriert ist
-            logger.warning("UserExists: " + "EMail: \"" + user.getEmail() + "\" Name: \""+ user.getUsername() + "\"");
-            
-            throw new UserExistsException(user);
+        if(existUserInDB(user)) {
+            throw new UserExistsException("This user already exists in database!");
         }
 
         try {
