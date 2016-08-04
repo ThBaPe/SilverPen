@@ -52,102 +52,48 @@
 
 	</nav>	
 
-	<h:form id="main">
-		<p:layout style="min-width:400px;min-height:300px;">
-			<p:layoutUnit position="west" resizable="true" size="300"
-				minSize="40">
-				<h:outputLabel value="#{homeView.curDate}" id="blub"/>
-				<p:calendar id="inline" value="#{homeView.curDate}" mode="inline" required="true"> 
-
-				</p:calendar>
-			</p:layoutUnit>
-			<p:layoutUnit position="center">
-
-				<p:messages id="messages" showDetail="false" autoUpdate="true" />
+<h:form id="form">          
 
 
-				<p:dataTable id="Hours" var="curHour"
-					value="#{homeView.commitDisplay}" editable="true"
-					style="margin-bottom:20px">
-					<f:facet name="header">
-           Row Editing
-       </f:facet>
-
-					<p:ajax event="rowEdit" listener="#{homeView.onRowEdit}"
-						update=":main:messages" />
-					<p:ajax event="rowEditCancel" listener="#{homeView.onRowCancel}"
-						update=":main:messages" />
-					<p:column headerText="Beschreibung">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{curHour.description}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{curHour.description}"
-									style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-
-					<p:column headerText="Projekt" style="width:7em">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="Dummyprojekt" />
-							</f:facet>
-							<f:facet name="input">
-								<h:outputText value="Dummyprojekt" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-
-					<p:column headerText="Kategorie" style="width:5em">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="Sonstiges" />
-							</f:facet>
-							<f:facet name="input">
-								<h:outputText value="Sonstiges" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-
-					<p:column headerText="Start" style="width:3em">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{curHour.start}">
-									<f:convertDateTime pattern="HH:mm" />
-								</h:outputText>
-							</f:facet>
-							<f:facet name="input">
-								<p:calendar id="timeStart" value="#{curHour.start}"
-									pattern="HH:mm" timeOnly="true" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-
-					<p:column headerText="Ende" style="width:3em">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{curHour.stop}">
-									<f:convertDateTime pattern="HH:mm" />
-								</h:outputText>
-							</f:facet>
-							<f:facet name="input">
-								<p:calendar id="timeStop" value="#{curHour.stop}"
-									pattern="HH:mm" timeOnly="true" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
+<div class="ui-g">
+    <div class="ui-g-3">4</div>
+    <div class="ui-g-9 ui-g-nopad">
+        <div class="ui-g-12">12</div>
+        <div class="ui-g-6">6</div>
+        <div class="ui-g-6">6</div>
+    </div>
+</div>
+<div class="ui-g">
+    <div class="ui-g-3"><p:calendar id="inline" value="#{homeView.curDate}" mode="inline" required="true"/></div>
+    <div class="ui-g-2"><p:inputTextarea rows="2" cols="33" value="#{homeView.commitDisplay.description}"/></div>
+    <div class="ui-g-1"><p:calendar id="timeStart" value="#{homeView.commitDisplay.start}" pattern="HH:mm" timeOnly="true"  /></div>
+    <div class="ui-g-1"><p:calendar id="timeStop" value="#{homeView.commitDisplay.stop}" pattern="HH:mm" timeOnly="true"  /></div>
+    <div class="ui-g-2">
+		<p:selectOneMenu id="project" value="#{homeView.project}" style="width:125px">
+        	<f:selectItem itemLabel="Dummy" itemValue="" />
+    	</p:selectOneMenu></div>
+    <div class="ui-g-1">
+    	<p:selectOneMenu id="category" value="#{homeView.category}" style="width:125px">
+        	<f:selectItem itemLabel="Sonstiges" itemValue="Sonstiges" />
+    	</p:selectOneMenu>
+	</div>
+    <div class="ui-g-1">
+       	<p:commandButton update="form" value="Buchen" action="#{homeView.commitTime()}"/>	
+	</div>
+	
+</div>
 
 
-					<p:column style="width:32px">
-						<p:rowEditor />
-					</p:column>
-				</p:dataTable>
-				<p:commandButton update="main" value="Buchen" action="#{homeView.commitTime()}"/>
-			</p:layoutUnit>
-		</p:layout>
- 	</h:form>
+     
+	 
+	
+	
+
+
+
+</h:form>
+
+
 
 
 </body>

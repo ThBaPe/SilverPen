@@ -29,9 +29,28 @@ import de.pentasys.SilverPen.service.TimeRegisterService;
 public class HomeView {
 
  
-    private List<Hour> commitDisplay;
+    private Hour commitDisplay;
     private java.util.Date curDate;
+    private String project;
+    private String category;
     
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+
     private boolean isAdmin;
     
     public java.util.Date getCurDate() {
@@ -57,11 +76,11 @@ public class HomeView {
         this.curLogin = curLogin;
     }
 
-    public List<Hour> getCommitDisplay() {
+    public Hour getCommitDisplay() {
         return commitDisplay;
     }
 
-    public void setCommitDisplay(List<Hour> commitDisplay) {
+    public void setCommitDisplay(Hour commitDisplay) {
         this.commitDisplay = commitDisplay;
     }
 
@@ -78,12 +97,10 @@ public class HomeView {
 
         if(curDate == null) {
             curDate = new Date();
+            commitDisplay = new Hour();
+            commitDisplay.setStart(curDate);
+            commitDisplay.setStop(curDate);
         }
-        commitDisplay = new ArrayList<Hour>();
-        Hour tmp = new Hour();
-        tmp.setStart(curDate);
-        tmp.setStop(curDate);
-        commitDisplay.add(tmp);
         
         isAdmin = curLogin.getCurrentUser().hasRole("Admin");
     }
@@ -100,9 +117,8 @@ public class HomeView {
         lg.info("commitTime curDate: " + curDate);
 
         
-        Hour commitTime = commitDisplay.get(0);
-        Date dtStart = commitTime.getStart();
-        Date dtStop = commitTime.getStop();
+        Date dtStart = commitDisplay.getStart();
+        Date dtStop = commitDisplay.getStop();
         lg.info("commitTime dtStart: " + dtStart);
         lg.info("commitTime dtStop: " + dtStop);
 
@@ -113,10 +129,10 @@ public class HomeView {
         lg.info("commitTime newStop: " + newStop);
         
 
-        commitTime.setStart(newStart);
-        commitTime.setStop(newStop);
+        commitDisplay.setStart(newStart);
+        commitDisplay.setStop(newStop);
         
-        serviceTime.commitTime(curLogin.getCurrentUser(), commitTime);
+        serviceTime.commitTime(curLogin.getCurrentUser(), commitDisplay);
         
     }
     
