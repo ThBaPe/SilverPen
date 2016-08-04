@@ -4,6 +4,10 @@
 font-size: 90% !important;
 }
 
+.ui-panelgrid td, .ui-panelgrid tr{
+	border-style: none !important;
+}
+
 .ui-inputfield.ui-corner-all{
 	border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;

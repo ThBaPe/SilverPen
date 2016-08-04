@@ -25,10 +25,8 @@ public class MainMenuView {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nope", null));
     }
     
-    public void changeUser(){
-      //Sobald Funktion implementiert wird, Message entfernen
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Keine Chance", null));
+    public String changeUser(){
+      return "user_mod.xhtml?faces-redirect=true";
     }
     
     public void allUsers(){

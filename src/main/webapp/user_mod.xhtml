@@ -7,23 +7,54 @@
 
 <h:head>
 	<h:outputStylesheet name="css/main.css" />
+	<h:outputScript>
+		function handleUserSearch(xhr, status, args){
+			PF('search_dlg').hide();
+		}
+	</h:outputScript>
 </h:head> 
 
-<body> 
-	<p:panel id="change_user_panel">
+<body>
+	<p:panel id="change_user_panel" style="width: 40%;">
 		<div class="titlebar">
-			<p:outputLabel id="titlebarItem" value="Benutzerdaten ändern" />
+			<p:outputLabel class="titlebarItem" value="Benutzer ändern" />
 		</div>
-		
-		<h:form id="user_search">
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Benutzername oder -email: " />
-				<p:autoComplete id="searchUser" value="return null;" completeMethod="#{userModView.completeSearch}" />
+		<h:form id="change_user_form">
+			<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
+	    	<h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+				<p:outputLabel for="name" value="Benutzername:" />
+				<p:inputText id="name" value="#{userModView.username}" />
 				
-				<p:commandButton action="return null;" value="Suchen" />
-			</p:panelGrid>
+				<p:outputLabel for="email" value="Email: "/>
+				<p:inputText id="email" value="#{userModView.email}" />
+				
+				<p:outputLabel for="role" value="Benutzerrolle: " />
+				<p:selectOneMenu id="role" value="#{userModView.userRole}">
+					<f:selectItems value="#{userModView.roles}" />
+				</p:selectOneMenu>
+				
+				<p:commandButton update="matchGrid" value="Speichern" action="#{userModView.saveUser()}"/>
+	    		<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='home.xhtml'; return null;" style="float: right !important"/>
+	    	</h:panelGrid>
 		</h:form>
-		
 	</p:panel>
+
+
+
+	<p:dialog id="search_dialog" header="Benutzer suchen" widgetVar="search_dlg" width="400" height="80" visible="true" modal="true"
+		resizable="false" hideEffect="fade">
+		<p:panel>
+			<h:form id="user_search">
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Benutzername oder -email: " />
+					<p:autoComplete id="searchUser" value="#{userModView.username}" completeMethod="#{userModView.completeSearch}" />
+				
+					<p:commandButton id="search_btn" actionListener="#{userModView.retrieveUserFromDb(userModView.username)}" 
+						value="Suchen" oncomplete="handleUserSearch(xhr, status, args)" update=":change_user_form"/>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</p:dialog>
+	
 </body> 
 </html>

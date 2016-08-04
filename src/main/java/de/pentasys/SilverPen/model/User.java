@@ -88,5 +88,13 @@ public class User implements Serializable {
         }
         return false;
     }
+    
+    public boolean equals(User u){
+        if(this.getEmail().equals(u.getEmail())){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
