@@ -30,8 +30,8 @@
 				</p:submenu>
 				<p:submenu label="Benutzerverwaltung" rendered="#{homeView.admin}" >
 					<p:menuitem value="Benutzer registrieren" outcome="admin_signup" />
-					<p:menuitem value="Benutzer bearbeiten" actionListener="#{mainMenuView.changeUser()}" update="menumessages" />
-					<p:menuitem value="Benutzerübersicht" actionListener="#{mainMenuView.allUsers()}" update="menumessages" />
+					<p:menuitem value="Benutzer bearbeiten" outcome="user_mod" />
+					<p:menuitem value="Benutzerübersicht" outcome="user_list" />
 				</p:submenu>
 				<p:submenu label="Projektverwaltung" rendered="#{homeView.admin}">
 					<p:menuitem value="Kundenprojekt anlegen" actionListener="return null;" />

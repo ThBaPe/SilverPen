@@ -19,12 +19,16 @@ import javax.persistence.Table;
  *
  */
 
-@NamedQueries({ @NamedQuery(name = "User.existsUser", query = "SELECT c FROM User c WHERE c.email = :email") })
+@NamedQueries({ 
+            @NamedQuery(name = "User.existsUser", query = "SELECT c FROM User c WHERE c.email = :email"),
+            @NamedQuery(name = "User.allUsers", query = "SELECT u FROM User u")
+})
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
 
     public static final String existsUser = "User.existsUser";
+    public static final String allUsers = "User.allUsers";
 
     @Id
     @Column(unique = true, nullable = false, precision = 80)
@@ -87,6 +91,14 @@ public class User implements Serializable {
             }
         }
         return false;
+    }
+    
+    public boolean equals(User u){
+        if(this.getEmail().equals(u.getEmail())){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
