@@ -26,7 +26,10 @@
 				<p:inputText id="name" value="#{userModView.username}" />
 				
 				<p:outputLabel for="email" value="Email: "/>
-				<p:inputText id="email" value="#{userModView.email}" />
+				<p:inputText id="email" value="#{userModView.email}" validatorMessage="Ungültiges EMail Format. Bitte erneut eingeben.">
+					<f:validateRegex
+					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
 				
 				<p:outputLabel for="role" value="Benutzerrolle: " />
 				<p:selectOneMenu id="role" value="#{userModView.userRole}">
