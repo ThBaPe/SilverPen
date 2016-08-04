@@ -58,7 +58,7 @@
 	 
 		<p:row>
 			<p:column rowspan="5"><p:calendar id="inline"  value="#{homeView.curDate}" mode="inline" required="true"/></p:column>
-			<p:column colspan="4"><p:inputTextarea rows="1" value="#{homeView.curHour.description}" cols="50" autoResize="true"  /></p:column>
+			<p:column colspan="4"><p:inputTextarea rows="1" value="#{homeView.curHour.description}" placeholder="Beschreibung der Tätigkeit" cols="50" autoResize="true"  /></p:column>
 		</p:row>
 		<p:row/>
 		<p:row>
@@ -70,12 +70,14 @@
 		</p:row>
 		<p:row>
 			<p:column colspan="2">
+				<h:outputLabel for="project" value="Projekt:" /><br/>
 				<p:selectOneMenu id="project" value="#{homeView.project}" style="width:125px">
         			<f:selectItem itemLabel="Dummy" itemValue="" />
 	    		</p:selectOneMenu>
     		</p:column>
 	    	
 			<p:column colspan="2">
+				<h:outputLabel for="category" value="Kategorie:" /><br/>
 		    	<p:selectOneMenu id="category" value="#{homeView.category}" style="width:125px">
 		        	<f:selectItem itemLabel="Sonstiges" itemValue="Sonstiges" />
 		    	</p:selectOneMenu>
