@@ -1,0 +1,33 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+	<h:head>
+		<h:outputStylesheet name="css/main.css" />
+	</h:head> 
+	<body> 
+		<p:panel id="user_list_panel" style="width: 40%;">
+			<div class="titlebar">
+				<p:outputLabel class="titlebarItem" value="Benutzerliste" />
+				<h:form id="logout">
+					<p:commandButton id="back_button" class="titlebarItem" value="Zurück" onclick="location.href='home.xhtml'; return null;" 
+						style="color: black !important; font-size: small !important; margin-right: 5px;" />
+				</h:form>
+			</div>
+			<p:accordionPanel value="#{userListView.users}" var="user">
+				<p:tab title="Benutzer: #{user.username}">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Email: " />
+						<h:outputText value="#{user.email}" />
+						
+						<h:outputText value="Rolle: " />
+						<h:outputText value="#{user.roles.iterator().next().rolename}" />
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</p:panel>
+	</body> 
+</html>
