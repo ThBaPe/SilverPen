@@ -28,12 +28,40 @@ import de.pentasys.SilverPen.service.TimeRegisterService;
 @RequestScoped
 public class HomeView {
 
- 
-    private Hour commitDisplay;
     private java.util.Date curDate;
+    private java.util.Date curStart;
+    private java.util.Date curStop;
+
+    private Hour curHour;
     private String project;
     private String category;
     
+    
+    
+    public java.util.Date getCurStart() {
+        return curStart;
+    }
+
+    public void setCurStart(java.util.Date curStart) {
+        this.curStart = curStart;
+    }
+
+    public java.util.Date getCurStop() {
+        return curStop;
+    }
+
+    public void setCurStop(java.util.Date curStop) {
+        this.curStop = curStop;
+    }
+
+    public Hour getCurHour() {
+        return curHour;
+    }
+
+    public void setCurHour(Hour curHour) {
+        this.curHour = curHour;
+    }
+
     public String getProject() {
         return project;
     }
@@ -76,13 +104,6 @@ public class HomeView {
         this.curLogin = curLogin;
     }
 
-    public Hour getCommitDisplay() {
-        return commitDisplay;
-    }
-
-    public void setCommitDisplay(Hour commitDisplay) {
-        this.commitDisplay = commitDisplay;
-    }
 
     public boolean isAdmin() {
         return isAdmin;
@@ -95,13 +116,17 @@ public class HomeView {
     @PostConstruct
     public void init() {
 
-        if(curDate == null) {
-            curDate = new Date();
-            commitDisplay = new Hour();
-            commitDisplay.setStart(curDate);
-            commitDisplay.setStop(curDate);
-        }
-        
+        curDate = new Date();
+        curStart = new Date();
+        curHour = new Hour();
+        curHour.setStart(new Date());
+        curHour.setStop(new Date());
+//      commitDisplay = new Hour();
+//      curDate = new Date();
+
+//      commitDisplay.setStart(curDate);
+//      commitDisplay.setStop(curDate);
+ 
         isAdmin = curLogin.getCurrentUser().hasRole("Admin");
     }
   
@@ -110,29 +135,25 @@ public class HomeView {
     }
     
     
-    @SuppressWarnings("deprecation")
-    public void commitTime()
-    {
+
+    public void commitTime() {
+        
         lg.info("Hove Edit");
         lg.info("commitTime curDate: " + curDate);
 
+        Date dtStart = curHour.getStart();
+        Date dtStop = curHour.getStop();
         
-        Date dtStart = commitDisplay.getStart();
-        Date dtStop = commitDisplay.getStop();
-        lg.info("commitTime dtStart: " + dtStart);
-        lg.info("commitTime dtStop: " + dtStop);
-
         Date newStart = new Date(curDate.getYear(),curDate.getMonth(),curDate.getDate(),dtStart.getHours(),dtStart.getMinutes(),0);
         Date newStop = new Date(curDate.getYear(),curDate.getMonth(),curDate.getDate(),dtStop.getHours(),dtStop.getMinutes(),0);
-        
+
         lg.info("commitTime newStart: " + newStart);
         lg.info("commitTime newStop: " + newStop);
-        
 
-        commitDisplay.setStart(newStart);
-        commitDisplay.setStop(newStop);
+        curHour.setStart(newStart);
+        curHour.setStop(newStop);
         
-        serviceTime.commitTime(curLogin.getCurrentUser(), commitDisplay);
+        serviceTime.commitTime(curLogin.getCurrentUser(), curHour);
         
     }
     

@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:p="http://primefaces.org/ui"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-	<h:head>
-	
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+      
+<h:head>
+
 	<h:outputStylesheet name="css/main.css" />
-	
-	</h:head>
-	<h:body>
+
+</h:head>
+<h:body>
 	<p:panel id="login_panel" style="width: 40%;">
 		<div class="titlebar">
-			<p:outputLabel class="titlebarItem" value="Anmelden" rendered="#{!signinView.loggedIn}"/>
-			<h:outputLabel class="titlebarItem" value="Hallo #{signinView.loginName}" rendered="#{signinView.loggedIn}" />
+			<p:outputLabel class="titlebarItem" value="Anmelden"
+				rendered="#{!signinView.loggedIn}" />
+			<h:outputLabel class="titlebarItem"
+				value="Hallo #{signinView.loginName}"
+				rendered="#{signinView.loggedIn}" />
 		</div>
-		
+
 		<h:form>
-			<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
-	    	<h:panelGrid columns="1" id="matchGrid" cellpadding="5">
+			<p:messages id="messages" showDetail="false" autoUpdate="true" />
+			<h:panelGrid columns="1" id="matchGrid" cellpadding="5">
 
-				<p:inputText id="name" value="#{signinView.loginName}" placeholder="Benutzer Name oder EMail" required="true" />
+				<p:inputText id="name" value="#{signinView.loginName}"
+					placeholder="Benutzer Name oder EMail" required="true" />
 
-	        	<p:password id="pwd" value="#{signinView.passwd}" placeholder="Passwort" required="true" />
-	    	</h:panelGrid>
-	 
-	    	<p:commandButton update="matchGrid" value="anmelden" action="#{signinView.login()}"/>
+				<p:password id="pwd" value="#{signinView.passwd}"
+					placeholder="Passwort" required="true" />
+			</h:panelGrid>
+
+			<p:commandButton update="matchGrid" value="anmelden"
+				action="#{signinView.login()}" />
 		</h:form>
 
-	 
-		<br/>
-		<br/>
-		<h:outputLabel value="Sie haben noch kein Konto?"/>
-		<br/>
-		<h:link value="Dann erstellen Sie jetzt eins!" outcome="signup" style="color: #CC0000;"/>
+
+		<br />
+		<br />
+		<h:outputLabel value="Sie haben noch kein Konto?" />
+		<br />
+		<h:link value="Dann erstellen Sie jetzt eins!" outcome="signup"
+			style="color: #CC0000;" />
 	</p:panel>
-	</h:body>
-</html> 
+
+
+</h:body>
+</html>

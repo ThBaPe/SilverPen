@@ -1,0 +1,88 @@
+@CHARSET "ISO-8859-1";
+
+.ui-widget, .ui-widget .ui-widget {
+font-size: 90% !important;
+}
+
+
+
+.ui-widget button:hover{
+    color: #cc0000 !important;
+    background-color: white !important;
+}
+
+.ui-button{
+	font-family: 'Material Icons'; 
+    background-color: transparent !important;
+    border: 0 !important;
+    color: white !important;
+    background: transparent !important;
+    font-size: 2.5em !important;
+	
+}
+
+.ui-widget button{
+	font-family: 'Material Icons'; 
+    background-color: transparent !important;
+    border: 0 !important;
+    color: white !important;
+    background: transparent !important;
+    font-size: 2.5em !important;
+}
+
+.ui-inputfield.ui-corner-all{
+	border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+
+
+.headerLogo{
+	display: block;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ui-growl {
+    position:absolute;
+    padding-top: 200px;
+    left: 40%;
+    z-index:9999;
+}
+
+.adminbar{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#logout{
+	float: right;
+}
+
+#login_panel, #signup_panel, #change_user_panel{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+nav{
+	float: left;
+	padding-right: 10px;
+} 
+ 
+.ui-tieredmenu{
+	border-color: #CC0000 !important;
+	border-width: 2px !important;
+}
+
+#main{
+	width: 89%;
+	float: right;
+}
+
+.ui-panelgrid .ui-panelgrid-cell{
+	border-width: 0px !important;
+}
+

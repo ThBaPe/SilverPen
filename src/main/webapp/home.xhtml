@@ -4,30 +4,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
-<link href='https://fonts.googleapis.com/css?family=Poiret+One'
-	rel='stylesheet' type='text/css' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"/>
 
 <h:head>
-	<h:outputStylesheet name="css/main.css" />
+	<h:outputStylesheet name="css/mainTest.css" />
 </h:head>
 <body>
 	<header role="banner">
 		<h:graphicImage styleClass="headerLogo"
 			value="/resources/img/logo.jpg" width="10%" />
 	</header>
-	<div class="titlebar">
-		<h:link class="titlebarItem" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-		<p:outputLabel class="titlebarItem" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" />
-		<h:form id="logout">
-			<p:commandButton id="logout_button" class="titlebarItem" value="Logout" action="#{homeView.logout()}" style="color: black !important; font-size: small !important; margin-right: 5px;" />
-		</h:form>	
-	</div>
+
 	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
 	
 	<nav>
-	
-	
 		<h:form id="navigation">
 			<p:tieredMenu>
 				<p:submenu label="Projektstundenübersicht">
@@ -52,47 +43,57 @@
 
 	</nav>	
 
-<h:form id="form">          
-
-
-<div class="ui-g">
-    <div class="ui-g-3">4</div>
-    <div class="ui-g-9 ui-g-nopad">
-        <div class="ui-g-12">12</div>
-        <div class="ui-g-6">6</div>
-        <div class="ui-g-6">6</div>
-    </div>
-</div>
-<div class="ui-g">
-    <div class="ui-g-3"><p:calendar id="inline" value="#{homeView.curDate}" mode="inline" required="true"/></div>
-    <div class="ui-g-2"><p:inputTextarea rows="2" cols="33" value="#{homeView.commitDisplay.description}"/></div>
-    <div class="ui-g-1"><p:calendar id="timeStart" value="#{homeView.commitDisplay.start}" pattern="HH:mm" timeOnly="true"  /></div>
-    <div class="ui-g-1"><p:calendar id="timeStop" value="#{homeView.commitDisplay.stop}" pattern="HH:mm" timeOnly="true"  /></div>
-    <div class="ui-g-2">
-		<p:selectOneMenu id="project" value="#{homeView.project}" style="width:125px">
-        	<f:selectItem itemLabel="Dummy" itemValue="" />
-    	</p:selectOneMenu></div>
-    <div class="ui-g-1">
-    	<p:selectOneMenu id="category" value="#{homeView.category}" style="width:125px">
-        	<f:selectItem itemLabel="Sonstiges" itemValue="Sonstiges" />
-    	</p:selectOneMenu>
-	</div>
-    <div class="ui-g-1">
-       	<p:commandButton update="form" value="Buchen" action="#{homeView.commitTime()}"/>	
-	</div>
-	
-</div>
-
-
-     
+       
+	<h:form id="form">
+	<p:panelGrid id="gridToTime">
+		<f:facet name="header">
+			<p:row>
+				<p:column colspan="4" style="text-align: left;">
+					<h:link style="font-size: 1.0em !important" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
+					<p:outputLabel style="font-size: 1.5em !important" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" /></p:column>
+				<p:column  style="text-align: right;" >
+					<p:commandButton class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="exit_to_app"  action="#{homeView.logout()}" immediate="true" /></p:column>			
+			</p:row>
+		</f:facet>
 	 
+		<p:row>
+			<p:column rowspan="5"><p:calendar id="inline"  value="#{homeView.curDate}" mode="inline" required="true"/></p:column>
+			<p:column colspan="4"><p:inputTextarea rows="1" value="#{homeView.curHour.description}" cols="50" autoResize="true"  /></p:column>
+		</p:row>
+		<p:row/>
+		<p:row>
+			<p:column colspan="2"><h:outputLabel for="timeStart" value="Bis:" /><br/>
+									<p:calendar id="timeStart" value="#{homeView.curHour.start}" pattern="HH:mm" timeOnly="true" timeZone="Europe/Berlin"  /></p:column>
+			<p:column colspan="2"><h:outputLabel for="timeStop" value="Bis:" /><br/>
+									<p:calendar id="timeStop" value="#{homeView.curHour.stop}" pattern="HH:mm" timeOnly="true" timeZone="Europe/Berlin" /></p:column>
+			
+		</p:row>
+		<p:row>
+			<p:column colspan="2">
+				<p:selectOneMenu id="project" value="#{homeView.project}" style="width:125px">
+        			<f:selectItem itemLabel="Dummy" itemValue="" />
+	    		</p:selectOneMenu>
+    		</p:column>
+	    	
+			<p:column colspan="2">
+		    	<p:selectOneMenu id="category" value="#{homeView.category}" style="width:125px">
+		        	<f:selectItem itemLabel="Sonstiges" itemValue="Sonstiges" />
+		    	</p:selectOneMenu>
+			</p:column>
+		</p:row>
+		<f:facet name="footer">
+			<p:row>
+			<p:column colspan="4">
+				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="today" action="#}"/></p:column>
+			<p:column style="text-align: right;">
+				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="delete" update="form" action="#{homeView.init()}"/>
+				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" action="#{homeView.commitTime}"/></p:column>
+			</p:row>
+		</f:facet>
 	
-	
-
-
-
-</h:form>
-
+	</p:panelGrid>
+	</h:form>
+     
 
 
 
