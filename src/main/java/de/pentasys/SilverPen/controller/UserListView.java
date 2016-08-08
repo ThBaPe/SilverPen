@@ -23,7 +23,7 @@ public class UserListView {
     public void init(){
         users = uls.getUsers();
     }
-
+    
     public List<User> getUsers() {
         return users;
     }

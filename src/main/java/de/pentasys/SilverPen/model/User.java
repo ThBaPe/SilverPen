@@ -104,4 +104,12 @@ public class User implements Serializable {
         }
     }
 
+    public Collection<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Collection<Project> projects) {
+        this.projects = projects;
+    }
+
 }
