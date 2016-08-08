@@ -41,6 +41,9 @@ public class User implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Collection<Role> roles = new LinkedList<Role>();
+    
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
+    private Collection<Project> projects = new LinkedList<Project>();
 
     public User() {
         super();
