@@ -65,5 +65,13 @@ public class Project implements Serializable {
     public String toString(){
         return this.projectnumber+" - "+this.name;
     }
-   
+    
+    @Override
+    public boolean equals(Object p){
+        if (! (p instanceof Project)){
+            return false;
+        } else {
+            return (this.projectnumber.equals(((Project)p).projectnumber) && this.name.equals(((Project)p).name));
+        }
+    }
 }

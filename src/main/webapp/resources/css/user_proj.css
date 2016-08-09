@@ -1,0 +1,15 @@
+@CHARSET "ISO-8859-1";
+
+#user_info{
+	margin: 10px;
+	font-weight: bolder;
+}
+
+.ui-picklist .ui-picklist-list{
+    height: 200px;
+    list-style-type: none;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    width: 300px;
+}

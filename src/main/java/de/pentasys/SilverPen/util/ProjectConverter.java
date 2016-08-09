@@ -23,10 +23,12 @@ public class ProjectConverter implements Converter {
         if(arg2 == null || arg2.trim().equals("")){
             return null;
         } else {
-            int id = Integer.parseInt(arg2);
             List<Project> projs = projService.getAllProjects();
+            String[] projectArray = arg2.split("-");
+            String id = projectArray[0];
+            id = id.substring(0, (id.length()-1));
             for (Project proj : projs){
-                if (proj.getId() == id){
+                if (proj.getProjectnumber().equals(id)){
                     return proj;
                 }
             }

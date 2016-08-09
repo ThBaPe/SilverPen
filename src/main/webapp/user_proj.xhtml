@@ -34,6 +34,10 @@
 					#{proj}
 				</p:column>
 			</p:pickList>
+			<div style="margin-top: 10px">
+				<p:commandButton value="Speichern" action="#{signupView.register()}"/>
+	    		<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='home.xhtml'; return null;" style="float: right !important"/>
+			</div>
 		</h:form>
 	</p:panel> 
 
@@ -46,7 +50,7 @@
 					<p:autoComplete id="searchUser" value="#{userModView.username}" completeMethod="#{userModView.completeSearch}" />
 				
 					<p:commandButton id="search_btn" actionListener="#{userModView.retrieveUserFromDb(userModView.username)}" 
-						value="Suchen" oncomplete="handleUserSearch(xhr, status, args)" update="@(:user_info, :proj_picklist)" action="#{userProjView.fillLists(userModView.username)}"/>
+						value="Suchen" update="@(:user_info, :proj_picklist)" action="#{userProjView.fillLists(userModView.username)}" oncomplete="handleUserSearch(xhr, status, args)"/>
 				</p:panelGrid>
 			</h:form>
 		</p:panel>
