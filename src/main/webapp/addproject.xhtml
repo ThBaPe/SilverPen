@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"/>
+
+<h:head>
+	<h:outputStylesheet name="css/mainTest.css" />
+</h:head>
+<body>
+	<header role="banner">
+		<h:graphicImage styleClass="headerLogo"
+			value="/resources/img/logo.jpg" width="10%" />
+	</header>
+
+	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
+
+	<h:form id="form">
+	<p:panelGrid id="gridProject">
+	<f:facet name="header">
+			<p:row>
+				<p:column colspan="2" style="text-align: left;">
+					<p:outputLabel style="font-size: 1.5em !important" value="Projekt erstellen"/></p:column>
+				<p:column  style="text-align: right;" />			
+			</p:row>
+		</f:facet>
+ 		<p:row>
+ 			<p:column rowspan="2">
+			<p:orderList id="list" value="#{projectView.projectList}" var="pro" controlsLocation="none" itemLabel="#{pro.name}" itemValue="#{pro}">
+				<p:ajax event="select" listener="#{projectView.onSelect}" update="form:list"/>
+			</p:orderList>
+ 			</p:column>
+			<p:column ><h:outputLabel for="startDate" value="Projektbeginn:" /></p:column>
+			<p:column ><p:calendar id="startDate" value="#{projectView.projectStart}" locale="de" navigator="true" pattern="yyyy-MMM-dd" /></p:column>
+		</p:row>
+ 		<p:row>
+			<p:column ><h:outputLabel for="customer" value="Kundenkürzel:" /></p:column>
+			<p:column ><p:inputText id="customer" value="#{projectView.customerLabel}" /></p:column>
+		</p:row>
+	 
+	
+		<f:facet name="footer">
+				<p:row>
+					<p:column colspan="2">
+					<p:commandButton Class="material-icons"
+						style="font-size: 1.5em !important; font-weight: normal"
+						value="remove" action="#{projectView.removeSelectedProject()}"
+						rendered="#{projectView.curSelection != null}"
+						update="form" />
+					</p:column>
+					<p:column style="text-align: right;">
+						<p:commandButton Class="material-icons"
+							style="font-size: 1.5em !important; font-weight: normal"
+							value="done" action="#{projectView.addProject()}" update="form" />
+					</p:column>
+				</p:row>
+			</f:facet>
+	</p:panelGrid>
+	</h:form>
+</body>
+</html>

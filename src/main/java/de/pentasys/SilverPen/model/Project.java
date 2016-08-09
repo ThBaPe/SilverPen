@@ -42,7 +42,13 @@ public class Project implements Serializable {
 	public Project() {
 		super();
 	}   
-	public String getProjectnumber() {
+	public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getProjectnumber() {
 		return this.projectnumber;
 	}
 
@@ -61,6 +67,10 @@ public class Project implements Serializable {
     }
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+    
+    public String toString(){
+        return this.projectnumber+" - "+this.name;
     }
    
 }

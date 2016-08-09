@@ -17,11 +17,15 @@
 
  Marker file indicating JSF 2.2 should be enabled in the application -->
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://xmlns.jcp.org/xml/ns/javaee         http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
  <application>
   <locale-config>
    <default-locale>de</default-locale>
   </locale-config>
   <message-bundle>Messages_de</message-bundle>
  </application>
+ <lifecycle>
+  <phase-listener>de.pentasys.SilverPen.util.DebugPhaseListener</phase-listener>
+ </lifecycle>
 </faces-config>
