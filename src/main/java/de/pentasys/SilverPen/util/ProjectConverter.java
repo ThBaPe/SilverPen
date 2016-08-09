@@ -7,11 +7,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.service.ProjectService;
 
-@FacesConverter("de.pentasys.ProjectConverter")
+
+@Named
 public class ProjectConverter implements Converter {
 
     @Inject

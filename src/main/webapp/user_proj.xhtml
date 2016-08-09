@@ -15,6 +15,8 @@
 	</h:outputScript>
 </h:head>
 
+	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
+
 <body>
 	<p:panel id="user_proj_panel" style="width: 40%;">
 		<div class="titlebar">
@@ -27,7 +29,7 @@
 		<h:form>
 			<p:pickList id="proj_picklist" value="#{userProjView.projects}" var="proj" itemValue="#{proj}" itemLabel="#{proj}"
 					showSourceControls="true" showTargetControls="true">
-				<f:converter converterId="de.pentasys.ProjectConverter" />
+				<f:converter binding="#{projectConverter}"/>
 				<f:facet name="sourceCaption">Verfügbare Projekte</f:facet>
 				<f:facet name="targetCaption">Zugewiesene Projekte</f:facet>
 				<p:column style="width:100%">

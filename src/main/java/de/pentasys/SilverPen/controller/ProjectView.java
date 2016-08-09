@@ -28,23 +28,12 @@ public class ProjectView {
     private java.util.Date projectStart;
     private List<Project> projectList;
 
-
-    public String getCurSelection() {
-        return curSelection;
-    }
-
-    public void setCurSelection(String curSelection) {
-        this.curSelection = curSelection;
-    }
-
     @Inject private Logger lg;
     @Inject private ProjectService ps;
     
     @PostConstruct
     public void init(){
-        if(projectList == null) {
-            projectList = ps.getAllProjects();
-        }
+        projectList = ps.getAllProjects();
         projectStart = new Date();
     }
 
@@ -80,8 +69,9 @@ public class ProjectView {
         Project pro = new Project();
         pro.setName(newProject);
         pro.setProjectnumber(newProject);
-
-        projectList.add(pro);
+        
+        ps.addProject(pro);
+        init();
     }
 
     public void onSelect(SelectEvent event) {
@@ -131,5 +121,12 @@ public class ProjectView {
         
     }
     
+    public String getCurSelection() {
+        return curSelection;
+    }
+
+    public void setCurSelection(String curSelection) {
+        this.curSelection = curSelection;
+    }
     
 }

@@ -29,7 +29,8 @@
 		</f:facet>
  		<p:row>
  			<p:column rowspan="2">
-			<p:orderList id="list" value="#{projectView.projectList}" var="pro" controlsLocation="none" itemLabel="#{pro.name}" itemValue="#{pro}">
+			<p:orderList id="list" value="#{projectView.projectList}" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
+				<f:converter binding="#{projectConverter}" />
 				<p:ajax event="select" listener="#{projectView.onSelect}" update="form:list"/>
 			</p:orderList>
  			</p:column>
