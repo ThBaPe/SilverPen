@@ -25,4 +25,7 @@
   </locale-config>
   <message-bundle>Messages_de</message-bundle>
  </application>
+ <lifecycle>
+  <phase-listener>de.pentasys.SilverPen.util.DebugPhaseListener</phase-listener>
+ </lifecycle>
 </faces-config>

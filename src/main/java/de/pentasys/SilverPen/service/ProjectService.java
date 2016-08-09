@@ -29,10 +29,7 @@ public class ProjectService {
     }
     
     public List<Project> getAllProjects(){
-        TypedQuery<Project> query = em.createQuery(
-                "SELECT p "+
-                "FROM Project p ", Project.class);
-        
-        return query.getResultList();
+        return em.createNamedQuery(Project.findAll,Project.class).getResultList();
     }
+    
 }
