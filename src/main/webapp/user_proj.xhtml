@@ -30,12 +30,15 @@
 				<f:converter converterId="de.pentasys.ProjectConverter" />
 				<f:facet name="sourceCaption">Verfügbare Projekte</f:facet>
 				<f:facet name="targetCaption">Zugewiesene Projekte</f:facet>
+				
+				<p:ajax event="transfer" listener="#{userProjView.onTransfer()}" />
+				
 				<p:column style="width:100%">
 					#{proj}
 				</p:column>
 			</p:pickList>
 			<div style="margin-top: 10px">
-				<p:commandButton value="Speichern" action="#{signupView.register()}"/>
+				<p:commandButton value="Speichern" action="#{userProjView.persist()}"/>
 	    		<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='home.xhtml'; return null;" style="float: right !important"/>
 			</div>
 		</h:form>

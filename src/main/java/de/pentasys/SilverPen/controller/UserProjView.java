@@ -2,12 +2,14 @@ package de.pentasys.SilverPen.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import de.pentasys.SilverPen.model.Project;
@@ -25,9 +27,13 @@ public class UserProjView {
     @Inject
     private UserModService ums;
     
+    @Inject
+    private Logger log;
+    
     private DualListModel<Project> projects;
     private List<Project> source;
     private List<Project> target;
+    private User user;
     
     @PostConstruct
     public void init(){
@@ -42,7 +48,7 @@ public class UserProjView {
      * @param username Der Benutzer, dessen Rollen angezeigt werden sollen
      */
     public void fillLists(String username){
-        User user = ums.findUserInDb(username);
+        user = ums.findUserInDb(username);
         
         if(!user.getProjects().isEmpty()){
             for(Project proj : user.getProjects()){
@@ -57,6 +63,27 @@ public class UserProjView {
         projects = new DualListModel<Project>(source, target);
     }
 
+    @SuppressWarnings("unchecked")
+    public void onTransfer (TransferEvent e){
+        log.info("Entering onTransfer");
+        log.info("User has Projects: "+ user.getProjects().size());
+        List<Project> items = (List<Project>) e.getItems();
+        if (e.isAdd()){
+            for (Project proj : items){
+                user.getProjects().add(proj);
+            }
+        } else {
+            for (Project proj : items){
+                user.getProjects().remove(proj);
+            }
+        }
+        log.info("User now has Projects: "+ user.getProjects().size());
+    }
+    
+    public void persist(){
+        projService.persist(user);
+    }
+    
     public DualListModel<Project> getProjects() {
         return projects;
     }

@@ -32,4 +32,8 @@ public class ProjectService {
         return em.createNamedQuery(Project.findAll,Project.class).getResultList();
     }
     
+    public void persist(User user){
+        em.persist(user);
+    }
+    
 }
