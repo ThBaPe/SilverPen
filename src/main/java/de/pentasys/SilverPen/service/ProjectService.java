@@ -39,6 +39,11 @@ public class ProjectService {
         em.persist(newProject);
     }
     
+    public void removeProject(Project removeProject) {
+        lg.info("Project Removed: " + removeProject);
+        em.remove(em.contains(removeProject) ? removeProject : em.merge(removeProject));
+    }
+    
     public void persist(User user){
         em.persist(user);
     }

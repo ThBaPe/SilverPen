@@ -29,9 +29,9 @@
 		</f:facet>
  		<p:row>
  			<p:column rowspan="2">
-			<p:orderList id="list" value="#{projectView.projectList}" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
+			<p:orderList id="list" value="#{projectView.projectList}" controlsLocation="none" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
 				<f:converter binding="#{projectConverter}" />
-				<p:ajax event="select" listener="#{projectView.onSelect}" update="form:list"/>
+				<p:ajax event="select" listener="#{projectView.onSelect}" update="form"/>
 			</p:orderList>
  			</p:column>
 			<p:column ><h:outputLabel for="startDate" value="Projektbeginn:" /></p:column>
@@ -49,7 +49,7 @@
 					<p:commandButton Class="material-icons"
 						style="font-size: 1.5em !important; font-weight: normal"
 						value="remove" action="#{projectView.removeSelectedProject()}"
-						rendered="#{projectView.curSelection != null}"
+						rendered="#{projectView.showRemoveBtn}"
 						update="form" />
 					</p:column>
 					<p:column style="text-align: right;">
