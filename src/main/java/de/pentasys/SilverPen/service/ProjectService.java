@@ -38,4 +38,9 @@ public class ProjectService {
         lg.info("New Project Added: " + newProject);
         em.persist(newProject);
     }
+    
+    public void persist(User user){
+        em.persist(user);
+    }
+    
 }
