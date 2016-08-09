@@ -31,4 +31,5 @@ public class ProjectService {
     public List<Project> getAllProjects(){
         return em.createNamedQuery(Project.findAll,Project.class).getResultList();
     }
+    
 }

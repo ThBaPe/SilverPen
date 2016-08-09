@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<h:outputStylesheet name="css/main.css" />
+	<h:outputStylesheet name="css/user_proj.css" />
+	<h:outputScript>
+		function handleUserSearch(xhr, status, args){
+			PF('search_dlg').hide();
+		}
+	</h:outputScript>
+</h:head>
+
+<body>
+	<p:panel id="user_proj_panel" style="width: 40%;">
+		<div class="titlebar">
+			<p:outputLabel class="titlebarItem" value="Projekte zuordnen" />
+		</div>		
+		
+		<p:panel id="user_info">
+			<p:outputLabel style="color: #CC0000 !important;">Benutzer: #{userModView.username}</p:outputLabel>
+		</p:panel>
+		<h:form>
+			<p:pickList id="proj_picklist" value="#{userProjView.projects}" var="proj" itemValue="#{proj}" itemLabel="#{proj}"
+					showSourceControls="true" showTargetControls="true">
+				<f:converter converterId="de.pentasys.ProjectConverter" />
+				<f:facet name="sourceCaption">Verfügbare Projekte</f:facet>
+				<f:facet name="targetCaption">Zugewiesene Projekte</f:facet>
+				<p:column style="width:100%">
+					#{proj}
+				</p:column>
+			</p:pickList>
+		</h:form>
+	</p:panel> 
+
+	<p:dialog id="search_dialog" header="Benutzer suchen" widgetVar="search_dlg" width="400" height="80" visible="true" modal="true"
+		resizable="false" hideEffect="fade">
+		<p:panel>
+			<h:form id="user_search">
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Benutzername oder -email: " />
+					<p:autoComplete id="searchUser" value="#{userModView.username}" completeMethod="#{userModView.completeSearch}" />
+				
+					<p:commandButton id="search_btn" actionListener="#{userModView.retrieveUserFromDb(userModView.username)}" 
+						value="Suchen" oncomplete="handleUserSearch(xhr, status, args)" update="@(:user_info, :proj_picklist)" action="#{userProjView.fillLists(userModView.username)}"/>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</p:dialog>
+</body> 
+</html>
