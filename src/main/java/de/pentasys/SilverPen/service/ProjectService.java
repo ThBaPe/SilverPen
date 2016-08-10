@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import de.pentasys.SilverPen.model.Hour;
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
 
@@ -39,8 +38,27 @@ public class ProjectService {
         em.persist(newProject);
     }
     
-    public void persist(User user){
-        em.persist(user);
+    public void persist(User user, List<Project> projects, List<Project> other){
+        User changeUser = em.find(User.class, user.getEmail());
+        changeUser.setProjects(projects);
+        
+        List<Project> allProjects = getAllProjects();
+        
+        for (Project proj : allProjects){
+            if (other.contains(proj)){
+                for (User userInList : proj.getUsers()){
+                    lg.info("User: "+userInList.getEmail());
+                }
+                Project changeProject = em.find(Project.class, proj.getId());
+                boolean removed = changeProject.getUsers().remove(user);
+                
+                lg.info("Is user removed from Project? "+removed);
+                
+                em.persist(changeProject);
+            }
+        }
+        
+        em.persist(changeUser);
     }
     
 }

@@ -22,18 +22,18 @@
 		<div class="titlebar">
 			<p:outputLabel class="titlebarItem" value="Projekte zuordnen" />
 		</div>		
-		
+		<h:form id="list_form">
 		<p:panel id="user_info">
 			<p:outputLabel style="color: #CC0000 !important;">Benutzer: #{userModView.username}</p:outputLabel>
 		</p:panel>
-		<h:form>
+
 			<p:pickList id="proj_picklist" value="#{userProjView.projects}" var="proj" itemValue="#{proj}" itemLabel="#{proj}"
 					showSourceControls="true" showTargetControls="true">
 				<f:converter binding="#{projectConverter}"/>
 				<f:facet name="sourceCaption">Verfügbare Projekte</f:facet>
 				<f:facet name="targetCaption">Zugewiesene Projekte</f:facet>
 				
-				<p:ajax event="transfer" listener="#{userProjView.onTransfer()}" />
+				<p:ajax update="proj_picklist" event="transfer" listener="#{userProjView.onTransfer}" />
 				
 				<p:column style="width:100%">
 					#{proj}

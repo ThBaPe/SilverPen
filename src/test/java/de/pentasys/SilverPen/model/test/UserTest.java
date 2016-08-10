@@ -22,5 +22,19 @@ public class UserTest {
         
         assertFalse(user.hasRole("LineManager"));
     }
+    
+    @Test
+    public void equalsTest(){
+        User user1 = new User();
+        user1.setEmail("test@test.de");
+        User user2 = new User();
+        user2.setEmail("test@test.de");
+        User user3 = new User();
+        user3.setEmail("wurst@brot.de");
+        
+        assertTrue(user1.equals(user2));
+        
+        assertFalse(user1.equals(user3));
+    }
 
 }

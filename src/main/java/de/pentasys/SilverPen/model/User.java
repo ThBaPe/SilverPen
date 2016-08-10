@@ -96,8 +96,9 @@ public class User implements Serializable {
         return false;
     }
     
-    public boolean equals(User u){
-        if(this.getEmail().equals(u.getEmail())){
+    @Override
+    public boolean equals(Object u){
+        if(this.getEmail().equals(((User)(u)).getEmail())){
             return true;
         } else {
             return false;

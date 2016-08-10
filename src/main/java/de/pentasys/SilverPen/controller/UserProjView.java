@@ -1,11 +1,12 @@
 package de.pentasys.SilverPen.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,9 +19,14 @@ import de.pentasys.SilverPen.service.ProjectService;
 import de.pentasys.SilverPen.service.UserModService;
 
 @Named
-@RequestScoped
-public class UserProjView {
+@SessionScoped
+public class UserProjView implements Serializable {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     @Inject
     private ProjectService projService;
     
@@ -65,23 +71,24 @@ public class UserProjView {
 
     @SuppressWarnings("unchecked")
     public void onTransfer (TransferEvent e){
-        log.info("Entering onTransfer");
-        log.info("User has Projects: "+ user.getProjects().size());
         List<Project> items = (List<Project>) e.getItems();
         if (e.isAdd()){
             for (Project proj : items){
-                user.getProjects().add(proj);
+                target.add(proj);
+                source.remove(proj);
             }
         } else {
             for (Project proj : items){
-                user.getProjects().remove(proj);
+                target.remove(proj);
+                source.add(proj);
             }
         }
-        log.info("User now has Projects: "+ user.getProjects().size());
+        log.info("target size is: "+target.size());
     }
     
     public void persist(){
-        projService.persist(user);
+        log.info("Targetlist size: "+target.size()+", sourcelist size: "+source.size());
+        projService.persist(user, target, source);
     }
     
     public DualListModel<Project> getProjects() {
@@ -102,5 +109,4 @@ public class UserProjView {
         
         return result;
     }
-
 }
