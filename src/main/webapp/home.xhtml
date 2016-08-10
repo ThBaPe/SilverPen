@@ -34,7 +34,7 @@
 					<p:menuitem value="Benutzerübersicht" outcome="user_list" />
 				</p:submenu>
 				<p:submenu label="Projektverwaltung" rendered="#{homeView.admin}">
-					<p:menuitem value="Kundenprojekt anlegen" actionListener="return null;" />
+					<p:menuitem value="Kundenprojekt anlegen" outcome="addproject"/>
 					<p:menuitem value="MA Zuordnung" outcome="user_proj" />
 				</p:submenu>
 			</p:tieredMenu>

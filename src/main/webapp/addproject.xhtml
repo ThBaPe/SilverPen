@@ -24,14 +24,17 @@
 			<p:row>
 				<p:column colspan="2" style="text-align: left;">
 					<p:outputLabel style="font-size: 1.5em !important" value="Projekt erstellen"/></p:column>
-				<p:column  style="text-align: right;" />			
+				<p:column  style="text-align: right;" >
+					<h:link Class="material-icons" style="font-family: 'Material Icons'; font-size: 1.5em !important; font-weight: normal; margin-right: 5px;" value="folder_shared" outcome="user_proj"/>
+					<h:link Class="material-icons" style="font-family: 'Material Icons'; font-size: 1.5em !important; font-weight: normal;" value="home" outcome="home"/>
+					</p:column>			
 			</p:row>
 		</f:facet>
  		<p:row>
  			<p:column rowspan="2">
-			<p:orderList id="list" value="#{projectView.projectList}" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
+			<p:orderList id="list" value="#{projectView.projectList}" controlsLocation="none" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
 				<f:converter binding="#{projectConverter}" />
-				<p:ajax event="select" listener="#{projectView.onSelect}" update="form:list"/>
+				<p:ajax event="select" listener="#{projectView.onSelect}" update="removeBtn"/>
 			</p:orderList>
  			</p:column>
 			<p:column ><h:outputLabel for="startDate" value="Projektbeginn:" /></p:column>
@@ -46,10 +49,9 @@
 		<f:facet name="footer">
 				<p:row>
 					<p:column colspan="2">
-					<p:commandButton Class="material-icons"
+					<p:commandButton Class="material-icons" id="removeBtn"
 						style="font-size: 1.5em !important; font-weight: normal"
 						value="remove" action="#{projectView.removeSelectedProject()}"
-						rendered="#{projectView.curSelection != null}"
 						update="form" />
 					</p:column>
 					<p:column style="text-align: right;">
