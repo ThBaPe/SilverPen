@@ -133,8 +133,11 @@ public class ProjectView implements Serializable{
     }
 
     public void removeSelectedProject() {
-        lg.info("onRemoveProjectSelection: " + projectSelection);
-        ps.removeProject(projectSelection);
+        if(showRemoveBtn)
+        {
+            lg.info("onRemoveProjectSelection: " + projectSelection);
+            ps.removeProject(projectSelection);
+        }
         init();
     }
     

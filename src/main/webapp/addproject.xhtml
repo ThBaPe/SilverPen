@@ -31,7 +31,7 @@
  			<p:column rowspan="2">
 			<p:orderList id="list" value="#{projectView.projectList}" controlsLocation="none" var="pro" itemLabel="#{pro}" itemValue="#{pro}">
 				<f:converter binding="#{projectConverter}" />
-				<p:ajax event="select" listener="#{projectView.onSelect}" update="form"/>
+				<p:ajax event="select" listener="#{projectView.onSelect}" update="removeBtn"/>
 			</p:orderList>
  			</p:column>
 			<p:column ><h:outputLabel for="startDate" value="Projektbeginn:" /></p:column>
@@ -46,10 +46,9 @@
 		<f:facet name="footer">
 				<p:row>
 					<p:column colspan="2">
-					<p:commandButton Class="material-icons"
+					<p:commandButton Class="material-icons" id="removeBtn"
 						style="font-size: 1.5em !important; font-weight: normal"
 						value="remove" action="#{projectView.removeSelectedProject()}"
-						rendered="#{projectView.showRemoveBtn}"
 						update="form" />
 					</p:column>
 					<p:column style="text-align: right;">
