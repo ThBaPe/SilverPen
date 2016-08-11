@@ -63,6 +63,15 @@ public class ProjectService {
             }
         }
         
+        for (Project proj : projects){
+            if (!proj.getUsers().contains(user)){
+                Project changeProject = em.find(Project.class, proj.getId());
+                changeProject.getUsers().add(user);
+                
+                em.persist(changeProject);
+            }
+        }
+        
         em.persist(changeUser);
     }
     

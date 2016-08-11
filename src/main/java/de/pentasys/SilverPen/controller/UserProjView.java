@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,7 +19,7 @@ import de.pentasys.SilverPen.service.ProjectService;
 import de.pentasys.SilverPen.service.UserModService;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class UserProjView implements Serializable {
     
     /**
@@ -104,7 +104,12 @@ public class UserProjView implements Serializable {
         
         for (Project proj : target){
             int i = result.indexOf(proj);
-            result.remove(i);
+            if (i == -1){
+                result.clear();
+                return result;
+            } else {
+                result.remove(i);
+            }
         }
         
         return result;
