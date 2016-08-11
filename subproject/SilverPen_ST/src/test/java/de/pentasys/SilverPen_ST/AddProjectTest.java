@@ -1,6 +1,7 @@
 package de.pentasys.SilverPen_ST;
 
 import java.util.regex.Pattern;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -26,25 +27,42 @@ public class AddProjectTest {
 
     @Test
     public void testSignUp6() throws Exception {
-        
+
+        // Einen Benutzer anmelden
         SignInTest signIn = new SignInTest(driver,baseUrl);
         signIn.signinUser("Thomas", "SilverPen", true);
-
-        
-        WebElement menu4 =  driver.findElement(By.xpath("//*[@id='navigation:j_idt8']/ul/li[4]"));
+       
+        // Home -> Projektverwaltung
+        WebElement menuProj =  driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Projektverwaltung']/../.."));
         Actions action = new Actions(driver);
-        action.moveToElement(menu4).perform();
-        Thread.sleep(2000);
+        action.moveToElement(menuProj).perform();
+        Thread.sleep(500);
         driver.findElement(By.linkText("Kundenprojekt anlegen")).click();
-        Thread.sleep(2000);
-        
-//      driver.get(baseUrl + "/SilverPen/addproject.jsf");
-      driver.findElement(By.id("form:customer")).clear();
-      driver.findElement(By.id("form:customer")).sendKeys("Test");
-      driver.findElement(By.id("form:j_idt25")).click();
-      driver.findElement(By.xpath("//*[@id='form:gridProject']//a[text()='home']")).click();
-      Thread.sleep(2000);
+        Thread.sleep(500);
 
+        String sProjName = UUID.randomUUID().toString().replace("-", "");
+        driver.findElement(By.id("form:customer")).clear();
+        driver.findElement(By.id("form:customer")).sendKeys(sProjName);
+        driver.findElement(By.id("form:addBtn")).click();
+        Thread.sleep(500);
+
+        
+        WebElement lastProjectInList = driver.findElement(By.xpath("//div[@id='form:list']//li[last()]"));
+        String lastListProject = lastProjectInList.getText();
+        lastProjectInList.click();
+        Thread.sleep(500);
+        driver.findElement(By.id("form:removeBtn")).click();
+        Thread.sleep(500);
+        String lastListProject2 = driver.findElement(By.xpath("//div[@id='form:list']//li[last()]")).getText();
+
+        boolean addDone = lastListProject.contains(sProjName);
+        boolean removeDone = !lastListProject.equals(lastListProject2);
+
+        assertTrue(addDone && removeDone);
+        
+        // Projektverwaltung -> Home
+        driver.findElement(By.xpath("//*[@id='form:gridProject']//a[text()='home']")).click();
+        Thread.sleep(500);
     }
 
     @After

@@ -39,11 +39,11 @@ public class ProjectAssignTest {
 		signIn.signinUser("Thomas", "SilverPen", true);
 
 		// Gehe zur Projektverwaltung
-		WebElement hoverElement = driver.findElement(By.xpath("//*[@id='navigation:j_idt8']/ul/li[4]"));
+		WebElement hoverElement = driver.findElement(By.xpath("//*[@id='navigation:menu']/ul/li[4]"));
 		Actions action = new Actions(driver);
 		action.moveToElement(hoverElement);
 		action.perform();
-		driver.findElement(By.xpath("//div[@id='navigation:j_idt8']/ul/li[4]/ul/li[2]")).click();
+		driver.findElement(By.xpath("//div[@id='navigation:menu']/ul/li[4]/ul/li[2]")).click();
 
 		// Suche einen Nutzer
 		driver.findElement(By.id("user_search:searchUser_input")).clear();
@@ -74,11 +74,11 @@ public class ProjectAssignTest {
 		signIn.signinUser("Thomas", "SilverPen", true);
 
 		// Gehe zur Projektverwaltung
-		hoverElement = driver.findElement(By.xpath("//*[@id='navigation:j_idt8']/ul/li[4]"));
+		hoverElement = driver.findElement(By.xpath("//*[@id='navigation:menu']/ul/li[4]"));
 		action = new Actions(driver);
 		action.moveToElement(hoverElement);
 		action.perform();
-		driver.findElement(By.xpath("//div[@id='navigation:j_idt8']/ul/li[4]/ul/li[2]")).click();
+		driver.findElement(By.xpath("//div[@id='navigation:menu']/ul/li[4]/ul/li[2]")).click();
 
 		// Suche einen Nutzer
 		driver.findElement(By.id("user_search:searchUser_input")).clear();
