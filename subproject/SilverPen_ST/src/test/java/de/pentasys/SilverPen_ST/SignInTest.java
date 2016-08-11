@@ -16,6 +16,20 @@ public class SignInTest {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
+    public SignInTest() {
+        // TODO Auto-generated constructor stub
+    }
+
+    public SignInTest(WebDriver externalDriver, String externalBaseURL) {
+        driver = externalDriver;
+        baseUrl = externalBaseURL;
+        // TODO Auto-generated constructor stub
+    }
+
+    
+    
+    
+    
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
@@ -29,7 +43,7 @@ public class SignInTest {
      * @param pwd Das Passwort
      * @param expected erwartetes Ergebnis für die Ausführung
      */
-    private void signinUser(String name, String pwd, boolean expected) {
+    public void signinUser(String name, String pwd, boolean expected) {
         driver.get(baseUrl + "/SilverPen/signin.jsf");
         driver.findElement(By.id("j_idt9:name")).click();
         driver.findElement(By.id("j_idt9:name")).clear();
@@ -42,8 +56,8 @@ public class SignInTest {
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         
-        String message = driver.findElement(expected ? By.id("form:messages") : By.id("j_idt9:messages")).getText();
-        String titleElementText = driver.findElement(By.className("titlebarItem")).getText();
+        String message = driver.findElement(expected ? By.id("menumessages") : By.id("j_idt9:messages")).getText();
+        String titleElementText = driver.findElement(By.id("form:session_user_info")).getText();
         
         assertFalse(titleElementText.isEmpty());
         
