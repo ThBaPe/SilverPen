@@ -51,7 +51,7 @@ public class SingUpTest {
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String message = driver.findElement(expected ? By.id("form:messages") : By.id("j_idt6:messages")).getText();
+        String message = driver.findElement(expected ? By.id("menumessages") : By.id("j_idt6:messages")).getText();
         assertFalse(message.isEmpty());
 
         boolean loginResultOK = message.contains("war erfolgreich");

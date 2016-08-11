@@ -50,7 +50,7 @@
 			<p:row>
 				<p:column colspan="4" style="text-align: left;">
 					<h:link style="font-size: 1.0em !important" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
-					<p:outputLabel style="font-size: 1.5em !important" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" /></p:column>
+					<p:outputLabel id="session_user_info" style="font-size: 1.5em !important" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" /></p:column>
 				<p:column  style="text-align: right;" >
 					<p:commandButton class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="exit_to_app"  action="#{homeView.logout()}" immediate="true" /></p:column>			
 			</p:row>
