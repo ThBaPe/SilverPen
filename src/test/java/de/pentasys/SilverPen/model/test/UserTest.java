@@ -1,8 +1,10 @@
 package de.pentasys.SilverPen.model.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import de.pentasys.SilverPen.model.Role;
@@ -10,31 +12,38 @@ import de.pentasys.SilverPen.model.User;
 
 public class UserTest {
     
-    @Test
-    public void hasRoleTest() {
-        Role role = new Role();
+    private User user1;
+    private User user2;
+    private User user3;
+    
+    private Role role;
+    
+    @Before
+    public void setUpUsers(){
+        role = new Role();
         role.setRolename("Administrator");
         
-        User user = new User();
-        user.getRoles().add(role);
+        user1 = new User();
+        user1.setEmail("test@test.de");
+        user1.getRoles().add(role);
         
-        assertTrue(user.hasRole("Administrator"));
+        user2 = new User();
+        user2.setEmail("test@test.de");
         
-        assertFalse(user.hasRole("LineManager"));
+        user3 = new User();
+        user3.setEmail("wurst@brot.de");
+    }
+    
+    @Test
+    public void hasRoleTest() {      
+        assertThat(user1.hasRole("Administrator"), is(true));
+        assertThat(user1.hasRole("User"), is(false));
     }
     
     @Test
     public void equalsTest(){
-        User user1 = new User();
-        user1.setEmail("test@test.de");
-        User user2 = new User();
-        user2.setEmail("test@test.de");
-        User user3 = new User();
-        user3.setEmail("wurst@brot.de");
-        
-        assertTrue(user1.equals(user2));
-        
-        assertFalse(user1.equals(user3));
+        assertThat(user1, is(user2));
+        assertThat(user1, is(not(user3)));
     }
 
 }
