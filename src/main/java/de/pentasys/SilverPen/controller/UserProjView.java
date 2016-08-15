@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -86,9 +88,15 @@ public class UserProjView implements Serializable {
         log.info("target size is: "+target.size());
     }
     
-    public void persist(){
+    public String persist(){
         log.info("Targetlist size: "+target.size()+", sourcelist size: "+source.size());
         projService.persist(user, target, source);
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Projekte wurden dem Benutzer zugewiesen.", null));
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        
+        return "home.xhtml?faces-redirect=true";
     }
     
     public DualListModel<Project> getProjects() {
