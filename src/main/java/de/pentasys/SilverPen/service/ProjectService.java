@@ -51,13 +51,8 @@ public class ProjectService {
         
         for (Project proj : allProjects){
             if (other.contains(proj)){
-                for (User userInList : proj.getUsers()){
-                    lg.info("User: "+userInList.getEmail());
-                }
                 Project changeProject = em.find(Project.class, proj.getId());
-                boolean removed = changeProject.getUsers().remove(user);
-                
-                lg.info("Is user removed from Project? "+removed);
+                changeProject.getUsers().remove(user);
                 
                 em.persist(changeProject);
             }
