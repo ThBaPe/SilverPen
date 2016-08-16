@@ -51,7 +51,7 @@
 	    	</h:panelGrid>
 	 
 	    	<p:commandButton id="register_button" update="matchGrid" value="Registrieren" action="#{signupView.register(true)}"/>
-	    	<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='home.xhtml'; return null;" style="float: right !important"/>
+	    	<h:commandButton id="cancel_button"  value="Abbrechen" action="USER_HOME" immediate="true" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right !important"/>
 		</h:form>
 	</p:panel>
 

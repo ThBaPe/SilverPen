@@ -13,7 +13,10 @@ import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
 import de.pentasys.SilverPen.util.NoUserException;
+import de.pentasys.SilverPen.util.PageNavigationResult;
 import de.pentasys.SilverPen.util.WrongPasswordException;
+
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Named
@@ -33,6 +36,16 @@ public class SigninView implements Serializable{
     
     @PostConstruct
     public void init() {
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+        if(params.get("action") != null && params.get("action").equals("logout")){
+            loggedIn = false;
+            curSession.setCurrentUser(null);
+        }
+        
+        lg.info("SignIn Param: " + params);
+        
         lg.info("SignInView: " + this );
         lg.info("Injected LoginInfo: " + curSession);
         User curUser = curSession.getCurrentUser();
@@ -63,7 +76,7 @@ public class SigninView implements Serializable{
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Anmeldung war erfolgreich", null));
                 context.getExternalContext().getFlash().setKeepMessages(true);
                 init();
-                retValue = "home.xhtml?faces-redirect=true";
+                retValue = "/secure/home.xhtml?faces-redirect=true";
             }
             
         } catch (NoUserException e) {

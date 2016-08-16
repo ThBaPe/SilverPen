@@ -29,13 +29,13 @@
 					<p:menuitem value="Urlaubsantrag" actionListener="#{mainMenuView.vacation()}" update="menumessages" />
 				</p:submenu>
 				<p:submenu label="Benutzerverwaltung" rendered="#{homeView.admin}" >
-					<p:menuitem value="Benutzer registrieren" outcome="admin_signup" />
-					<p:menuitem value="Benutzer bearbeiten" outcome="user_mod" />
-					<p:menuitem value="Benutzerübersicht" outcome="user_list" />
+					<p:menuitem value="Benutzer registrieren" outcome="SIGNUP_ADMIN" />
+					<p:menuitem value="Benutzer bearbeiten" outcome="USER_RIGHTS" />
+					<p:menuitem value="Benutzerübersicht" outcome="USER_OVERVIEW" />
 				</p:submenu>
 				<p:submenu label="Projektverwaltung" rendered="#{homeView.admin}">
-					<p:menuitem value="Kundenprojekt anlegen" outcome="addproject"/>
-					<p:menuitem value="MA Zuordnung" outcome="user_proj" />
+					<p:menuitem value="Kundenprojekt anlegen" outcome="PROJECT_ADMIN"/>
+					<p:menuitem value="MA Zuordnung" outcome="PROJECT_USER_MATCH" />
 				</p:submenu>
 			</p:tieredMenu>
 		</h:form>
@@ -52,7 +52,9 @@
 					<h:link style="font-size: 1.0em !important" value="!! Unbekannter Benutzer !!" outcome="signin" rendered="#{!signinView.loggedIn}"/>
 					<p:outputLabel id="session_user_info" style="font-size: 1.5em !important" value="Angemeldet:  #{signinView.loginName}"  rendered="#{signinView.loggedIn}" /></p:column>
 				<p:column  style="text-align: right;" >
-					<p:commandButton class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="exit_to_app"  action="#{homeView.logout()}" immediate="true" /></p:column>			
+				<h:link styleClass="material-icons"  style="text-decoration: none;" value="exit_to_app" outcome="USER_SIGNIN">
+					<f:param name="action" value="logout" />
+				</h:link></p:column>			
 			</p:row>
 		</f:facet>
 	 

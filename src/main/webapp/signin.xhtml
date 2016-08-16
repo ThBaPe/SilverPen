@@ -15,10 +15,10 @@
 	<p:panel id="login_panel" style="width: 40%;">
 		<div class="titlebar">
 			<p:outputLabel class="titlebarItem" value="Anmelden"
-				rendered="#{!signinView.loggedIn}" />
+				rendered="#{loginInfo.currentUser == null}" />
 			<h:outputLabel class="titlebarItem"
 				value="Hallo #{signinView.loginName}"
-				rendered="#{signinView.loggedIn}" />
+				rendered="#{loginInfo.currentUser != null}" />
 		</div>
 
 		<h:form>

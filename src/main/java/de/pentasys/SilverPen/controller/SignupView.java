@@ -15,6 +15,7 @@ import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
+import de.pentasys.SilverPen.util.PageNavigationResult;
 import de.pentasys.SilverPen.util.UserExistsException;
 import de.pentasys.SilverPen.util.Validator;
 
@@ -54,6 +55,10 @@ public class SignupView implements Serializable{
         for(Role role : roles){
             userRoles.put(role.getRolename(), role.getRolename());
         }
+    }
+    
+    public String cancel(){
+        return PageNavigationResult.USER_HOME.toString();
     }
     
     public String register() {

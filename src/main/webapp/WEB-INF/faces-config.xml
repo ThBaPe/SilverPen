@@ -1,31 +1,60 @@
 <?xml version="1.0"?>
-<!--
-    JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
-    contributors by the @authors tag. See the copyright.txt in the
-    distribution for a full listing of individual contributors.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
- Marker file indicating JSF 2.2 should be enabled in the application -->
+<!-- JBoss, Home of Professional Open Source Copyright 2013, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. Marker 
+	file indicating JSF 2.2 should be enabled in the application -->
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
- 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
- <application>
-  <locale-config>
-   <default-locale>de</default-locale>
-  </locale-config>
-  <message-bundle>Messages_de</message-bundle>
- </application>
- <lifecycle>
-  <phase-listener>de.pentasys.SilverPen.util.DebugPhaseListener</phase-listener>
- </lifecycle>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+	<navigation-rule>
+		<from-view-id>/secure/*</from-view-id>
+		<navigation-case>
+			<from-outcome>USER_HOME</from-outcome>
+			<to-view-id>/secure/home.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>PROJECT_ADMIN</from-outcome>
+			<to-view-id>/secure/addproject.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>PROJECT_USER_MATCH</from-outcome>
+			<to-view-id>/secure/user_proj.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>USER_OVERVIEW</from-outcome>
+			<to-view-id>/secure/user_list.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>USER_RIGHTS</from-outcome>
+			<to-view-id>/secure/user_mod.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>USER_SIGNIN</from-outcome>
+			<to-view-id>/signin.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>SIGNUP</from-outcome>
+			<to-view-id>/signup.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>SIGNUP_ADMIN</from-outcome>
+			<to-view-id>/secure/admin_signup.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<application>
+		<locale-config>
+			<default-locale>de</default-locale>
+		</locale-config>
+		<message-bundle>Messages_de</message-bundle>
+	</application>
+	<lifecycle>
+		<phase-listener>de.pentasys.SilverPen.util.DebugPhaseListener</phase-listener>
+	</lifecycle>
 </faces-config>

@@ -22,6 +22,7 @@ import org.primefaces.event.SelectEvent;
 import de.pentasys.SilverPen.model.Hour;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.TimeRegisterService;
+import de.pentasys.SilverPen.util.PageNavigationResult;
 
 
 @Named
@@ -37,8 +38,7 @@ public class HomeView {
     @Inject private TimeRegisterService serviceTime;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
-   
-
+ 
     @PostConstruct
     public void init() {
 
@@ -74,14 +74,11 @@ public class HomeView {
     }
 
     
-    public String registerUser(){
-        return "admin_signup.xhtml";
-    }
-    
+
     public String logout(){
         curLogin.setCurrentUser(null);
         lg.info("User-State after logout: "+curLogin.getCurrentUser());
-        return "signin.xhtml?faces-redirect=true";
+        return PageNavigationResult.USER_SIGNIN.toString();
     }
     
     public Hour getCurHour() {

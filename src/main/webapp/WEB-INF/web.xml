@@ -10,7 +10,18 @@
 	<context-param>
     	<param-name>primefaces.THEME</param-name>
     	<param-value>blitzer</param-value>
-    </context-param> 
+    </context-param>
+     <!-- Login filter -->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>de.pentasys.SilverPen.controller.SigninFilter</filter-class>
+    </filter>
+    <!-- Set the login filter to secure all the pages in the /secured/* path of the application  -->
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -27,6 +38,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>signin.jsf</welcome-file>
+        <welcome-file>/secure/home.jsf</welcome-file>
     </welcome-file-list>
 </web-app>
