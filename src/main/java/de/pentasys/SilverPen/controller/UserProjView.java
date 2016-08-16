@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,7 +22,7 @@ import de.pentasys.SilverPen.service.ProjectService;
 import de.pentasys.SilverPen.service.UserModService;
 
 @Named
-@ViewScoped
+@ConversationScoped
 public class UserProjView implements Serializable {
     
     /**
@@ -38,6 +39,9 @@ public class UserProjView implements Serializable {
     @Inject
     private Logger log;
     
+    @Inject
+    private Conversation conversation;
+    
     private DualListModel<Project> projects;
     private List<Project> source;
     private List<Project> target;
@@ -45,6 +49,7 @@ public class UserProjView implements Serializable {
     
     @PostConstruct
     public void init(){
+        conversation.begin();
         target = new ArrayList<Project>();
         source = new ArrayList<Project>();
         projects = new DualListModel<Project>(source, target);
@@ -96,6 +101,7 @@ public class UserProjView implements Serializable {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Projekte wurden dem Benutzer zugewiesen.", null));
         context.getExternalContext().getFlash().setKeepMessages(true);
         
+        conversation.end();
         return "home.xhtml?faces-redirect=true";
     }
     
