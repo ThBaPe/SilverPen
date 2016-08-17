@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,6 +28,7 @@ import javax.persistence.Table;
 @Table(name = "USER")
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     public static final String existsUser = "User.existsUser";
     public static final String allUsers = "User.allUsers";
 
@@ -37,7 +39,11 @@ public class User implements Serializable {
     private String username;
     @Column(nullable = false)
     private String password;
-    private static final long serialVersionUID = 1L;
+    @Column(precision = 80)
+    private String location;
+    
+    @ManyToOne(fetch=FetchType.EAGER)
+    private Line line;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Collection<Role> roles = new LinkedList<Role>();
