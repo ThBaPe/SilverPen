@@ -19,35 +19,36 @@
 			<h:panelGrid columns="2" id="matchGrid" cellpadding="5">
 				
 				<h:outputLabel for="leader" value="Leiter: *" />
-				<p:inputText id="leader" value="" required="true" requiredMessage="Sie müssen einen Workshopleiter angeben!" />
+				<p:inputText id="leader" value="#{workshopCreateView.leader}" required="true" requiredMessage="Sie müssen einen Workshopleiter angeben!" />
 				
 				<h:outputLabel for="operator" value="Veranstalter: *" />
-				<p:inputText id="operator" value="" required="true" requiredMessage="Sie müssen einen Veranstalter angeben!"/>
+				<p:inputText id="operator" value="#{workshopCreateView.operator}" required="true" requiredMessage="Sie müssen einen Veranstalter angeben!"/>
+				
+				<h:outputLabel for="location" value="Ort: *" />
+				<p:inputText id="location" value="#{workshopCreateView.location}" required="true" requiredMessage="Sie müssen einen Veranstaltungsort angeben!" />
 				
 				<h:outputLabel for="name" value="Bezeichnung: *" />
-				<p:inputText id="name" value="" required="true" requiredMessage="Sie müssen eine Bezeichnung angeben!" />
+				<p:inputText id="name" value="#{workshopCreateView.name}" required="true" requiredMessage="Sie müssen eine Bezeichnung angeben!" />
 				
 	 			<h:outputLabel for="start" value="Start: *" />
-				<p:calendar id="start" value="#{workshopCreateView.dateFrom}" showOn="focus" required="true" requiredMessage="Sie müssen ein Startdatum angeben!">
-					<p:ajax event="dateSelect" listener="#{workshopCreateView.onDateSelect}"/>
-				</p:calendar>
+				<p:calendar id="start" value="#{workshopCreateView.dateFrom}" showOn="focus" required="true" requiredMessage="Sie müssen ein Startdatum angeben!" />
 				
 				<h:outputLabel for="end" value="Ende: " />
 				<p:calendar id="end" value="#{workshopCreateView.dateTo}" showOn="focus" />
 				
 				<h:outputLabel for="description" value="Beschreibung: " />
-				<p:inputTextarea rows="10" cols="50" />
+				<p:inputTextarea id="description" rows="10" cols="50" value="#{workshopCreateView.description}"/>
 				
 				<h:outputLabel for="state" value="Status: *" />
-				<p:inputText id="state" value="" required="true" requiredMessage="Sie müssen einen Status angeben!"/>
+				<p:inputText id="state" value="#{workshopCreateView.state}" required="true" requiredMessage="Sie müssen einen Status angeben!"/>
 				
 				<h:outputLabel for="maximum" value="Maximale Teilnehmer: *" />
-				<p:inputNumber id="maximum" value="" required="true" requiredMessage="Sie müssen eine Maximalanzahl an Teilnehmern angeben!" />
+				<p:inputNumber id="maximum" value="#{workshopCreateView.maximum}" required="true" requiredMessage="Sie müssen eine Maximalanzahl an Teilnehmern angeben!" />
 			</h:panelGrid>
 			<p:outputLabel value="Mit * gekennzeichnete Felder sind Pflichtfelder."></p:outputLabel>
 			<br />
 			<br />
-			<p:commandButton id="save_button" update="matchGrid" value="Speichern" />
+			<p:commandButton id="save_button" update="matchGrid" value="Speichern" action="#{workshopCreateView.addWorkshop()}"/>
 	    	<h:commandButton id="cancel_button"  value="Abbrechen" action="USER_HOME" immediate="true" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right !important"/>
 	    	
 		</h:form>
