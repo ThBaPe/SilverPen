@@ -1,6 +1,6 @@
 package de.pentasys.SilverPen.service.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -17,17 +17,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.pentasys.SilverPen.model.Hour;
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.model.booking.BookingItem;
+import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.service.TimeRegisterService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TimeRegisterServiceTest {
 
     private static User loggedIn;
-    private static Hour toTime;
+    private static BookingItem toTime;
     private static Project proSP;
 
     @Mock
@@ -54,7 +55,7 @@ public class TimeRegisterServiceTest {
         loggedIn.setProjects(new LinkedList<Project>());
         loggedIn.setRoles(new LinkedList<Role>());
         
-        toTime = new Hour();
+        toTime = new ProjectBooking();
         toTime.setId(1);
         toTime.setStart(new Date());
         toTime.setStop(new Date());

@@ -13,6 +13,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import de.pentasys.SilverPen.model.booking.BookingItem;
+
 @Entity
 @Table(name = "Workshop")
 public class Workshop {
@@ -53,13 +55,13 @@ public class Workshop {
     private int maxParticipants;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Collection<Hour> hours;
+    private Collection<BookingItem> hours;
 
-    public Collection<Hour> getHours() {
+    public Collection<BookingItem> getHours() {
         return hours;
     }
 
-    public void setHours(Collection<Hour> hours) {
+    public void setHours(Collection<BookingItem> hours) {
         this.hours = hours;
     }
 
