@@ -1,6 +1,7 @@
-package de.pentasys.SilverPen.model;
+package de.pentasys.SilverPen.model.booking;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -9,8 +10,9 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "VACATION")
-public class Vacation extends Hour{
+@Table(name = "VACATIONBOOKING")
+@DiscriminatorValue("Vacation")
+public class VacationBooking extends BookingItem{
  
     public String getStatus() {
         return status;

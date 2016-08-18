@@ -1,25 +1,15 @@
 package de.pentasys.SilverPen.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
-import org.primefaces.event.SelectEvent;
-
-
-import de.pentasys.SilverPen.model.Hour;
+import de.pentasys.SilverPen.model.booking.BookingItem;
+import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.TimeRegisterService;
 import de.pentasys.SilverPen.util.PageNavigationResult;
@@ -30,7 +20,7 @@ import de.pentasys.SilverPen.util.PageNavigationResult;
 public class HomeView {
 
     private java.util.Date curDate;
-    private Hour curHour;
+    private BookingItem curHour;
     private String project;
     private String category;
 
@@ -43,7 +33,7 @@ public class HomeView {
     public void init() {
 
         curDate = new Date();
-        curHour = new Hour();
+        curHour = new ProjectBooking();
         curHour.setStart(new Date());
         curHour.setStop(new Date());
  
@@ -81,11 +71,11 @@ public class HomeView {
         return PageNavigationResult.USER_SIGNIN.toString();
     }
     
-    public Hour getCurHour() {
+    public BookingItem getCurHour() {
         return curHour;
     }
 
-    public void setCurHour(Hour curHour) {
+    public void setCurHour(BookingItem curHour) {
         this.curHour = curHour;
     }
 

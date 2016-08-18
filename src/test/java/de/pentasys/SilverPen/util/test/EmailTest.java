@@ -1,4 +1,4 @@
-package de.pentasys.SilverPen.service.test;
+package de.pentasys.SilverPen.util.test;
 
 import javax.mail.MessagingException;
 
