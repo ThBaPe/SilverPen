@@ -32,10 +32,10 @@ public class ProjectServiceTest {
 	private static Project project1;
 	private static Project project2;
 
-	@Mock(name = "em")
+	@Mock
 	private static EntityManager em;
 
-	@Mock(name = "lg")
+	@Mock
 	private static Logger lg;
 
 	@InjectMocks

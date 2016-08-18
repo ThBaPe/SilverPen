@@ -18,17 +18,8 @@ public class ProjectService {
 	@Inject
     EntityManager em;
 
-	// Mockito Test 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
 	@Inject Logger lg;
     
-    public void setLg(Logger lg) {
-		this.lg = lg;
-	}
-
 	public Collection<Project> getUserProjects(String userEmail){
         TypedQuery<User> query = em.createQuery(
                 "SELECT u "+
