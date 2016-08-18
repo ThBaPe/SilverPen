@@ -14,64 +14,59 @@ import javax.mail.internet.MimeMessage;
 
 public final class Email {
 
-	Properties mailServerProperties;
-	Session getMailSession;
-	MimeMessage msg;
-	Authenticator auth;
+    Properties mailServerProperties;
+    Session getMailSession;
+    MimeMessage msg;
+    Authenticator auth;
 
-	private class SMTPAuthenticator extends Authenticator {
-		private PasswordAuthentication authentication;
+    private class SMTPAuthenticator extends Authenticator {
+        private PasswordAuthentication authentication;
 
-		public SMTPAuthenticator(String login, String password) {
-			authentication = new PasswordAuthentication(login, password);
-		}
+        public SMTPAuthenticator(String login, String password) {
+            authentication = new PasswordAuthentication(login, password);
+        }
 
-		@Override
-		protected PasswordAuthentication getPasswordAuthentication() {
-			return authentication;
-		}
-	}
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return authentication;
+        }
+    }
 
-	/**
-	 * Sendet eine Registrierungsbestätigung an einen Nutzer
-	 * 
-	 * @param username
-	 *            Name des Nutzers der sich registriert hat
-	 * @param mailAdress
-	 *            Mailadresse an die die Registrierungsbestätigung verschickt
-	 *            werden soll
-	 * @throws AddressException
-	 * @throws MessagingException
-	 * 
-	 * 
-	 */
-	public void sendRegistrationConfirmationMail(String username, String mailAdress)
-			throws AddressException, MessagingException {
-		msg = new MimeMessage(getMailSession);
-		try {
-			msg.setText("Sie haben sich unter dem Nutzernamen: " + username + " erfolgreich bei SilverPen registriert");
-			msg.setSubject("Nutzer " + username + " erfolgreich registriert");
-			msg.setFrom(new InternetAddress("silverpentest@gmail.com"));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailAdress));
-			Transport.send(msg);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Sendet eine Registrierungsbestätigung an einen Nutzer
+     * 
+     * @param username
+     *            Name des Nutzers der sich registriert hat
+     * @param mailAdress
+     *            Mailadresse an die die Registrierungsbestätigung verschickt
+     *            werden soll
+     * @throws AddressException
+     * @throws MessagingException
+     * 
+     */
+    public void sendRegistrationConfirmationMail(String username, String mailAdress) throws AddressException, MessagingException {
+        msg = new MimeMessage(getMailSession);
+        msg.setText("Sie haben sich unter dem Nutzernamen: " + username + " erfolgreich bei SilverPen registriert");
+        msg.setSubject("Nutzer " + username + " erfolgreich registriert");
+        msg.setFrom(new InternetAddress("no-reply@silverpen.de"));
+        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailAdress));
+        Transport.send(msg);
+    }
 
-	/**
-	 * @param mailHost
-	 * @param port
-	 * @param login
-	 * @param pass
-	 */
-	public Email(String mailHost, int port, String login, String pass) {
-		mailServerProperties = new Properties();
-		mailServerProperties.setProperty("mail.host", mailHost);
-		mailServerProperties.setProperty("mail.smtp.port", "" + port);
-		mailServerProperties.setProperty("mail.smtp.auth", "true");
-		mailServerProperties.setProperty("mail.smtp.starttls.enable", "true");
-		auth = new SMTPAuthenticator(login, pass);
-		getMailSession = Session.getInstance(mailServerProperties, auth);
-	}
+    /**
+     * @param mailHost
+     * @param port
+     * @param login
+     * @param pass
+     */
+    public Email(String mailHost, int port, String login, String pass) {
+        mailServerProperties = new Properties();
+        mailServerProperties.setProperty("mail.host", mailHost);
+        mailServerProperties.setProperty("mail.smtp.port", "" + port);
+        mailServerProperties.setProperty("mail.smtp.auth", "true");
+        mailServerProperties.setProperty("mail.smtp.starttls.enable", "true");
+        mailServerProperties.put("mail.smtp.ssl.trust", mailHost);
+        auth = new SMTPAuthenticator(login, pass);
+        getMailSession = Session.getInstance(mailServerProperties, auth);
+    }
 }
