@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,8 +13,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.SystemException;
 
+import de.pentasys.SilverPen.model.Constraint;
 import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.util.ConfirmationException;
 import de.pentasys.SilverPen.util.NoUserException;
 import de.pentasys.SilverPen.util.UserExistsException;
 import de.pentasys.SilverPen.util.Validator;
@@ -113,7 +116,7 @@ public class UserAccountService {
         return user;
     }
     
-    public User login(String name, String password) throws NoUserException, WrongPasswordException {
+    public User login(String name, String password) throws NoUserException, WrongPasswordException, ConfirmationException {
         List<User> result;
         if (Validator.isEmailValid(name)){
             TypedQuery<User> query = entityManager.createQuery(
@@ -134,6 +137,17 @@ public class UserAccountService {
         }
         
         User user = result.get(0);
+        
+        // Prüfen ob noch die Freigabe erfolgen muss
+        TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUser,Constraint.class);
+        Boolean isLoginConfirmationDone = query.setParameter("user", user)
+                                                .setParameter("type",Constraint.ConstraintType.LOGIN_CONFIRMATION)
+                                                .getResultList().size() == 0;
+
+        if(isLoginConfirmationDone) {
+            throw new ConfirmationException("User has to confirm registration");
+        }
+        
         
         String checkPw = user.getPassword();
         
@@ -194,5 +208,5 @@ public class UserAccountService {
         
         return encryptedPassword;
     }
-    
+
 }
