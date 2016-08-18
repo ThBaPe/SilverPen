@@ -16,12 +16,19 @@
         <filter-name>LoginFilter</filter-name>
         <filter-class>de.pentasys.SilverPen.controller.SigninFilter</filter-class>
     </filter>
+    <filter>
+    	<filter-name>ConfirmLinkFilter</filter-name>
+    	<filter-class>de.pentasys.SilverPen.controller.ConfirmLinkFilter</filter-class>
+    </filter>
     <!-- Set the login filter to secure all the pages in the /secured/* path of the application  -->
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
-    
+    <filter-mapping>
+        <filter-name>ConfirmLinkFilter</filter-name>
+        <url-pattern>/ExternalLink/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
