@@ -16,7 +16,7 @@ public abstract class AbstractUUIDEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    protected String id;
     
     
     public String getId() {

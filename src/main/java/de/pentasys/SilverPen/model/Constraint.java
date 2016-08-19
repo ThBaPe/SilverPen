@@ -23,13 +23,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "Constraint.findByUserAndType",  query = "SELECT c FROM Constraint c Where c.user = :user AND c.type = :type")
 })
 @Entity
-@Table(name="CONSTRAINT")
+@Table(name="USERCONSTRAINT")
 public class Constraint extends AbstractUUIDEntity {
     public static final String findByUUID = "Constraint.findByUUID";
     public static final String findByUser = "Constraint.findByUser";
     public static final String findByUserAndType = "Constraint.findByUserAndType";
-    
-
     
     public enum ConstraintType{
         LOGIN_CONFIRMATION

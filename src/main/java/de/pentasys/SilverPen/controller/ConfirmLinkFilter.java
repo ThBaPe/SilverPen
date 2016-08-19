@@ -41,16 +41,6 @@ public class ConfirmLinkFilter implements Filter {
         lg.info("FilterRequest: " + reqURL);
         lg.info("UUID: " + externalLink);
         
-        
-        
-        if(curSession.getCurrentUser() != null) {
-            String linkID = userService.addConstraint(ConstraintType.LOGIN_CONFIRMATION, curSession.getCurrentUser());
-            lg.info("linkID: " + linkID);
-            Boolean bDone = userService.callExternalLink(linkID);
-            lg.info("bDone: " + bDone);
-        }
-        
-        
         if(!externalLink.isEmpty() 
                 && userService.callExternalLink(externalLink)) {
             

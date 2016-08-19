@@ -142,14 +142,14 @@ public class UserAccountService {
         User user = result.get(0);
         
         // Prüfen ob noch die Freigabe erfolgen muss
-//        TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUserAndType,Constraint.class);
-//        Boolean isLoginConfirmationDone = query.setParameter("user", user)
-//                                                .setParameter("type",Constraint.ConstraintType.LOGIN_CONFIRMATION)
-//                                                .getResultList().size() == 0;
+        TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUserAndType,Constraint.class);
+        Boolean isLoginConfirmationDone = query.setParameter("user", user)
+                                                .setParameter("type",Constraint.ConstraintType.LOGIN_CONFIRMATION)
+                                                .getResultList().size() == 0;
 
-//        if(isLoginConfirmationDone) {
-//            throw new ConfirmationException("User has to confirm registration");
-//        }
+        if(!isLoginConfirmationDone) {
+            throw new ConfirmationException("User has to confirm registration");
+        }
         
         
         String checkPw = user.getPassword();
