@@ -18,7 +18,7 @@ import javax.persistence.Table;
  *
  */
 @NamedQueries({ 
-    @NamedQuery(name = "Constraint.findByUUID",         query = "SELECT c FROM Constraint c Where c.id = :constraint"), 
+    @NamedQuery(name = "Constraint.findByUUID",         query = "SELECT c FROM Constraint c Where c.id = :uuid"), 
     @NamedQuery(name = "Constraint.findByUser",         query = "SELECT c FROM Constraint c Where c.user = :user"),
     @NamedQuery(name = "Constraint.findByUserAndType",  query = "SELECT c FROM Constraint c Where c.user = :user AND c.type = :type")
 })
@@ -30,6 +30,7 @@ public class Constraint extends AbstractUUIDEntity {
     public static final String findByUserAndType = "Constraint.findByUserAndType";
     
 
+    
     public enum ConstraintType{
         LOGIN_CONFIRMATION
     }

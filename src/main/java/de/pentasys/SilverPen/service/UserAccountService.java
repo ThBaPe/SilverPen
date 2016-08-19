@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,6 +13,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.SystemException;
+
+import org.jboss.resteasy.api.validation.ConstraintType;
 
 import de.pentasys.SilverPen.model.Constraint;
 import de.pentasys.SilverPen.model.Role;
@@ -139,14 +142,14 @@ public class UserAccountService {
         User user = result.get(0);
         
         // Prüfen ob noch die Freigabe erfolgen muss
-        TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUser,Constraint.class);
-        Boolean isLoginConfirmationDone = query.setParameter("user", user)
-                                                .setParameter("type",Constraint.ConstraintType.LOGIN_CONFIRMATION)
-                                                .getResultList().size() == 0;
+//        TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUserAndType,Constraint.class);
+//        Boolean isLoginConfirmationDone = query.setParameter("user", user)
+//                                                .setParameter("type",Constraint.ConstraintType.LOGIN_CONFIRMATION)
+//                                                .getResultList().size() == 0;
 
-        if(isLoginConfirmationDone) {
-            throw new ConfirmationException("User has to confirm registration");
-        }
+//        if(isLoginConfirmationDone) {
+//            throw new ConfirmationException("User has to confirm registration");
+//        }
         
         
         String checkPw = user.getPassword();
@@ -209,4 +212,46 @@ public class UserAccountService {
         return encryptedPassword;
     }
 
+    /**
+     * Fügt eine Beschränkung zu dem Benutzer hinzu
+     * 
+     * @param type Die Art der Beschränkung
+     * @param user Der betroffene Benutzer
+     * @return die UUID der Beschränkung
+     */
+    public String addConstraint(Constraint.ConstraintType type, User user) {
+        Constraint userConstraint = new Constraint();
+        userConstraint.setPinDate(new Date());
+        userConstraint.setType(type);
+        userConstraint.setUser(entityManager.contains(user) ? user : entityManager.merge(user));
+        entityManager.persist(userConstraint);
+
+        return userConstraint.getId();
+    }
+    
+    /**
+     * Verarbeitung von Externen Links
+     * @param linkUUID Die ID des Links
+     * @return true -> Link wurde verarbeitet
+     */
+    public boolean callExternalLink(String linkUUID) {
+        
+        boolean retVal = false;
+                
+        try {
+            // Prüfen ob noch die Freigabe erfolgen muss
+            TypedQuery<Constraint> query = entityManager.createNamedQuery(Constraint.findByUUID,Constraint.class);
+            Constraint constraint = query.setParameter("uuid", linkUUID).getSingleResult();
+            if(constraint.getType() == Constraint.ConstraintType.LOGIN_CONFIRMATION) {
+                logger.info("Linkanfrage konnte verarbeitet werden (" + constraint.getUser().getUsername() + "/" + constraint.getType() + ")" );
+                entityManager.remove(constraint);
+                retVal = true;
+            }
+        } catch (Exception e) {
+            logger.info("Linkanfrage konnte nicht verarbeitet werden: ");
+            e.printStackTrace();
+        }
+        
+        return retVal;
+    }
 }
