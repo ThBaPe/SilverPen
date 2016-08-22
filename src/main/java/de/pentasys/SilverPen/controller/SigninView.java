@@ -12,6 +12,7 @@ import javax.inject.Named;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.UserAccountService;
+import de.pentasys.SilverPen.util.ConfirmationException;
 import de.pentasys.SilverPen.util.NoUserException;
 import de.pentasys.SilverPen.util.PageNavigationResult;
 import de.pentasys.SilverPen.util.WrongPasswordException;
@@ -83,6 +84,8 @@ public class SigninView implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Benutzer konnte nicht angemeldet werden", null));
         } catch (WrongPasswordException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Falsches Passwort", null)); 
+        } catch (ConfirmationException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Bestätigung der Registrierung ist noch ausstehend", null)); 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Interner unbekannter Fehler.", null)); 
         }

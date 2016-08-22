@@ -18,17 +18,8 @@ public class ProjectService {
 	@Inject
     EntityManager em;
 
-	// Mockito Test 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
 	@Inject Logger lg;
     
-    public void setLg(Logger lg) {
-		this.lg = lg;
-	}
-
 	public Collection<Project> getUserProjects(String userEmail){
         TypedQuery<User> query = em.createQuery(
                 "SELECT u "+
@@ -54,12 +45,19 @@ public class ProjectService {
         em.remove(em.contains(removeProject) ? removeProject : em.merge(removeProject));
     }
     
+    /**
+     * Aktualisiert die Freigab eines Benutzers zu den Projekten
+     * @param user      Der betroffene Benutzer
+     * @param projects  Die Projekte die für den Benutzer freigegeben werden sollen
+     * @param other     Die Projekte die dem Benutzer entzogen wurden
+     */
     public void persist(User user, List<Project> projects, List<Project> other){
         User changeUser = em.find(User.class, user.getEmail());
         changeUser.setProjects(projects);
         
         List<Project> allProjects = getAllProjects();
         
+        // Projekte die entzogen wurden löschen
         for (Project proj : allProjects){
             if (other.contains(proj)){
                 Project changeProject = em.find(Project.class, proj.getId());
@@ -69,6 +67,7 @@ public class ProjectService {
             }
         }
         
+        // Freigegebene Projekte eintragen
         for (Project proj : projects){
             if (!proj.getUsers().contains(user)){
                 Project changeProject = em.find(Project.class, proj.getId());
