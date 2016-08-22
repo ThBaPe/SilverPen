@@ -4,8 +4,6 @@
 font-size: 90% !important;
 }
 
-
-
 .ui-widget button:hover{
     color: #cc0000 !important;
     background-color: white !important;
@@ -86,3 +84,19 @@ nav{
 	border-width: 0px !important;
 }
 
+#group{
+	max-width: 650px;
+	display: table;
+	table-layout: fixed;
+}
+
+#formular{
+	display: table-cell;
+	float: left;
+}
+
+#overview{
+	display: table-cell;
+	margin-top: 10px;
+	float: left;
+}

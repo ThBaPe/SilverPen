@@ -43,7 +43,9 @@
 
 	</nav>	
 
-       
+    <div id="group">
+    
+    <div id="formular">
 	<h:form id="form">
 	<p:panelGrid id="gridToTime">
 		<f:facet name="header">
@@ -97,9 +99,25 @@
 	
 	</p:panelGrid>
 	</h:form>
-     
+	</div>
+    
+    <div id="overview">
+    <p:dataTable var="user" value="#{userListView.users}">
+    	<f:facet name="header"> empty </f:facet> 
+    	<p:column headerText="Tag"> 
+    	    #{user.username}   
+    	</p:column> 
+    	<p:column headerText="Stunden"> 
+    		#{user.email} 
+    	</p:column>
+    	<p:column headerText="Gesamt"> 
+    		#{user.password} 
+    	</p:column>
+    	<f:facet name="footer"> empty </f:facet>  
+    </p:dataTable>
+	</div>
 
-
+	</div>
 
 </body>
 </html>

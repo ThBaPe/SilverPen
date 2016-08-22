@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -11,6 +12,7 @@ import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.UserListService;
 
 @Named
+@ManagedBean
 @RequestScoped
 public class UserListView {
     
