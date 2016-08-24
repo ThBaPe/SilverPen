@@ -106,16 +106,16 @@
 	</div>
     
     <div id="overview">
-    <p:dataTable var="user" value="#{userListView.users}">
+    <p:dataTable var="bookingItem" value="#{bookingItemListView.bookingItems}">
     	<f:facet name="header"> empty </f:facet> 
     	<p:column headerText="Tag"> 
-    	    #{user.username}   
+    	    #{bookingItem.start} 
     	</p:column> 
     	<p:column headerText="Stunden"> 
-    		#{user.email} 
+    		#{bookingItem.stop}
     	</p:column>
     	<p:column headerText="Gesamt"> 
-    		#{user.password} 
+    		#{bookingItem.description}
     	</p:column>
     	<f:facet name="footer"> empty </f:facet>  
     </p:dataTable>
