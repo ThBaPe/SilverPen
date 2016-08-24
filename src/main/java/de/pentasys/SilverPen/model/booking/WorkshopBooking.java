@@ -13,16 +13,6 @@ import javax.persistence.Table;
 @Table(name = "WORKSHOPBOOKING")
 @DiscriminatorValue("Workshop")
 public class WorkshopBooking extends BookingItem{
- 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Column(nullable = false)
-    private String status;   
+  
     
 }

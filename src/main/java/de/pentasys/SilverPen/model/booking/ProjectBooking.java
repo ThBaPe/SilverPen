@@ -13,16 +13,4 @@ import javax.persistence.Table;
 @Table(name = "PROJECTBOOKING")
 @DiscriminatorValue("Project")
 public class ProjectBooking extends BookingItem{
- 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Column(nullable = false)
-    private String status;   
-    
 }
