@@ -18,6 +18,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import de.pentasys.SilverPen_ST.SignInTest.LoginState;
+
 public class ProjectAssignTest {
 	private WebDriver driver;
 	private String baseUrl;
@@ -32,19 +34,20 @@ public class ProjectAssignTest {
 	}
 
 	@Test
-	public void testUnit() throws Exception {
+	public void Mitarbeiter_ProjektZuordnung() throws Exception {
 
 		// Login
 		SignInTest signIn = new SignInTest(driver, baseUrl);
-		signIn.signinUser("Thomas", "SilverPen", true);
+		signIn.signinUser("Thomas", "SilverPen", LoginState.noError);
 
 		// Gehe zur Projektverwaltung
-		WebElement hoverElement = driver.findElement(By.xpath("//*[@id='navigation:menu']/ul/li[4]"));
+		WebElement menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Projektverwaltung']/../.."));
 		Actions action = new Actions(driver);
-		action.moveToElement(hoverElement);
-		action.perform();
-		driver.findElement(By.xpath("//div[@id='navigation:menu']/ul/li[4]/ul/li[2]")).click();
-
+		action.moveToElement(menuProj).perform();
+        Thread.sleep(500);
+        driver.findElement(By.linkText("MA Zuordnung")).click();
+        Thread.sleep(500);
+		
 		// Suche einen Nutzer
 		driver.findElement(By.id("user_search:searchUser_input")).clear();
 		driver.findElement(By.id("user_search:searchUser_input")).sendKeys("adrian");
@@ -71,15 +74,16 @@ public class ProjectAssignTest {
 
 		// Login
 		signIn = new SignInTest(driver, baseUrl);
-		signIn.signinUser("Thomas", "SilverPen", true);
+		signIn.signinUser("Thomas", "SilverPen", LoginState.noError);
 
 		// Gehe zur Projektverwaltung
-		hoverElement = driver.findElement(By.xpath("//*[@id='navigation:menu']/ul/li[4]"));
+        menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Projektverwaltung']/../.."));
 		action = new Actions(driver);
-		action.moveToElement(hoverElement);
-		action.perform();
-		driver.findElement(By.xpath("//div[@id='navigation:menu']/ul/li[4]/ul/li[2]")).click();
-
+		action.moveToElement(menuProj).perform();
+		Thread.sleep(500);
+		driver.findElement(By.linkText("MA Zuordnung")).click();
+		Thread.sleep(500);
+		
 		// Suche einen Nutzer
 		driver.findElement(By.id("user_search:searchUser_input")).clear();
 		driver.findElement(By.id("user_search:searchUser_input")).sendKeys("adrian");

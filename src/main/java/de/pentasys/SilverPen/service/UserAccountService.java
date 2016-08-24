@@ -109,6 +109,7 @@ public class UserAccountService {
             
             entityManager.persist(userRole);
             entityManager.persist(user);
+            // nocht nicht aktiviert addConstraint(Constraint.ConstraintType.LOGIN_CONFIRMATION, user);
 
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
 

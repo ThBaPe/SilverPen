@@ -69,6 +69,7 @@ public class SignupView implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Der Benutzer wurde erfolgreich registriert.", null));
             context.getExternalContext().getFlash().setKeepMessages(true);
+            return "/secure/home.xhtml?faces-redirect=true";
 
         } catch (UserExistsException e) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -77,7 +78,7 @@ public class SignupView implements Serializable {
         }
         curSession.setCurrentUser(regUser);
         init();
-        return "/secure/home.xhtml?faces-redirect=true";
+        return "";
     }
 
     public String register(boolean admin) {

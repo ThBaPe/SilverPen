@@ -21,7 +21,7 @@
 				rendered="#{loginInfo.currentUser != null}" />
 		</div>
 
-		<h:form>
+		<h:form id="signinForm">
 			<p:messages id="messages" showDetail="false" autoUpdate="true" />
 			<h:panelGrid columns="1" id="matchGrid" cellpadding="5">
 
@@ -32,7 +32,7 @@
 					placeholder="Passwort" required="true" />
 			</h:panelGrid>
 
-			<p:commandButton update="matchGrid" value="anmelden"
+			<p:commandButton id="login_button" update="matchGrid" value="anmelden"
 				action="#{signinView.login()}" />
 		</h:form>
 
