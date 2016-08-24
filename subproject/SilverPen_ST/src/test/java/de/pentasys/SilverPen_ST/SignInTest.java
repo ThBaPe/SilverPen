@@ -16,6 +16,10 @@ public class SignInTest {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
+    public enum LoginState {
+        noError, UserNotExists, WrongPWD, LinkAuthRequired }
+    
+    
     public SignInTest() {
         // TODO Auto-generated constructor stub
     }
@@ -43,40 +47,76 @@ public class SignInTest {
      * @param pwd Das Passwort
      * @param expected erwartetes Ergebnis für die Ausführung
      */
-    public void signinUser(String name, String pwd, boolean expected) {
+    public void signinUser(String name, String pwd, LoginState expected) {
         driver.get(baseUrl + "/SilverPen/signin.jsf");
-        driver.findElement(By.id("j_idt9:name")).click();
-        driver.findElement(By.id("j_idt9:name")).clear();
-        driver.findElement(By.id("j_idt9:name")).sendKeys(name);
-        driver.findElement(By.id("j_idt9:pwd")).click();
-        driver.findElement(By.id("j_idt9:pwd")).clear();
-        driver.findElement(By.id("j_idt9:pwd")).sendKeys(pwd);
+        driver.findElement(By.id("signinForm:name")).click();
+        driver.findElement(By.id("signinForm:name")).clear();
+        driver.findElement(By.id("signinForm:name")).sendKeys(name);
+        driver.findElement(By.id("signinForm:pwd")).click();
+        driver.findElement(By.id("signinForm:pwd")).clear();
+        driver.findElement(By.id("signinForm:pwd")).sendKeys(pwd);
 
-        driver.findElement(By.id("j_idt9:j_idt10")).click();
+        driver.findElement(By.id("signinForm:login_button")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         
-        String message = driver.findElement(expected ? By.id("menumessages") : By.id("j_idt9:messages")).getText();
-        String titleElementText = driver.findElement(By.id("form:session_user_info")).getText();
+        String message = "";
+        String titleElementText = "";
+        if(expected == LoginState.noError)  { // Bei Erfolg wird weitergeleitet und wir haben andere 
+            message = driver.findElement(By.id("menumessages")).getText();
+            titleElementText= driver.findElement(By.id("form:session_user_info")).getText();
+            assertFalse(titleElementText.isEmpty());
+        } else {
+            message = driver.findElement(By.id("signinForm:messages")).getText();
+            
+        }
         
-        assertFalse(titleElementText.isEmpty());
         
         boolean loginOK = titleElementText.contains(name);
         boolean loginFailWrongPWD = message.contains("Falsches Passwort");
         boolean loginFailUserNotExists = message.contains("konnte nicht angemeldet");
+        boolean loginFailLinkRequest = message.contains("noch ausstehend");
 
-        // Alle bekannten Zustände abfragen
-        assertTrue(loginOK || loginFailUserNotExists || loginFailWrongPWD);
         
-        assertTrue(expected ? loginOK : loginFailUserNotExists || loginFailWrongPWD);
+        int hits = (loginOK?1:0) 
+                    + (loginFailWrongPWD?1:0) 
+                    + (loginFailUserNotExists?1:0)
+                    + (loginFailLinkRequest?1:0);
+        
+        assertEquals(hits, 1); // Eineindeutigen Zustand prüfen
+        
+        switch (expected) {
+        case noError:
+            assertTrue(loginOK);
+            break;
+
+        case UserNotExists:
+            assertTrue(loginFailUserNotExists);
+            break;
+            
+        case WrongPWD:
+            assertTrue(loginFailWrongPWD);
+            break;
+
+        case LinkAuthRequired:
+            assertTrue(loginFailLinkRequest);
+            break;
+            
+        default:
+            // Kein passender Zustand
+            assertTrue(false);
+            break;
+        }
         
     }
     
     @Test
     public void testSignIn() throws Exception {
         
-        signinUser("aaabbb", "nopwd", false);
-        signinUser("Thomas", "SilverPen", true);
+        signinUser("aaabbb", "nopwd", LoginState.UserNotExists);
+        signinUser("link", "SilverPen", LoginState.LinkAuthRequired);
+        signinUser("Thomas", "SilverPen", LoginState.noError);
+        
     }
 
     @After

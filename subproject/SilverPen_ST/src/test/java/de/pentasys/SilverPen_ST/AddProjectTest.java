@@ -12,6 +12,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import de.pentasys.SilverPen_ST.SignInTest.LoginState;
+
 public class AddProjectTest {
     private WebDriver driver;
     private String baseUrl;
@@ -30,7 +32,7 @@ public class AddProjectTest {
 
         // Einen Benutzer anmelden
         SignInTest signIn = new SignInTest(driver,baseUrl);
-        signIn.signinUser("Thomas", "SilverPen", true);
+        signIn.signinUser("Thomas", "SilverPen", LoginState.noError);
        
         // Home -> Projektverwaltung
         WebElement menuProj =  driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Projektverwaltung']/../.."));

@@ -13,7 +13,7 @@
 			<p:outputLabel class="titlebarItem" value="Konto erstellen" />
 		</div>
 		
-		<h:form>
+		<h:form id="SignUpForm">
 			<p:messages id="messages" showDetail="false" autoUpdate="true" /> 
 	    	<h:panelGrid columns="2" id="matchGrid" cellpadding="5">
 
@@ -42,7 +42,7 @@
 	        	<p:password id="pwd2" value="#{signupView.passwd2}" label="Password 2" required="true" />
 	    	</h:panelGrid>
 	 
-	    	<p:commandButton update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
+	    	<p:commandButton id="register_button" update="matchGrid" value="registrieren" action="#{signupView.register()}"/>
 	    	<p:commandButton id="cancel_button" value="Abbrechen" onclick="location.href='signin.xhtml'; return null;" style="float: right !important"/>
 		</h:form>
 		

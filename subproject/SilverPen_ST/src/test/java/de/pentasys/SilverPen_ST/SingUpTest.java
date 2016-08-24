@@ -35,27 +35,29 @@ public class SingUpTest {
      *            MailAdd)
      * @param expected
      *            Erwartetes
+     * @throws InterruptedException 
      */
-    private void signupUser(String userName, boolean expected) {
+    private void signupUser(String userName, boolean expected) throws InterruptedException {
 
         driver.get(baseUrl + "/SilverPen/signup.jsf");
-        driver.findElement(By.id("j_idt6:Name")).clear();
-        driver.findElement(By.id("j_idt6:Name")).sendKeys(userName);
-        driver.findElement(By.id("j_idt6:EMail")).clear();
-        driver.findElement(By.id("j_idt6:EMail")).sendKeys(userName + domain);
-        driver.findElement(By.id("j_idt6:pwd1")).clear();
-        driver.findElement(By.id("j_idt6:pwd1")).sendKeys(domain);
-        driver.findElement(By.id("j_idt6:pwd2")).clear();
-        driver.findElement(By.id("j_idt6:pwd2")).sendKeys(domain);
-        driver.findElement(By.id("j_idt6:j_idt11")).click();
+        driver.findElement(By.id("SignUpForm:Name")).clear();
+        driver.findElement(By.id("SignUpForm:Name")).sendKeys(userName);
+        driver.findElement(By.id("SignUpForm:EMail")).clear();
+        driver.findElement(By.id("SignUpForm:EMail")).sendKeys(userName + domain);
+        driver.findElement(By.id("SignUpForm:pwd1")).clear();
+        driver.findElement(By.id("SignUpForm:pwd1")).sendKeys(domain);
+        driver.findElement(By.id("SignUpForm:pwd2")).clear();
+        driver.findElement(By.id("SignUpForm:pwd2")).sendKeys(domain);
+        driver.findElement(By.id("SignUpForm:register_button")).click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Thread.sleep(1000);
 
-        String message = driver.findElement(expected ? By.id("menumessages") : By.id("j_idt6:messages")).getText();
-        assertFalse(message.isEmpty());
-
-        boolean loginResultOK = message.contains("war erfolgreich");
-        boolean loginResultFailIsReg = message.contains("bereits registriert");
+//        String message = driver.findElement(expected ? By.id("menumessages") : By.id("SignUpForm:messages")).getText();
+        
+        boolean loginResultOK = expected && driver.getCurrentUrl().contains("/signin."); // Weiterleitung ist erfolgt, daher war das erfolgreich
+        boolean loginResultFailIsReg = !expected && driver.findElement(expected ? By.id("menumessages") : By.id("SignUpForm:messages"))
+                                                            .getText().contains("existiert bereits");
 
         // Ist es ein bekannter Zustand?
         assertTrue(loginResultOK || loginResultFailIsReg);
