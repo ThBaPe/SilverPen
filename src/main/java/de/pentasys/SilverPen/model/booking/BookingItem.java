@@ -34,6 +34,9 @@ public abstract class BookingItem {
     @Column
     private String description;
 
+    @Column
+    private String status;   
+
     @ManyToOne
     private User user;
 
@@ -77,5 +80,14 @@ public abstract class BookingItem {
         this.user = user;
     }
     
+    
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     
 }
