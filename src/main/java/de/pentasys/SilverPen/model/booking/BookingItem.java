@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.pentasys.SilverPen.model.User;
@@ -16,13 +18,23 @@ import de.pentasys.SilverPen.model.User;
 /**
  * Einzelne Stundenbuchung
  */
+
+@NamedQueries({ 
+    @NamedQuery(name = "BookingItem.findAll", query = "SELECT b FROM BookingItem b"),
+    @NamedQuery(name = "BookingItem.findByUser", query = "SELECT b FROM BookingItem b Where b.user = :user") 
+    
+})
 @Entity
 @Table(name="BOOKINGITEM")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="BOOKING_TYPE", discriminatorType=DiscriminatorType.STRING)
 public abstract class BookingItem {
 
-    @Id @GeneratedValue 
+	public static final String findAll = "BookingItem.findAll";
+    public static final String findByUser = "BookingItem.findByUser";
+	
+    @Id 
+    @GeneratedValue 
     private int id;
     
     @Column(nullable=false)
