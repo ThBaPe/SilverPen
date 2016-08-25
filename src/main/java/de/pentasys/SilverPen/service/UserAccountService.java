@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.SystemException;
 
-import org.jboss.resteasy.api.validation.ConstraintType;
 
 import de.pentasys.SilverPen.model.Constraint;
 import de.pentasys.SilverPen.model.Role;
