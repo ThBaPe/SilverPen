@@ -100,3 +100,7 @@ nav{
 	margin-top: 10px;
 	float: left;
 }
+
+.centeredColumn {
+   text-align:center !important;
+}

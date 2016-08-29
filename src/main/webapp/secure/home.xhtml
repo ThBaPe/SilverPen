@@ -97,7 +97,7 @@
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="today" action="#}"/></p:column>
 			<p:column style="text-align: right;">
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="delete" update="form" action="#{homeView.init()}"/>
-				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" action="#{homeView.commitTime}"/></p:column>
+				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" update="dataT" action="#{homeView.commitTime}"/></p:column>
 			</p:row>
 		</f:facet>
 	
@@ -106,15 +106,15 @@
 	</div>
     
     <div id="overview">
-    <p:dataTable var="bookingItem" value="#{bookingItemListView.bookingItems}">
+    <p:dataTable id="dataT" var="bookingItem" value="#{bookingItemListView.weeklyBookings}">
     	<f:facet name="header"> empty </f:facet> 
-    	<p:column headerText="Tag"> 
-    	    #{bookingItem.start} 
+    	<p:column styleClass="centeredColumn" headerText="Tag"> 
+    	    #{bookingItem.getWeekDay()} 
     	</p:column> 
-    	<p:column headerText="Stunden"> 
-    		#{bookingItem.stop}
+    	<p:column styleClass="centeredColumn" headerText="Stunden"> 
+    		#{bookingItem.calculateTime()}
     	</p:column>
-    	<p:column headerText="Gesamt"> 
+    	<p:column styleClass="centeredColumn" headerText="Gesamt"> 
     		#{bookingItem.description}
     	</p:column>
     	<f:facet name="footer"> empty </f:facet>  

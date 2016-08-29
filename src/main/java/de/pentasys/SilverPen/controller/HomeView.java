@@ -63,7 +63,6 @@ public class HomeView {
         
     }
 
-    
 
     public String logout(){
         curLogin.setCurrentUser(null);

@@ -1,5 +1,8 @@
 package de.pentasys.SilverPen.model.booking;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -18,6 +21,8 @@ import de.pentasys.SilverPen.model.User;
 /**
  * Einzelne Stundenbuchung
  */
+
+
 
 @NamedQueries({ 
     @NamedQuery(name = "BookingItem.findAll", query = "SELECT b FROM BookingItem b"),
@@ -91,15 +96,25 @@ public abstract class BookingItem {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    
-    
+     
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public double calculateTime() {
+        double milliseconds = this.stop.getTime()-this.start.getTime();
+        int minutes = (int) (milliseconds / (60 * 1000) % 60);
+        int hours = (int) milliseconds / (60 * 60 * 1000) % 24;
+        return hours + (double) minutes/60.0;
+    }
+    
+    public String getWeekDay() {      
+        String sim = new SimpleDateFormat("EEEEE").format(this.getStart());
+        return sim;
     }
     
 }
