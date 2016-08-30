@@ -45,6 +45,8 @@ public class WorkshopCreateView {
         workshop.setOrganizer(operator);
         workshop.setStart(dateFrom);
         workshop.setStatus(state);
+        if(dateTo==null)
+            dateTo=dateFrom;
         workshop.setStop(dateTo);
         workshop.setTitle(name);
         workshop.setTutor(leader);
@@ -54,9 +56,7 @@ public class WorkshopCreateView {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Workshop " +name.toUpperCase()+ " erfolgreich angelegt!", null));
         context.getExternalContext().getFlash().setKeepMessages(true);
-        
         return "/secure/home.xhtml?faces-redirect=true";
-        
     }
     
     public Date getDateFrom() {
