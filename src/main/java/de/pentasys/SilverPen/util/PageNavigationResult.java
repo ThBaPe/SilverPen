@@ -30,6 +30,10 @@ public enum PageNavigationResult {
      * Navigiere zu der Benutzerregistrierung
      */
     SIGNUP,             // Freie Benutzerreg.
-    SIGNUP_ADMIN;       // Benuzterreg. für angemeldete Admins
+    SIGNUP_ADMIN,       // Benuzterreg. für angemeldete Admins
     
+    /**
+     * Navigiere zum Urlaubsantragsformular
+     */
+    VACATION;
 }

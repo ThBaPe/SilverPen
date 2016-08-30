@@ -12,7 +12,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import de.pentasys.SilverPen.model.booking.VacationBooking;
 
 
 /**
@@ -50,6 +53,18 @@ public class User implements Serializable {
     
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private Collection<Project> projects = new LinkedList<Project>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Collection<VacationBooking> vacationRequests = new LinkedList<VacationBooking>();
+    
+    
+    public Collection<VacationBooking> getVacationRequests() {
+        return vacationRequests;
+    }
+
+    public void setVacationRequests(Collection<VacationBooking> vacationRequests) {
+        this.vacationRequests = vacationRequests;
+    }
 
     public User() {
         super();

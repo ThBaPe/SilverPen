@@ -47,7 +47,19 @@
 			<from-outcome>SIGNUP_ADMIN</from-outcome>
 			<to-view-id>/secure/admin_signup.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>VACATION</from-outcome>
+			<to-view-id>/secure/vacation_request.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+	<from-view-id>/signup.jsf</from-view-id>
+	<navigation-case>
+			<from-outcome>USER_HOME</from-outcome>
+			<to-view-id>/secure/home.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
 	<application>
 		<locale-config>
 			<default-locale>de</default-locale>

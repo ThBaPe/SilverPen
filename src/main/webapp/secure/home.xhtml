@@ -33,7 +33,7 @@
 					<p:menuitem value="Verrechnet" actionListener="#{mainMenuView.invoiced()}" update="menumessages"></p:menuitem>
 				</p:submenu>
 				<p:submenu label="Urlaubsverwaltung">
-					<p:menuitem value="Urlaubsantrag" actionListener="#{mainMenuView.vacation()}" update="menumessages" />
+					<p:menuitem value="Urlaubsantrag" outcome="VACATION" />
 				</p:submenu>
 				<p:submenu label="Workshopverwaltung">
 					<p:menuitem value="Workshopantrag" actionListener="#{mainMenuView.upload()}" update="menumessages" />

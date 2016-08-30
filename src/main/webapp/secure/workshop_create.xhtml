@@ -43,7 +43,7 @@
 				<p:inputText id="state" value="#{workshopCreateView.state}" required="true" requiredMessage="Sie müssen einen Status angeben!"/>
 				
 				<h:outputLabel for="maximum" value="Maximale Teilnehmer: *" />
-				<p:inputNumber id="maximum" value="#{workshopCreateView.maximum}" required="true" requiredMessage="Sie müssen eine Maximalanzahl an Teilnehmern angeben!" />
+				<p:inputNumber id="maximum" value="#{workshopCreateView.maximum}" required="true" decimalPlaces="0" requiredMessage="Sie müssen eine Maximalanzahl an Teilnehmern angeben!" />
 			</h:panelGrid>
 			<p:outputLabel value="Mit * gekennzeichnete Felder sind Pflichtfelder."></p:outputLabel>
 			<br />
