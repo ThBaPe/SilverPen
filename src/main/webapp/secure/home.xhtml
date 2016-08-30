@@ -10,7 +10,14 @@
 <h:head>
 	<h:outputStylesheet name="css/mainTest.css" />
 </h:head>
-<body>
+<h:body>
+
+	<script type="text/javascript"> 
+	function addRowOnComplete() {
+   		 alert();
+	}
+</script>	
+
 	<header role="banner">
 		<h:graphicImage styleClass="headerLogo"
 			value="/resources/img/logo.jpg" width="10%" />
@@ -97,7 +104,8 @@
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="today" action="#}"/></p:column>
 			<p:column style="text-align: right;">
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="delete" update="form" action="#{homeView.init()}"/>
-				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" update="dataT" action="#{homeView.commitTime}"/></p:column>
+				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" update="dataT" action="#{homeView.commitTime}"/>
+			</p:column>
 			</p:row>
 		</f:facet>
 	
@@ -115,7 +123,7 @@
     		#{bookingItem.calculateTime()}
     	</p:column>
     	<p:column styleClass="centeredColumn" headerText="Gesamt"> 
-    		#{bookingItem.description}
+    		#{bookingItem.getSumHours()}
     	</p:column>
     	<f:facet name="footer"> empty </f:facet>  
     </p:dataTable>
@@ -123,5 +131,5 @@
 
 	</div>
 
-</body>
+</h:body>
 </html>

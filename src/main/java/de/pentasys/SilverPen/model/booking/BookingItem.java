@@ -1,7 +1,6 @@
 package de.pentasys.SilverPen.model.booking;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -37,7 +36,9 @@ public abstract class BookingItem {
 
 	public static final String findAll = "BookingItem.findAll";
     public static final String findByUser = "BookingItem.findByUser";
-	
+    
+    private double sumHours;
+    
     @Id 
     @GeneratedValue 
     private int id;
@@ -53,7 +54,7 @@ public abstract class BookingItem {
 
     @Column
     private String status;   
-
+    
     @ManyToOne
     private User user;
 
@@ -105,6 +106,14 @@ public abstract class BookingItem {
         this.status = status;
     }
     
+    public double getSumHours() {
+        return sumHours;
+    }
+
+    public void setSumHours(double sumHours) {
+        this.sumHours = sumHours;
+    }
+     
     public double calculateTime() {
         double milliseconds = this.stop.getTime()-this.start.getTime();
         int minutes = (int) (milliseconds / (60 * 1000) % 60);
@@ -116,5 +125,7 @@ public abstract class BookingItem {
         String sim = new SimpleDateFormat("EEEEE").format(this.getStart());
         return sim;
     }
+
     
+  
 }
