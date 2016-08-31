@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SingUpTest {
+public class SignUpTest {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
