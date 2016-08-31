@@ -28,6 +28,7 @@ public class HomeView {
     @Inject private TimeRegisterService serviceTime;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
+    @Inject private BookingItemListView bookings;
  
     @PostConstruct
     public void init() {
@@ -38,6 +39,8 @@ public class HomeView {
         curHour.setStop(new Date());
  
         isAdmin = curLogin.getCurrentUser().hasRole("Admin");
+        
+        bookings.init();
     }
   
 
@@ -61,6 +64,7 @@ public class HomeView {
         
         serviceTime.commitTime(curLogin.getCurrentUser(), curHour);
         
+        this.init();
     }
 
 
