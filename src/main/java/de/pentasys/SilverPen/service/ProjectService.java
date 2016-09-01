@@ -93,6 +93,7 @@ public class ProjectService {
         lg.info("Start: " + toTime.getStart() + "\nStop: " + toTime.getStop());
         toTime.setProject(em.find(Project.class, projectID));
         toTime.setUser(em.contains(loggedIn) ? loggedIn : em.merge(loggedIn));
+        toTime.setStatus(ProjectBooking.StatusProjectTime.TIME_NOTBILLED.toString());
         em.persist(toTime);
     }
 }

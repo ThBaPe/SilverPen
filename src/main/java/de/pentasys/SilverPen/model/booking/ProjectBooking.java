@@ -19,6 +19,11 @@ import de.pentasys.SilverPen.model.Project;
 @DiscriminatorValue("Project")
 public class ProjectBooking extends BookingItem{
 
+    public enum StatusProjectTime{
+        TIME_BILLED,
+        TIME_NOTBILLED
+    }
+    
     @ManyToOne
     private Project project;
 
