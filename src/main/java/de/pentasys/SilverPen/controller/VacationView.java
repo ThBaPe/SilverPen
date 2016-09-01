@@ -16,6 +16,7 @@ import javax.inject.Named;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.VacationService;
+import de.pentasys.SilverPen.util.PageNavigationResult;
 
 @Named
 @SessionScoped
@@ -73,14 +74,18 @@ public class VacationView implements Serializable {
         vac.setStart(vacationStart);
         vac.setStop(vacationEnd);
         vac.setUser(curLogin.getCurrentUser());
-        vac.setStatus("requested");
+        vac.setStatus(VacationBooking.StatusVacation.VACATION_REQUESTED.toString());
         vs.addVacation(vac);
+        
+        // Urlaubsantrag gleich genehmigen
+        vs.confirmVacation(vac);
+        
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Es wurde ein Urlaubsantrag gestellt vom " + df.format(vacationStart) + " bis " + df.format(vacationEnd), null));
         context.getExternalContext().getFlash().setKeepMessages(true);
         init();
-        return "/secure/home.xhtml?faces-redirect=true";
+        return PageNavigationResult.USER_HOME.toString();
     }
 
 }

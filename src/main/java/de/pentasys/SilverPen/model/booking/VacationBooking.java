@@ -13,7 +13,10 @@ import javax.persistence.Table;
 @Table(name = "VACATIONBOOKING")
 @DiscriminatorValue("Vacation")
 public class VacationBooking extends BookingItem{
- 
-
     
+    public enum StatusVacation{
+        VACATION_REQUESTED,
+        VACATION_CONFIRMED,
+        VACATION_REJECTED
+    }
 }
