@@ -80,7 +80,8 @@
 			<p:column colspan="2">
 				<h:outputLabel for="project" value="Projekt:" /><br/>
 				<p:selectOneMenu id="project" value="#{homeView.project}" style="width:125px">
-        			<f:selectItem itemLabel="Dummy" itemValue="" />
+        			<f:selectItem itemLabel="Dummy" itemValue="" noSelectionOption="true"/>
+        			<f:selectItems value="#{homeView.projects}"/>
 	    		</p:selectOneMenu>
     		</p:column>
 	    	

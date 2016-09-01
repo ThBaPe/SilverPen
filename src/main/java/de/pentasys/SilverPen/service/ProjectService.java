@@ -10,7 +10,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import de.pentasys.SilverPen.model.Project;
+import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.model.booking.BookingItem;
+
 
 @Stateless
 public class ProjectService {
@@ -79,5 +82,17 @@ public class ProjectService {
         
         em.persist(changeUser);
     }
-    
+
+    /**
+     * Zeit auf ein Projekt buchen
+     * @param projectID Die ID des Projektes
+     * @param loggedIn  Der Benutzer auf den Gebucht werden soll
+     * @param toTime Die zu verrechnende TimeBox
+     */
+    public void commitTime(int projectID, User loggedIn, ProjectBooking toTime) {
+        lg.info("Start: " + toTime.getStart() + "\nStop: " + toTime.getStop());
+        toTime.setProject(em.find(Project.class, projectID));
+        toTime.setUser(em.contains(loggedIn) ? loggedIn : em.merge(loggedIn));
+        em.persist(toTime);
+    }
 }

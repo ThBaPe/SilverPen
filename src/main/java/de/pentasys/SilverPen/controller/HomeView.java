@@ -1,16 +1,22 @@
 package de.pentasys.SilverPen.controller;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
+import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.service.LoginInfo;
+import de.pentasys.SilverPen.service.ProjectService;
 import de.pentasys.SilverPen.service.TimeRegisterService;
 import de.pentasys.SilverPen.util.PageNavigationResult;
 
@@ -20,15 +26,27 @@ import de.pentasys.SilverPen.util.PageNavigationResult;
 public class HomeView {
 
     private java.util.Date curDate;
-    private BookingItem curHour;
-    private String project;
+    private ProjectBooking curHour;
+    private String projectID;
     private String category;
+    private Map<String, String> projects;
+
+
+    public Map<String, String> getProjects() {
+        return projects;
+    }
+
+
+    public void setProjects(Map<String, String> projects) {
+        this.projects = projects;
+    }
 
 
     @Inject private TimeRegisterService serviceTime;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
     @Inject private BookingItemListView bookings;
+    @Inject private ProjectService serProj;
  
     @PostConstruct
     public void init() {
@@ -41,6 +59,13 @@ public class HomeView {
         isAdmin = curLogin.getCurrentUser().hasRole("Admin");
         
         bookings.init();
+        
+        projects = new HashMap<String,String>();
+        Collection<Project> userProj = serProj.getUserProjects(curLogin.getCurrentUser().getEmail());
+        for (Project pro : userProj) {
+            projects.put(pro.getName(), String.valueOf(pro.getId()));
+        }
+        
     }
   
 
@@ -61,9 +86,12 @@ public class HomeView {
 
         curHour.setStart(newStart);
         curHour.setStop(newStop);
+
+        lg.info("CurSel Proj: " + projectID);
+        lg.info("projects List: " + projects.toString());
+        lg.info("Find ProjObj: " + projects.get(projectID));
         
-        serviceTime.commitTime(curLogin.getCurrentUser(), curHour);
-        
+        serProj.commitTime(Integer.parseInt(projectID), curLogin.getCurrentUser(), curHour);
         this.init();
     }
 
@@ -74,20 +102,20 @@ public class HomeView {
         return PageNavigationResult.USER_SIGNIN.toString();
     }
     
-    public BookingItem getCurHour() {
+    public ProjectBooking getCurHour() {
         return curHour;
     }
 
-    public void setCurHour(BookingItem curHour) {
+    public void setCurHour(ProjectBooking curHour) {
         this.curHour = curHour;
     }
 
     public String getProject() {
-        return project;
+        return projectID;
     }
 
     public void setProject(String project) {
-        this.project = project;
+        this.projectID = project;
     }
 
     public String getCategory() {
