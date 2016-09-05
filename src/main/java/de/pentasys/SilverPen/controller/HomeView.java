@@ -91,7 +91,16 @@ public class HomeView {
         lg.info("projects List: " + projects.toString());
         lg.info("Find ProjObj: " + projects.get(projectID));
         
-        serProj.commitTime(Integer.parseInt(projectID), curLogin.getCurrentUser(), curHour);
+        int iProjID = Integer.parseInt(projectID);
+        
+        if(iProjID > 0) {
+            // Es wird auf ein Projekt gebucht
+            serProj.commitTime(iProjID, curLogin.getCurrentUser(), curHour);
+        } else {
+            // Es werden Stunden gebucht, bei denen kein Projekt ausgewählt wurde
+            serviceTime.commitTime(curLogin.getCurrentUser(), curHour);
+        }
+        
         this.init();
     }
 
