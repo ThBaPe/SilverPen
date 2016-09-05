@@ -84,6 +84,22 @@ nav{
 	border-width: 0px !important;
 }
 
+.ui-datatable-header {
+	border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+	color: #CC0000 !important;
+}
+
+.ui-datatable-footer {
+	border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+	color: #CC0000 !important;
+}
+
 #group{
 	max-width: 650px;
 	display: table;
@@ -103,4 +119,8 @@ nav{
 
 .centeredColumn {
    text-align:center !important;
+}
+
+.headerAndFooter {
+	text-color: #CC0000 !important;
 }

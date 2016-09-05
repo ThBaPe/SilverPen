@@ -109,7 +109,7 @@
     
     <div id="overview">
     <p:dataTable id="dataT" var="bookingItem" value="#{bookingItemListView.weeklyBookings}">
-    	<f:facet name="header"> empty </f:facet> 
+    	<f:facet name="header"> . </f:facet> 
     	<p:column styleClass="centeredColumn" headerText="Tag"> 
     	    #{bookingItem.getWeekDay()} 
     	</p:column> 
@@ -119,7 +119,7 @@
     	<p:column styleClass="centeredColumn" headerText="Gesamt"> 
     		#{bookingItem.getSumHours()}
     	</p:column>
-    	<f:facet name="footer"> empty </f:facet>  
+    	<f:facet name="footer"> . </f:facet>  
     </p:dataTable>
 	</div>
 
