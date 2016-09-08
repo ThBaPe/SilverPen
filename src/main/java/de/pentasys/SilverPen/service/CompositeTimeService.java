@@ -2,6 +2,10 @@ package de.pentasys.SilverPen.service;
 
 import java.util.List;
 
+import org.mockito.internal.util.collections.ListUtil;
+
+import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
+
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
@@ -75,7 +79,7 @@ public class CompositeTimeService implements TimeService{
         
         String sName =  this.getClass().getName() + "{ ";
         for (TimeService srv: childTimeService) {
-            sName = srv.getServiceName() + ",";
+            sName += srv.getServiceName() + ",";
         }
         
         sName += "} ";
@@ -104,49 +108,34 @@ public class CompositeTimeService implements TimeService{
     }
 
     /**
-     * Hilfsfunktion für die Sortierung von Buchungselementen die über ein einheitliches Interface geladen werden
-     * @param baseList Die Liste zu den die neuen Items übernommen werden müssen
-     * @param newItems Die neuen Listenelemente
-     * @param sort Das Kriterium nachdem sortiert werden soll
+     * Hilfsfunktion um zwei Listen zusammen zu führen
+     * @param left  Erste Liste
+     * @param right Zweite Liste
+     * @param sort  Das Kriterium nachdem sortiert werden soll
+     * @return      Der merge
      */
-    public LinkedList<BookingItem> combine(LinkedList<BookingItem> baseList, LinkedList<BookingItem> newItems, SORT_TYPE sort) {
+    public LinkedList<BookingItem> combine(LinkedList<BookingItem> left, LinkedList<BookingItem> right, SORT_TYPE sort) {
         
-        if(baseList.isEmpty() && newItems.isEmpty()) {
-            return new LinkedList<BookingItem>();
-        }
+        LinkedList<BookingItem> merged = new LinkedList<BookingItem>();
 
-        if(baseList.isEmpty() || newItems.isEmpty()) {
-            return baseList.isEmpty() ? newItems : baseList;
-        }
-
-        // Die kleinere Liste auf die Linke Seite, da wir damit iterationen sparen können
-        LinkedList<BookingItem> left  = baseList.size() < newItems.size() ? baseList : newItems;
-        LinkedList<BookingItem> right = baseList.size() < newItems.size() ? newItems : baseList;
-        // left.indexOf()
-        
-        Iterator<BookingItem> itrL = left.iterator();
-        int indexL = 0;
-        
-        while(right.size() > 0) {
-            // Sollange wir noch Elemente hinzufügen müssen
+        while(!left.isEmpty() || !right.isEmpty()) {
             
-            if(!itrL.hasNext()) {
-                // Linke Liste ist ans Ende gelaufen, jetzt kanna alles auf einen Schlag übernommen werden
-                left.addAll(right);
-            } else {
-
-                // das nächste Element der Linken-Liste
-                BookingItem nextL = itrL.next();
-                
-                while(right.size() > 0 && Compare(right.peek(),nextL,sort) == -1) {
-                    // Das neue Element muss vorher in die Liste einsortiert werden,
-                    // der Index Zeit immer auf die vorherige Listenposition, daher Post-Increment
-                    left.set(indexL++,right.pop());
-                }
-            } // if(itrL.hasNext())
-        }// while(right.size() > 0) 
+            // Wenn eine Liste leer läuft, dann können wir den Rest übertragen
+            if(left.isEmpty() && !right.isEmpty()){
+                merged.addAll(right);
+                break;
+            }
+            
+            if(!left.isEmpty() && right.isEmpty()){
+                merged.addAll(left);
+                break;
+            }
+            
+            // Falls beide listen noch gefüllt sind müssen wir die Head-Elemente vergleichen
+            merged.add( Compare(left.peek(),right.peek(),sort) == -1 ? left.pop() : right.pop());
+        }
         
-        return left;
+        return merged;
     }
     
     /**
@@ -156,10 +145,10 @@ public class CompositeTimeService implements TimeService{
     public List<BookingItem> getBookingList(User user,TIME_BOX box, Date pinDate, SORT_TYPE sort) {
         
         LinkedList<BookingItem> items = new LinkedList<BookingItem>();
-
+       
         for (TimeService srv: childTimeService) {
             LinkedList<BookingItem> newItems = new LinkedList<BookingItem>(srv.getBookingList(user, box, pinDate, sort));
-            combine(items, newItems, sort);
+            items = combine(items, newItems, sort);
         }
 
         return items;
