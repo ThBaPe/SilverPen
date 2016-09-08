@@ -6,6 +6,9 @@ import de.pentasys.SilverPen.model.booking.BookingItem;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Local;
+
+@Local
 public interface TimeService {
     
     /**

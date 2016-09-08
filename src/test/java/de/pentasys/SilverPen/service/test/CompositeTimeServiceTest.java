@@ -1,29 +1,38 @@
 package de.pentasys.SilverPen.service.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.awt.print.Book;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import javax.validation.constraints.AssertFalse;
+import javax.el.ELProcessor;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import com.sun.org.glassfish.external.amx.AMXGlassfish.BootAMXCallback;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
-import de.pentasys.SilverPen.model.Workshop;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
@@ -33,6 +42,7 @@ import de.pentasys.SilverPen.service.TimeService;
 import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
 import de.pentasys.SilverPen.service.TimeService.TIME_BOX;
 
+import static org.mockito.Matchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CompositeTimeServiceTest {
@@ -50,8 +60,10 @@ public class CompositeTimeServiceTest {
     private static TimeService ts4; //< user1, user2, user3  -----, user5 //< Intern
     
     //             Month < WEEK < DAY > > >
-    private static List<List<List<BookingItem>>> Month = new ArrayList<List<List<BookingItem>>>();
-
+    private static List<List<List<BookingItem>>> DataMonth = new ArrayList<List<List<BookingItem>>>();
+    private final int INITIAL_DAY = 0;
+    private final int INITIAL_WEEK = 0;
+    
     
     private static SimpleDateFormat dtF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
@@ -71,6 +83,18 @@ public class CompositeTimeServiceTest {
         return "WorkShop|" +  dtF.format(boocking.getStart()) + "|" + dtF.format(boocking.getStop());
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> filterListItem(List<T> list, Predicate<T> filter) {
+        
+        List<T> retList = new LinkedList<>();
+        List<Object> lo = list.stream().filter(filter).collect(Collectors.toList());
+        
+        for (Object o : lo) {
+            retList.add((T)o);
+        }
+           
+        return retList;
+    }
 
     private static <T extends BookingItem> T convertToObj(String boocking,  Class<T> type) throws ParseException {
 
@@ -86,21 +110,18 @@ public class CompositeTimeServiceTest {
             VacationBooking vacVal = new VacationBooking();
             vacVal.setStatus(data[0]);
             retVal = vacVal;
-        } else if(type == WorkshopBooking.class
-                    || type == BookingItem.class) {
-            // noch nichts zu tun
+        } else if(type == WorkshopBooking.class) {
             retVal = new WorkshopBooking();
+        } else if(type == BookingItem.class) {
+            retVal = new ProjectBooking();
         }
         
         retVal.setStart(dtF.parse(data[1]));
         retVal.setStop(dtF.parse(data[2]));
+        
         return type.cast(retVal);
-
     }
 
-    
-    
-    
     
     @Before
     public void setUp() throws Exception {
@@ -123,12 +144,15 @@ public class CompositeTimeServiceTest {
         when(ts2.getServiceName()).thenReturn("MockTimeServiceUrlaub");
         when(ts3.getServiceName()).thenReturn("MockTimeServiceWorkShop");
         when(ts4.getServiceName()).thenReturn("MockTimeServiceIntern");
+        
+
 
  
         // Aufbau Projekte:         "ProjektID|        Start      |        Stop       "    
         //  -"-   Urlaub:      "StatusVacation|        Start      |        Stop       "    
         //  -"-   Workshop:    "DummyText     |        Start      |        Stop       "    
-
+        //  -"-   Intern:      "DummyText     |        Start      |        Stop       "    
+        
         LinkedList<BookingItem> Monday = new LinkedList<BookingItem>(Arrays.asList(
                 convertToObj("1|2007-12-31 07:00:00|2007-12-31 09:00:00",ProjectBooking.class),
                 convertToObj("1|2007-12-31 09:00:00|2007-12-31 11:00:00",ProjectBooking.class),
@@ -175,10 +199,131 @@ public class CompositeTimeServiceTest {
                 ));
   
         //Month            WEEK < DAY < item     >>
-        Month = new ArrayList<List<List<BookingItem>>>();
-        Month.add(new LinkedList<List<BookingItem>>(Arrays.asList(Monday,Thursday,Wednesday,Thursday,Friday,Saturday,Sunday)));
+        DataMonth = new ArrayList<List<List<BookingItem>>>();
+        DataMonth.add(new LinkedList<List<BookingItem>>(Arrays.asList(Monday,Thursday,Wednesday,Thursday,Friday,Saturday,Sunday)));
+        
+        List<BookingItem> Week = new LinkedList<>();
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY  ));
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+1));
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+2));
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+3));
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+4));
+        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+6));
+
+        GregorianCalendar calHelper = new GregorianCalendar();
+        List<BookingItem> Month = new LinkedList<>();
+        Month.addAll(Week);
+        
+        for(int i = 1; i < 5; i++){
+            for (BookingItem item : Week) {
+                
+                BookingItem newItem = null;
+                
+                // Deep Cloning/Copy
+                if (item instanceof ProjectBooking 
+                        && ((ProjectBooking) item).getProject() == null) {
+    
+                    newItem = convertToObj(convertToString(item),BookingItem.class);
+    
+                }else if(item instanceof ProjectBooking 
+                        && ((ProjectBooking) item).getProject() != null){
+    
+                    newItem = convertToObj(convertToString((ProjectBooking)item),ProjectBooking.class);
+    
+                }else if(item instanceof WorkshopBooking) {
+    
+                    newItem = convertToObj(convertToString((WorkshopBooking)item),WorkshopBooking.class);
+                    
+                }else if(item instanceof VacationBooking) {
+    
+                    newItem = convertToObj(convertToString((VacationBooking)item),VacationBooking.class);
+                }
+    
+                // Buchung um eine Woche verschieben
+                calHelper.setTime(newItem.getStart());
+                calHelper.add(Calendar.DATE, 7*i);
+                newItem.setStart(calHelper.getTime());
+    
+                calHelper.setTime(newItem.getStop());
+                calHelper.add(Calendar.DATE, 7*i);
+                newItem.setStop(calHelper.getTime());
+    
+                Month.add(newItem);
+                
+            }
+        }        
+
+        ////////////// ProjektStunden /////////////////
+        Predicate<BookingItem> isTS1Element = new Predicate<BookingItem>() {
+            @Override
+            public boolean test(BookingItem item) {
+                return item instanceof ProjectBooking && ((ProjectBooking) item).getProject() != null;
+            }
+        };
 
         
+        when(ts1.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isTS1Element)); 
+
+        when(ts1.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Week,isTS1Element));
+
+        when(ts1.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Month,isTS1Element));
+
+        
+        ////////////// Urlaub         /////////////////
+        Predicate<BookingItem> isTS2Element = new Predicate<BookingItem>() {
+            @Override
+            public boolean test(BookingItem item) {
+                return item instanceof VacationBooking;
+            }
+        };
+        
+        when(ts2.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isTS2Element)); 
+
+        when(ts2.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Week,isTS2Element));
+
+        when(ts2.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Month,isTS2Element));
+
+        ////////////// Workshop       /////////////////
+        Predicate<BookingItem> isTS3Element = new Predicate<BookingItem>() {
+            @Override
+            public boolean test(BookingItem item) {
+                return item instanceof WorkshopBooking;
+            }
+        };
+        
+        when(ts3.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isTS3Element)); 
+
+        when(ts3.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Week,isTS3Element));
+
+        when(ts3.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Month,isTS3Element));
+
+
+        ////////////// Intern         /////////////////
+        Predicate<BookingItem> isTS4Element = new Predicate<BookingItem>() {
+            @Override
+            public boolean test(BookingItem item) {
+                return item instanceof ProjectBooking && ((ProjectBooking) item).getProject() == null;
+            }
+        };
+        
+        when(ts4.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isTS4Element)); 
+
+        when(ts4.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Week,isTS4Element));
+
+        when(ts4.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
+                .thenReturn(filterListItem(Month,isTS4Element));
+
     }
     
     /**
@@ -249,8 +394,7 @@ public class CompositeTimeServiceTest {
     @Test
     public void testCompare() {
         CompositeTimeService timeService = new CompositeTimeService();
-        
-        
+
     }       
 
     public void getServiceName() {
