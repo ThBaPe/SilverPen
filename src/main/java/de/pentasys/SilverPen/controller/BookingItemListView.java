@@ -2,6 +2,7 @@ package de.pentasys.SilverPen.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -12,6 +13,8 @@ import javax.inject.Named;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.service.BookingItemListService;
 import de.pentasys.SilverPen.service.LoginInfo;
+import de.pentasys.SilverPen.service.ProjectService;
+import de.pentasys.SilverPen.service.TimeService;
 
 @Named
 @ManagedBean
@@ -19,7 +22,9 @@ import de.pentasys.SilverPen.service.LoginInfo;
 public class BookingItemListView {
     
     @Inject BookingItemListService bils;
+    @Inject private ProjectService serProj;
     @Inject private LoginInfo curLogin;
+    @Inject private Logger lg;
 
     private List<BookingItem> bookingItems;
     private List<BookingItem> weeklyBookings;
@@ -43,6 +48,11 @@ public class BookingItemListView {
 	}
 	
 	public void setWeeklyBookings() {
+
+//	    TestCode
+//	    List<BookingItem> litems = serProj.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.WEEK, new java.util.Date(), TimeService.SORT_TYPE.START);
+//	    lg.info("BookingItems Week: " + litems.size());
+	    
 	    this.weeklyBookings = this.bookingItems;
 	    Collections.reverse(this.weeklyBookings);
 	    

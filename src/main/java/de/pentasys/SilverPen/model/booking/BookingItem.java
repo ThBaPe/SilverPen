@@ -23,8 +23,8 @@ import de.pentasys.SilverPen.model.User;
 @NamedQueries({ 
     @NamedQuery(name = "BookingItem.findAll", query = "SELECT b FROM BookingItem b"),
     @NamedQuery(name = "BookingItem.findByUser", query = "SELECT b FROM BookingItem b Where b.user = :user"),
-    @NamedQuery(name = "BookingItem.findByUserDay", query = "SELECT b FROM BookingItem b Where b.user = :user AND :pinDate BETWEEN b.start AND b.stop"),
-    @NamedQuery(name = "BookingItem.findByUserSpan", query = "SELECT b FROM BookingItem b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop)))")
+    @NamedQuery(name = "BookingItem.findDayByUser", query = "SELECT b FROM BookingItem b Where b.user = :user AND :pinDate BETWEEN b.start AND b.stop"),
+    @NamedQuery(name = "BookingItem.findSpanByUser", query = "SELECT b FROM BookingItem b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop)))")
     
 })
 @Entity
@@ -35,8 +35,8 @@ public abstract class BookingItem {
 
 	public static final String findAll = "BookingItem.findAll";
     public static final String findByUser = "BookingItem.findByUser";
-    public static final String findByUserDay = "BookingItem.findByUserDay";
-    public static final String findByUserSpan = "BookingItem.findByUserSpan";
+    public static final String findDayByUser = "BookingItem.findDayByUser";
+    public static final String findSpanByUser = "BookingItem.findSpanByUser";
     
     private double sumHours;
     

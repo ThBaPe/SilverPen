@@ -1,5 +1,6 @@
 package de.pentasys.SilverPen.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -135,6 +136,9 @@ public class ProjectService implements TimeService{
         
     }
 
+    private static SimpleDateFormat dtF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    
     @Override
     public List<BookingItem> getBookingList(User user, TIME_BOX box, Date pinDate, SORT_TYPE sort) {
 
@@ -143,8 +147,11 @@ public class ProjectService implements TimeService{
             GregorianCalendar calStart = new GregorianCalendar();
             calStart.setTime(pinDate);
             
-            TypedQuery<BookingItem> queryDay = em.createNamedQuery(BookingItem.findByUserDay,BookingItem.class);
-            return queryDay.setParameter("pinDate", calStart.getTime()).getResultList();
+            TypedQuery<BookingItem> queryDay = em.createNamedQuery(BookingItem.findDayByUser,BookingItem.class);
+            return queryDay.setParameter("user", user)
+                           .setParameter("pinDate", calStart.getTime())
+                           .getResultList();
+            
 
         case WEEK:
             GregorianCalendar calStartWeek = new GregorianCalendar();
@@ -154,7 +161,7 @@ public class ProjectService implements TimeService{
             int dayOfWeek = calStartWeek.get(GregorianCalendar.DAY_OF_WEEK);
             int difToMonday = dayOfWeek == GregorianCalendar.SUNDAY ? 6 : dayOfWeek - GregorianCalendar.MONDAY; 
             calStartWeek.add(Calendar.DATE,-difToMonday);
-            calStartWeek.set(Calendar.HOUR,0);
+            calStartWeek.set(Calendar.HOUR_OF_DAY,0);
             calStartWeek.set(Calendar.MINUTE,0);
             calStartWeek.set(Calendar.SECOND,0);
 
@@ -162,8 +169,15 @@ public class ProjectService implements TimeService{
             calStopWeek.add(Calendar.DATE, 7);
             calStopWeek.add(Calendar.SECOND,-1);
             
-            TypedQuery<BookingItem> queryWeek = em.createNamedQuery(BookingItem.findByUserSpan,BookingItem.class);
-            return queryWeek.setParameter("spanStart", calStartWeek.getTime()).setParameter("spanStop", calStopWeek.getTime()).getResultList();
+            lg.info("SpanStart: " + dtF.format(calStartWeek.getTime()));
+            lg.info("SpanStop: " + dtF.format(calStopWeek.getTime()));
+            
+            
+            TypedQuery<BookingItem> queryWeek = em.createNamedQuery(BookingItem.findSpanByUser,BookingItem.class);
+            return queryWeek.setParameter("user", user)
+                            .setParameter("spanStart", calStartWeek.getTime())
+                            .setParameter("spanStop", calStopWeek.getTime())
+                            .getResultList();
 
         case MOTH:
             GregorianCalendar calStartMonth = new GregorianCalendar();
@@ -179,7 +193,7 @@ public class ProjectService implements TimeService{
             calStopMonth.add(Calendar.DATE, 7);
             calStopMonth.add(Calendar.SECOND,-1);
 
-            TypedQuery<BookingItem> queryMonth = em.createNamedQuery(BookingItem.findByUserSpan,BookingItem.class);
+            TypedQuery<BookingItem> queryMonth = em.createNamedQuery(BookingItem.findSpanByUser,BookingItem.class);
             return queryMonth.setParameter("spanStart", calStartMonth.getTime()).setParameter("spanStop", calStopMonth.getTime()).getResultList();
 
         default:
