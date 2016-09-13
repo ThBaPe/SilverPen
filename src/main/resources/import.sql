@@ -14,7 +14,6 @@ insert into ROLE_USER (roles_id, users_email) values (1,'bb@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'je@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'js@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'pm@silverpen.de')
-insert into ROLE_USER (roles_id, users_email) values (1,'tb@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (2,'tb@silverpen.de')
 INSERT INTO ROLE_USER (roles_id, users_email) VALUES (2,'bjoern.baumgarten@pentasys.de')
 
@@ -33,3 +32,4 @@ INSERT INTO PROJECT_USER (projects_id, users_email) VALUES (4,'ak@silverpen.de')
 
 INSERT INTO USER (email, password, username) VALUES ('link@silverpen.de', '40258e72cf4267aa486cf479c5a1f252', 'Link')
 INSERT INTO USERCONSTRAINT (id,pinDate,type,user_email) VALUES ('45f5b6b0-dc7e-4f48-8d62-4e898bc3d094','2016-08-22 16:17:03','LOGIN_CONFIRMATION','link@silverpen.de')
+insert into ROLE_USER (roles_id, users_email) values (1,'link@silverpen.de')

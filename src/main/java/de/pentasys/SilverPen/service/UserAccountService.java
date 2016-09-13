@@ -53,7 +53,7 @@ public class UserAccountService {
 
     public List<Role> listAllRoles(User user) {
         TypedQuery<Role> query = entityManager.createNamedQuery(Role.findByUser,Role.class);
-        return query.setParameter("user", user).getResultList();
+        return query.setParameter("userMail", user.getEmail()).getResultList();
    }
 
     

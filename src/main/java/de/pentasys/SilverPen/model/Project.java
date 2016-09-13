@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @NamedQueries({ 
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p"),
-    @NamedQuery(name = "Project.findAllByUser", query = "SELECT p FROM Project p WHERE p.users = :user")
+    @NamedQuery(name = "Project.findAllByUser", query = "SELECT p FROM Project p JOIN p.users u WHERE u.email = :userMail")
 })
 @Entity
 @Table (name="Project")
@@ -30,6 +30,7 @@ public class Project implements Serializable {
     
     public static final String findAll = "Project.findAll";
     public static final String findAllByUser = "Project.findAllByUser";
+    
     
     
     @Id

@@ -3,6 +3,7 @@ package de.pentasys.SilverPen.controller;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -59,7 +60,7 @@ public class HomeView {
         bookings.init();
         
         projects = new HashMap<String,String>();
-        Collection<Project> userProj = serProj.getUserProjects(curLogin.getCurrentUser());
+        List<Project> userProj = serProj.getUserProjects(curLogin.getCurrentUser());
         for (Project pro : userProj) {
             projects.put(pro.getName(), String.valueOf(pro.getId()));
         }

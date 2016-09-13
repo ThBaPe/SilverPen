@@ -36,9 +36,11 @@ public class ProjectService implements TimeService{
 	 * @param user Der Benutzer zudem die Projekte aufgelistet werden soll
 	 * @return Collection mit den Projekten
 	 */
-    public Collection<Project> getUserProjects(User user){
+    public List<Project> getUserProjects(User user){
+        User emUser = em.find(User.class, user.getEmail());
+        
         return em.createNamedQuery(Project.findAllByUser, Project.class)
-                    .setParameter("user", user)
+                    .setParameter("userMail", emUser.getEmail())
                     .getResultList();
     }
     
