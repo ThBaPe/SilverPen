@@ -38,10 +38,10 @@ import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
 import de.pentasys.SilverPen.model.booking.WorkshopBooking;
-import de.pentasys.SilverPen.service.CompositeTimeService;
 import de.pentasys.SilverPen.service.TimeService;
 import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
 import de.pentasys.SilverPen.service.TimeService.TIME_BOX;
+import de.pentasys.SilverPen.util.CompositeTimeService;
 
 import static org.mockito.Matchers.any;
 

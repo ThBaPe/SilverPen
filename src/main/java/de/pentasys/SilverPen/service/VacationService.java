@@ -1,35 +1,60 @@
 package de.pentasys.SilverPen.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Date;
 
+import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.model.booking.BookingItem;
+import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
+import de.pentasys.SilverPen.util.DateHelper;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-
+/**
+ * Service für die Verarbeitung von Urlaubsanträgen und deren Stundenbuchungen
+ * @author bankieth
+ *
+ */
 @Stateless
-public class VacationService {
+@LocalBean
+public class VacationService implements TimeService{
 
     @Inject
     EntityManager em;
     @Inject
     Logger lg;
 
-    public Collection<VacationBooking> getUserVacationRequests(String userEmail) {
-        TypedQuery<User> query = em.createQuery("SELECT u " + "FROM User u " + "WHERE u.email = '" + userEmail + "'", User.class);
 
-        User user = query.getSingleResult();
-
-        return user.getVacationRequests();
+    /**
+     * Liefert alle Stunden eines Benutzers
+     * @param user
+     * @return Alle Stundenbuchungen eines Benutzers
+     * 
+     * Achtung, dieser Aufruf ist Aufwändig, da alle gebuchten Stunden bezogen werden ohne
+     * eine Filterung über die Datenbank. 
+     * 
+     * @deprecated benutze stattdessen {@link getBookingList}
+     * 
+     */
+    @Deprecated
+    public Collection<VacationBooking> getUserVacationRequests(User user) {
+            return em.createNamedQuery(VacationBooking.findAllByUser,VacationBooking.class)
+                    .setParameter("user", user)
+                    .getResultList();
     }
 
     public List<VacationBooking> getAllVacations() {
@@ -100,4 +125,61 @@ public class VacationService {
         em.remove(em.contains(vac) ? vac : em.merge(vac));
                 
     }// confirmVacation(..)
+
+    @Override
+    public String getServiceName() {
+        return this.getClass().getName();
+    }
+
+    @Override
+    public void commitTime(User user, BookingItem toTime) {
+        
+        if(toTime instanceof VacationBooking) {
+
+            // Urlaub beantragen
+            VacationBooking vac = (VacationBooking) toTime;
+            vac.setUser(em.contains(user) ? user : em.merge(user));
+            vac.setStatus(VacationBooking.StatusVacation.VACATION_REQUESTED.toString());
+            em.persist(vac);
+
+            // Urlaub genehmigen
+            confirmVacation(vac);
+            
+        } else {
+            lg.warning("BookingItem is not of Type VacationBooking");
+            throw new NotImplementedException();
+        }
+    }
+
+    @Override
+    public void commitTime(User user, BookingItem toTime, String id) {
+        // Bei einem Urlaub existiert keine Verlinkung zu weiteren Tabellen
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<BookingItem> getBookingList(User user, TIME_BOX box, Date pinDate, SORT_TYPE sort) {
+        String queryName = null;
+        
+        Map.Entry<Date, Date> span = DateHelper.GetSpan(box, pinDate);
+        
+        switch (sort) {
+        case START:
+                queryName = VacationBooking.findSpanByUser;
+            break;
+
+        case STOP:
+            queryName = VacationBooking.findSpanByUserOrderStop;
+            break;
+            
+        default:
+            throw new NotImplementedException();
+        }
+ 
+        return em.createNamedQuery(queryName,BookingItem.class)
+                        .setParameter("user", user)
+                        .setParameter("spanStart", span.getKey())
+                        .setParameter("spanStop", span.getValue())
+                        .getResultList();         
+        }
 }

@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.VacationService;
@@ -68,22 +70,22 @@ public class VacationView implements Serializable {
     }
 
     public String addVacation() {
-        DateFormat df = new SimpleDateFormat("dd.MM.yy");
-
+        
         VacationBooking vac = new VacationBooking();
         vac.setStart(vacationStart);
         vac.setStop(vacationEnd);
-        vac.setUser(curLogin.getCurrentUser());
-        vac.setStatus(VacationBooking.StatusVacation.VACATION_REQUESTED.toString());
-        vs.addVacation(vac);
+
+        vs.commitTime(curLogin.getCurrentUser(), vac);
         
-        // Urlaubsantrag gleich genehmigen
-        vs.confirmVacation(vac);
+        DateFormat df = new SimpleDateFormat("dd.MM.yy");
         
         FacesContext context = FacesContext.getCurrentInstance();
+        
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Es wurde ein Urlaubsantrag gestellt vom " + df.format(vacationStart) + " bis " + df.format(vacationEnd), null));
+        
         context.getExternalContext().getFlash().setKeepMessages(true);
+
         init();
         return PageNavigationResult.USER_HOME.toString();
     }

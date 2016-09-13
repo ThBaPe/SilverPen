@@ -8,6 +8,11 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+/**
+ * Interface zur vereinheitlichung von Stundenbuchungen
+ * @author bankieth
+ * 
+ */
 @Local
 public interface TimeService {
     
@@ -46,9 +51,6 @@ public interface TimeService {
         SIZE,
     }
 
-    /**
-     */
-    
     /**
      * Liefert die Stunden zu einer Benutzer
      * @param user Der Benutzer zu den die Stunden gesucht werden sollen

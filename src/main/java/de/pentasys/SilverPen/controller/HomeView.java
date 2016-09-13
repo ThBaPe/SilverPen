@@ -10,14 +10,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 
 import de.pentasys.SilverPen.model.Project;
-import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
+import de.pentasys.SilverPen.service.BookingItemService;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.ProjectService;
-import de.pentasys.SilverPen.service.TimeRegisterService;
 import de.pentasys.SilverPen.util.PageNavigationResult;
 
 
@@ -42,7 +40,7 @@ public class HomeView {
     }
 
 
-    @Inject private TimeRegisterService serviceTime;
+    @Inject private BookingItemService serviceTime;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
     @Inject private BookingItemListView bookings;
@@ -61,7 +59,7 @@ public class HomeView {
         bookings.init();
         
         projects = new HashMap<String,String>();
-        Collection<Project> userProj = serProj.getUserProjects(curLogin.getCurrentUser().getEmail());
+        Collection<Project> userProj = serProj.getUserProjects(curLogin.getCurrentUser());
         for (Project pro : userProj) {
             projects.put(pro.getName(), String.valueOf(pro.getId()));
         }
@@ -91,14 +89,12 @@ public class HomeView {
         lg.info("projects List: " + projects.toString());
         lg.info("Find ProjObj: " + projects.get(projectID));
         
-        int iProjID = Integer.parseInt(projectID);
-        
-        if(iProjID > 0) {
-            // Es wird auf ein Projekt gebucht
-            serProj.commitTime(iProjID, curLogin.getCurrentUser(), curHour);
-        } else {
+        if(projectID.equals("0")) {
             // Es werden Stunden gebucht, bei denen kein Projekt ausgewählt wurde
             serviceTime.commitTime(curLogin.getCurrentUser(), curHour);
+        } else {
+            // Es wird auf ein Projekt gebucht
+            serProj.commitTime(curLogin.getCurrentUser(), curHour, projectID);
         }
         
         this.init();

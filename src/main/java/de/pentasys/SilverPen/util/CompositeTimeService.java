@@ -1,20 +1,13 @@
-package de.pentasys.SilverPen.service;
+package de.pentasys.SilverPen.util;
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.mockito.internal.util.collections.ListUtil;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
 
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.booking.BookingItem;
-import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
-import de.pentasys.SilverPen.service.TimeService.TIME_BOX;
+import de.pentasys.SilverPen.service.TimeService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 
 

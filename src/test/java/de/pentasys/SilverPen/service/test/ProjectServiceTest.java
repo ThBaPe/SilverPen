@@ -79,48 +79,41 @@ public class ProjectServiceTest {
 		when(em.find(User.class, "test@test.de")).thenReturn(user1);
         when(em.find(User.class, "test2@test2.de")).thenReturn(user2);
 
-		TypedQuery<User> query = mock(TypedQuery.class);
-		when(query.getSingleResult()).thenReturn(user1);
 
-		when( em.createQuery(  "SELECT u "+
-                "FROM User u "+
-                "WHERE u.email = 'test@test.de'",User.class)).thenReturn(query);
-		
-		TypedQuery<User> query2 = mock(TypedQuery.class);
-		when(query2.getSingleResult()).thenReturn(user2);
-		when( em.createQuery(  "SELECT u "+
-                "FROM User u "+
-                "WHERE u.email = 'test2@test2.de'",User.class)).thenReturn(query2);
-		
-		TypedQuery<Project> query3 = mock(TypedQuery.class);
-		when(query3.getResultList()).thenReturn(Arrays.asList(project1, project2));
-		when( em.createNamedQuery(Project.findAll,Project.class)).thenReturn(query3);
-		
-		
-		when(em.contains(project1)).thenReturn(true);
+        TypedQuery<Project> queryAllByUser = mock(TypedQuery.class);
+        when( em.createNamedQuery(Project.findAllByUser,Project.class)).thenReturn(queryAllByUser);
+        
+        TypedQuery<Project> tqUser1 = mock(TypedQuery.class);
+        when(queryAllByUser.setParameter("user", user1)).thenReturn(tqUser1);
+        when(tqUser1.getResultList()).thenReturn(Arrays.asList(project1, project2));
+        
+        TypedQuery<Project> tqUser2 = mock(TypedQuery.class);
+        when(queryAllByUser.setParameter("user", user2)).thenReturn(tqUser2);
+        when(tqUser2.getResultList()).thenReturn(Arrays.asList(project1));
+        
+        TypedQuery<Project> query3 = mock(TypedQuery.class);
+        when(query3.getResultList()).thenReturn(Arrays.asList(project1, project2));
+        when( em.createNamedQuery(Project.findAll,Project.class)).thenReturn(query3);
+        
+
+        when(em.contains(project1)).thenReturn(true);
 		when(em.contains(project2)).thenReturn(false);
 	}
 
 	@Test
 	public void testGetUserProjects() {
 
-		Collection<Project> user1Projects = mockedProjectService.getUserProjects("test@test.de");
+		Collection<Project> user1Projects = mockedProjectService.getUserProjects(user1);
 		assertEquals(2, user1Projects.size());
 		assertTrue(user1Projects.contains(project1));
 		assertTrue(user1Projects.contains(project2));
-		verify(em, times(1)).createQuery(
-                "SELECT u "+
-                "FROM User u "+
-                "WHERE u.email = 'test@test.de'", User.class);
+		verify(em, times(1)).createNamedQuery(Project.findAllByUser,Project.class);
 		
-		Collection<Project> user2Projects = mockedProjectService.getUserProjects("test2@test2.de");
+		Collection<Project> user2Projects = mockedProjectService.getUserProjects(user2);
 		assertEquals(1, user2Projects.size());
 		assertTrue(user2Projects.contains(project1));
 		assertFalse(user2Projects.contains(project2));
-		verify(em, times(1)).createQuery(
-                "SELECT u "+
-                "FROM User u "+
-                "WHERE u.email = 'test2@test2.de'", User.class);
+        verify(em, times(2)).createNamedQuery(Project.findAllByUser,Project.class);
 	}
 
 	@Test

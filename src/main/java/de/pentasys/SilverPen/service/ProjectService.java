@@ -1,55 +1,68 @@
 package de.pentasys.SilverPen.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
+import de.pentasys.SilverPen.util.DateHelper;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-
+/**
+ * Service für die Verarbeitung von Projecten und den zugeordneten Stunden
+ * @author bankieth
+ *
+ */
 @Stateless
 @LocalBean
 public class ProjectService implements TimeService{
 
-	@Inject
-    EntityManager em;
-
+	@Inject EntityManager em;
 	@Inject Logger lg;
-    
-	public Collection<Project> getUserProjects(String userEmail){
-        TypedQuery<User> query = em.createQuery(
-                "SELECT u "+
-                "FROM User u "+
-                "WHERE u.email = '"+userEmail+"'", User.class);
-        
-        User user = query.getSingleResult();
-        
-        return user.getProjects();
+
+
+	/**
+	 * Liefert alle Projekte die einem User zugeordnet sind
+	 * @param user Der Benutzer zudem die Projekte aufgelistet werden soll
+	 * @return Collection mit den Projekten
+	 */
+    public Collection<Project> getUserProjects(User user){
+        return em.createNamedQuery(Project.findAllByUser, Project.class)
+                    .setParameter("user", user)
+                    .getResultList();
     }
     
+    /**
+     * Liefert alle Projekte
+     * @return Liste der Projekte
+     */
     public List<Project> getAllProjects(){
         return em.createNamedQuery(Project.findAll,Project.class).getResultList();
     }
     
+    /**
+     * Neues Projekt anlegen
+     * @param newProject das anzulegende Projekt
+     */
     public void addProject(Project newProject) {
         lg.info("New Project Added: " + newProject);
         em.persist(newProject);
     }
     
+    /**
+     * Löscht ein Projekt
+     * @param removeProject Das zu löschende Projekt
+     */
     public void removeProject(Project removeProject) {
         lg.info("Project Removed: " + removeProject);
         em.remove(em.contains(removeProject) ? removeProject : em.merge(removeProject));
@@ -90,20 +103,6 @@ public class ProjectService implements TimeService{
         em.persist(changeUser);
     }
 
-    /**
-     * Zeit auf ein Projekt buchen
-     * @param projectID Die ID des Projektes
-     * @param loggedIn  Der Benutzer auf den Gebucht werden soll
-     * @param toTime Die zu verrechnende TimeBox
-     */
-    public void commitTime(int projectID, User loggedIn, ProjectBooking toTime) {
-        lg.info("Start: " + toTime.getStart() + "\nStop: " + toTime.getStop());
-        toTime.setProject(em.find(Project.class, projectID));
-        toTime.setUser(em.contains(loggedIn) ? loggedIn : em.merge(loggedIn));
-        toTime.setStatus(ProjectBooking.StatusProjectTime.TIME_NOTBILLED.toString());
-        em.persist(toTime);
-    }
-
     @Override
     public String getServiceName() {
         return this.getClass().getName();
@@ -124,7 +123,7 @@ public class ProjectService implements TimeService{
         if(toTime instanceof ProjectBooking) {
             
             ProjectBooking projTime = (ProjectBooking) toTime;
-            projTime.setProject(em.find(Project.class, id));
+            projTime.setProject(em.find(Project.class, Integer.parseInt(id)));
             projTime.setUser(em.contains(user) ? user : em.merge(user));
             projTime.setStatus(ProjectBooking.StatusProjectTime.TIME_NOTBILLED.toString());
             em.persist(projTime);
@@ -136,68 +135,33 @@ public class ProjectService implements TimeService{
         
     }
 
-    private static SimpleDateFormat dtF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     
     @Override
     public List<BookingItem> getBookingList(User user, TIME_BOX box, Date pinDate, SORT_TYPE sort) {
 
-        switch (box) {
-        case DAY:
-            GregorianCalendar calStart = new GregorianCalendar();
-            calStart.setTime(pinDate);
-            
-            TypedQuery<BookingItem> queryDay = em.createNamedQuery(BookingItem.findDayByUser,BookingItem.class);
-            return queryDay.setParameter("user", user)
-                           .setParameter("pinDate", calStart.getTime())
-                           .getResultList();
-            
+        String queryName = null;
+        
+        Map.Entry<Date, Date> span = DateHelper.GetSpan(box, pinDate);
+        
+        switch (sort) {
+        case START:
+                queryName = ProjectBooking.findSpanByUser;
+            break;
 
-        case WEEK:
-            GregorianCalendar calStartWeek = new GregorianCalendar();
-            GregorianCalendar calStopWeek = new GregorianCalendar();
+        case STOP:
+            queryName = ProjectBooking.findSpanByUserOrderStop;
+            break;
             
-            calStartWeek.setTime(pinDate);
-            int dayOfWeek = calStartWeek.get(GregorianCalendar.DAY_OF_WEEK);
-            int difToMonday = dayOfWeek == GregorianCalendar.SUNDAY ? 6 : dayOfWeek - GregorianCalendar.MONDAY; 
-            calStartWeek.add(Calendar.DATE,-difToMonday);
-            calStartWeek.set(Calendar.HOUR_OF_DAY,0);
-            calStartWeek.set(Calendar.MINUTE,0);
-            calStartWeek.set(Calendar.SECOND,0);
-
-            calStopWeek.setTime(calStartWeek.getTime());
-            calStopWeek.add(Calendar.DATE, 7);
-            calStopWeek.add(Calendar.SECOND,-1);
-            
-            lg.info("SpanStart: " + dtF.format(calStartWeek.getTime()));
-            lg.info("SpanStop: " + dtF.format(calStopWeek.getTime()));
-            
-            
-            TypedQuery<BookingItem> queryWeek = em.createNamedQuery(BookingItem.findSpanByUser,BookingItem.class);
-            return queryWeek.setParameter("user", user)
-                            .setParameter("spanStart", calStartWeek.getTime())
-                            .setParameter("spanStop", calStopWeek.getTime())
-                            .getResultList();
-
-        case MOTH:
-            GregorianCalendar calStartMonth = new GregorianCalendar();
-            GregorianCalendar calStopMonth = new GregorianCalendar();
-            
-            calStartMonth.setTime(pinDate);
-            calStartMonth.set(Calendar.DATE,1);
-            calStartMonth.set(Calendar.HOUR,0);
-            calStartMonth.set(Calendar.MINUTE,0);
-            calStartMonth.set(Calendar.SECOND,0);
-
-            calStopMonth.setTime(calStartMonth.getTime());
-            calStopMonth.add(Calendar.DATE, 7);
-            calStopMonth.add(Calendar.SECOND,-1);
-
-            TypedQuery<BookingItem> queryMonth = em.createNamedQuery(BookingItem.findSpanByUser,BookingItem.class);
-            return queryMonth.setParameter("spanStart", calStartMonth.getTime()).setParameter("spanStop", calStopMonth.getTime()).getResultList();
-
         default:
             throw new NotImplementedException();
         }
+        
+        return em.createNamedQuery(queryName,BookingItem.class)
+                .setParameter("user", user)
+                .setParameter("spanStart", span.getKey())
+                .setParameter("spanStop", span.getValue())
+                .getResultList();
     }
+
+   
 }

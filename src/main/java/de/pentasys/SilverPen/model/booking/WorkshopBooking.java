@@ -14,5 +14,10 @@ import javax.persistence.Table;
 @DiscriminatorValue("Workshop")
 public class WorkshopBooking extends BookingItem{
   
+    public enum StatusWorkshop{
+        WORKSHOP_REQUESTED,
+        WORKSHOP_CONFIRMED,
+        WORKSHOP_REJECTED
+    }
     
 }

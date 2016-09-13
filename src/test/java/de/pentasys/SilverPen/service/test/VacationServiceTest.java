@@ -7,7 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.booking.VacationBooking;
 import de.pentasys.SilverPen.service.VacationService;
@@ -66,14 +67,20 @@ public class VacationServiceTest {
         LinkedList<VacationBooking> requests = new LinkedList<VacationBooking>();
         requests.add(vac);
         user.setVacationRequests(requests);
+
+        TypedQuery<VacationBooking> queryAllByUser = mock(TypedQuery.class);
+        TypedQuery<VacationBooking> tqUser1 = mock(TypedQuery.class);
         
         TypedQuery<User> query = mock(TypedQuery.class);
         when(query.getSingleResult()).thenReturn(user);
-        when(em.createQuery("SELECT u " + "FROM User u " + "WHERE u.email = '" + user.getEmail() + "'", User.class)).thenReturn(query);
 
-        TypedQuery<VacationBooking> query2 = mock(TypedQuery.class);
-        when(query2.getResultList()).thenReturn(requests);
-        when(em.createNamedQuery(VacationBooking.findAll, VacationBooking.class)).thenReturn(query2);
+        when( em.createNamedQuery(VacationBooking.findAllByUser,VacationBooking.class)).thenReturn(queryAllByUser);
+        when(queryAllByUser.setParameter("user", user)).thenReturn(tqUser1);
+        when(tqUser1.getResultList()).thenReturn(requests);
+        
+        TypedQuery<VacationBooking> queryAll = mock(TypedQuery.class);
+        when(em.createNamedQuery(VacationBooking.findAll, VacationBooking.class)).thenReturn(queryAll);
+        when(queryAll.getResultList()).thenReturn(requests);
         
         when(em.contains(vac)).thenReturn(true);
     }
@@ -94,10 +101,10 @@ public class VacationServiceTest {
     
     @Test
     public void testGetUserVacationRequests() {
-        Collection<VacationBooking> vacations = mockedVacationService.getUserVacationRequests(user.getEmail());
+        Collection<VacationBooking> vacations = mockedVacationService.getUserVacationRequests(user);
         assertEquals(1, vacations.size());
         assertTrue(vacations.contains(vac));
-        verify(em, times(1)).createQuery("SELECT u " + "FROM User u " + "WHERE u.email = 'test@test.de'", User.class);
+        verify(em, times(1)).createNamedQuery(VacationBooking.findAllByUser, VacationBooking.class);
     }
 
     @Test

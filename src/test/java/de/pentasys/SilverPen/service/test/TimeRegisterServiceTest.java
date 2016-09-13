@@ -22,7 +22,7 @@ import de.pentasys.SilverPen.model.Role;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
-import de.pentasys.SilverPen.service.TimeRegisterService;
+import de.pentasys.SilverPen.service.BookingItemService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TimeRegisterServiceTest {
@@ -38,7 +38,7 @@ public class TimeRegisterServiceTest {
     private static Logger lg;
 
     @InjectMocks
-    private TimeRegisterService mockedService;
+    private BookingItemService mockedService;
 
     @Before
     public void setUp() throws Exception {

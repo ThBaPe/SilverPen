@@ -19,7 +19,8 @@ import javax.persistence.Table;
  *
  */
 @NamedQueries({ 
-    @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")
+    @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p"),
+    @NamedQuery(name = "Project.findAllByUser", query = "SELECT p FROM Project p WHERE p.users = :user")
 })
 @Entity
 @Table (name="Project")
@@ -28,6 +29,8 @@ public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
     
     public static final String findAll = "Project.findAll";
+    public static final String findAllByUser = "Project.findAllByUser";
+    
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
