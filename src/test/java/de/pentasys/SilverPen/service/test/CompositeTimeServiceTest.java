@@ -62,66 +62,7 @@ public class CompositeTimeServiceTest {
     
     //             Month < WEEK < DAY > > >
     private static List<List<List<BookingItem>>> DataMonth = new ArrayList<List<List<BookingItem>>>();
-    private final int INITIAL_DAY = 0;
-    private final int INITIAL_WEEK = 0;
-    
-    
-    private static SimpleDateFormat dtF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    
-    private static String convertToString(ProjectBooking boocking) {
-        return boocking.getProject().getId() + "|" +  dtF.format(boocking.getStart()) + "|" + dtF.format(boocking.getStop());
-    }
-
-    private static String convertToString(VacationBooking boocking) {
-        return boocking.getStatus() + "|" +  dtF.format(boocking.getStart()) + "|" + dtF.format(boocking.getStop());
-    }
-    
-    private static String convertToString(BookingItem boocking) {
-        return "InternalTime|" +  dtF.format(boocking.getStart()) + "|" + dtF.format(boocking.getStop());
-    }
-    
-    private static String convertToString(WorkshopBooking boocking) {
-        return "WorkShop|" +  dtF.format(boocking.getStart()) + "|" + dtF.format(boocking.getStop());
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> List<T> filterListItem(List<T> list, Predicate<T> filter) {
-        
-        List<T> retList = new LinkedList<>();
-        List<Object> lo = list.stream().filter(filter).collect(Collectors.toList());
-        
-        for (Object o : lo) {
-            retList.add((T)o);
-        }
-           
-        return retList;
-    }
-
-    private static <T extends BookingItem> T convertToObj(String boocking,  Class<T> type) throws ParseException {
-
-        String[] data = boocking.split("\\|");
-
-        BookingItem retVal = null;
-        if( type == ProjectBooking.class){
-            ProjectBooking proVal = new ProjectBooking();
-            proVal.setProject(new Project());
-            proVal.getProject().setId(Integer.parseInt(data[0]));
-            retVal = proVal;
-        } else if(type == VacationBooking.class) {
-            VacationBooking vacVal = new VacationBooking();
-            vacVal.setStatus(data[0]);
-            retVal = vacVal;
-        } else if(type == WorkshopBooking.class) {
-            retVal = new WorkshopBooking();
-        } else if(type == BookingItem.class) {
-            retVal = new ProjectBooking();
-        }
-        
-        retVal.setStart(dtF.parse(data[1]));
-        retVal.setStop(dtF.parse(data[2]));
-        
-        return type.cast(retVal);
-    }
+    private TestHelper helper = new TestHelper(0, 0);
 
     
     @Before
@@ -155,48 +96,48 @@ public class CompositeTimeServiceTest {
         //  -"-   Intern:      "DummyText     |        Start      |        Stop       "    
         
         LinkedList<BookingItem> Monday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj("1|2007-12-31 07:00:00|2007-12-31 09:00:00",ProjectBooking.class),
-                convertToObj("1|2007-12-31 09:00:00|2007-12-31 11:00:00",ProjectBooking.class),
-                convertToObj("2|2007-12-31 11:00:00|2007-12-31 13:00:00",ProjectBooking.class),
-                convertToObj("1|2007-12-31 14:00:00|2007-12-31 16:00:00",ProjectBooking.class),
-                convertToObj("2|2007-12-31 16:00:00|2007-12-31 18:00:00",ProjectBooking.class),
-                convertToObj("1|2007-12-31 18:00:00|2007-12-31 19:00:00",ProjectBooking.class)));
+                TestHelper.convertToObj("1|2007-12-31 07:00:00|2007-12-31 09:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("1|2007-12-31 09:00:00|2007-12-31 11:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("2|2007-12-31 11:00:00|2007-12-31 13:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("1|2007-12-31 14:00:00|2007-12-31 16:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("2|2007-12-31 16:00:00|2007-12-31 18:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("1|2007-12-31 18:00:00|2007-12-31 19:00:00",ProjectBooking.class)));
 
         LinkedList<BookingItem> Tuesday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj("VACATION_CONFIRMED|2008-01-01 08:00:00|2008-01-01 16:00:00",VacationBooking.class)
+                TestHelper.convertToObj("VACATION_CONFIRMED|2008-01-01 08:00:00|2008-01-01 16:00:00",VacationBooking.class)
                 ));
 
         LinkedList<BookingItem> Wednesday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj(                 "1|2008-01-02 07:00:00|2008-01-02 08:00:00",ProjectBooking.class),
-                convertToObj("VACATION_CONFIRMED|2008-01-02 08:00:00|2008-01-02 16:00:00",VacationBooking.class)
+                TestHelper.convertToObj(                 "1|2008-01-02 07:00:00|2008-01-02 08:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("VACATION_CONFIRMED|2008-01-02 08:00:00|2008-01-02 16:00:00",VacationBooking.class)
                 ));
 
         LinkedList<BookingItem> Thursday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj("Workshop|2008-01-03 07:00:00|2008-01-03 12:00:00",WorkshopBooking.class),
-                convertToObj(       "2|2008-01-03 12:00:00|2008-01-03 14:00:00",ProjectBooking.class),
-                convertToObj("Workshop|2008-01-03 14:00:00|2008-01-03 19:00:00",WorkshopBooking.class)
+                TestHelper.convertToObj("Workshop|2008-01-03 07:00:00|2008-01-03 12:00:00",WorkshopBooking.class),
+                TestHelper.convertToObj(       "2|2008-01-03 12:00:00|2008-01-03 14:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("Workshop|2008-01-03 14:00:00|2008-01-03 19:00:00",WorkshopBooking.class)
                 ));
 
         LinkedList<BookingItem> Friday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj(       "2|2008-01-04 07:00:00|2008-01-04 10:00:00",ProjectBooking.class),
-                convertToObj(       "3|2008-01-04 10:00:00|2008-01-04 13:00:00",ProjectBooking.class),
-                convertToObj("Internal|2008-01-04 13:00:00|2008-01-04 14:00:00",BookingItem.class),
-                convertToObj(       "2|2008-01-04 14:00:00|2008-01-04 18:00:00",ProjectBooking.class),
-                convertToObj(       "1|2008-01-04 18:00:00|2008-01-04 19:00:00",ProjectBooking.class)
+                TestHelper.convertToObj(       "2|2008-01-04 07:00:00|2008-01-04 10:00:00",ProjectBooking.class),
+                TestHelper.convertToObj(       "3|2008-01-04 10:00:00|2008-01-04 13:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("Internal|2008-01-04 13:00:00|2008-01-04 14:00:00",BookingItem.class),
+                TestHelper.convertToObj(       "2|2008-01-04 14:00:00|2008-01-04 18:00:00",ProjectBooking.class),
+                TestHelper.convertToObj(       "1|2008-01-04 18:00:00|2008-01-04 19:00:00",ProjectBooking.class)
                 ));
 
         LinkedList<BookingItem> Saturday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj("Worksho2|2008-01-05 08:00:00|2008-01-05 10:00:00",WorkshopBooking.class),
-                convertToObj("Internal|2008-01-05 10:00:00|2008-01-05 12:00:00",BookingItem.class),
-                convertToObj(       "2|2008-01-05 12:00:00|2008-01-05 16:30:00",ProjectBooking.class),
-                convertToObj("Internal|2008-01-05 17:00:00|2008-01-05 18:00:00",BookingItem.class)
+                TestHelper.convertToObj("Worksho2|2008-01-05 08:00:00|2008-01-05 10:00:00",WorkshopBooking.class),
+                TestHelper.convertToObj("Internal|2008-01-05 10:00:00|2008-01-05 12:00:00",BookingItem.class),
+                TestHelper.convertToObj(       "2|2008-01-05 12:00:00|2008-01-05 16:30:00",ProjectBooking.class),
+                TestHelper.convertToObj("Internal|2008-01-05 17:00:00|2008-01-05 18:00:00",BookingItem.class)
                 ));
 
         LinkedList<BookingItem> Sunday = new LinkedList<BookingItem>(Arrays.asList(
-                convertToObj("Internal|2008-01-06 07:00:00|2008-01-06 08:00:00",BookingItem.class),
-                convertToObj(       "1|2008-01-06 08:00:00|2008-01-06 13:00:00",ProjectBooking.class),
-                convertToObj("Internal|2008-01-06 14:00:00|2008-01-06 15:00:00",BookingItem.class),
-                convertToObj("Worksho2|2008-01-06 15:00:00|2008-01-06 18:00:00",WorkshopBooking.class)
+                TestHelper.convertToObj("Internal|2008-01-06 07:00:00|2008-01-06 08:00:00",BookingItem.class),
+                TestHelper.convertToObj(       "1|2008-01-06 08:00:00|2008-01-06 13:00:00",ProjectBooking.class),
+                TestHelper.convertToObj("Internal|2008-01-06 14:00:00|2008-01-06 15:00:00",BookingItem.class),
+                TestHelper.convertToObj("Worksho2|2008-01-06 15:00:00|2008-01-06 18:00:00",WorkshopBooking.class)
                 ));
   
         //Month            WEEK < DAY < item     >>
@@ -204,12 +145,12 @@ public class CompositeTimeServiceTest {
         DataMonth.add(new LinkedList<List<BookingItem>>(Arrays.asList(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday)));
         
         List<BookingItem> Week = new LinkedList<>();
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY  ));
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+1));
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+2));
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+3));
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+4));
-        Week.addAll(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY+6));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY  ));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY+1));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY+2));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY+3));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY+4));
+        Week.addAll(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY+6));
 
         GregorianCalendar calHelper = new GregorianCalendar();
         List<BookingItem> Month = new LinkedList<>();
@@ -224,20 +165,20 @@ public class CompositeTimeServiceTest {
                 if (item instanceof ProjectBooking 
                         && ((ProjectBooking) item).getProject() == null) {
     
-                    newItem = convertToObj(convertToString(item),BookingItem.class);
+                    newItem = TestHelper.convertToObj(TestHelper.convertToString(item),BookingItem.class);
     
                 }else if(item instanceof ProjectBooking 
                         && ((ProjectBooking) item).getProject() != null){
     
-                    newItem = convertToObj(convertToString((ProjectBooking)item),ProjectBooking.class);
+                    newItem = TestHelper.convertToObj(TestHelper.convertToString((ProjectBooking)item),ProjectBooking.class);
     
                 }else if(item instanceof WorkshopBooking) {
     
-                    newItem = convertToObj(convertToString((WorkshopBooking)item),WorkshopBooking.class);
+                    newItem = TestHelper.convertToObj(TestHelper.convertToString((WorkshopBooking)item),WorkshopBooking.class);
                     
                 }else if(item instanceof VacationBooking) {
     
-                    newItem = convertToObj(convertToString((VacationBooking)item),VacationBooking.class);
+                    newItem = TestHelper.convertToObj(TestHelper.convertToString((VacationBooking)item),VacationBooking.class);
                 }
     
                 // Buchung um eine Woche verschieben
@@ -264,13 +205,13 @@ public class CompositeTimeServiceTest {
 
         
         when(srvProj.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isProject)); 
+                .thenReturn(TestHelper.filterListItem(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY),isProject)); 
 
         when(srvProj.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Week,isProject));
+                .thenReturn(TestHelper.filterListItem(Week,isProject));
 
         when(srvProj.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Month,isProject));
+                .thenReturn(TestHelper.filterListItem(Month,isProject));
 
         
         ////////////// Urlaub         /////////////////
@@ -282,13 +223,13 @@ public class CompositeTimeServiceTest {
         };
         
         when(srvVaca.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isVacation)); 
+                .thenReturn(TestHelper.filterListItem(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY),isVacation)); 
 
         when(srvVaca.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Week,isVacation));
+                .thenReturn(TestHelper.filterListItem(Week,isVacation));
 
         when(srvVaca.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Month,isVacation));
+                .thenReturn(TestHelper.filterListItem(Month,isVacation));
 
         ////////////// Workshop       /////////////////
         Predicate<BookingItem> isWorkShop = new Predicate<BookingItem>() {
@@ -299,13 +240,13 @@ public class CompositeTimeServiceTest {
         };
         
         when(srvWoSh.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isWorkShop)); 
+                .thenReturn(TestHelper.filterListItem(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY),isWorkShop)); 
 
         when(srvWoSh.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Week,isWorkShop));
+                .thenReturn(TestHelper.filterListItem(Week,isWorkShop));
 
         when(srvWoSh.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Month,isWorkShop));
+                .thenReturn(TestHelper.filterListItem(Month,isWorkShop));
 
 
         ////////////// Intern         /////////////////
@@ -317,13 +258,13 @@ public class CompositeTimeServiceTest {
         };
         
         when(srvInte.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.DAY), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(DataMonth.get(INITIAL_WEEK).get(INITIAL_DAY),isInternal)); 
+                .thenReturn(TestHelper.filterListItem(DataMonth.get(helper.INITIAL_WEEK).get(helper.INITIAL_DAY),isInternal)); 
 
         when(srvInte.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.WEEK), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Week,isInternal));
+                .thenReturn(TestHelper.filterListItem(Week,isInternal));
 
         when(srvInte.getBookingList(Matchers.eq(user1), Matchers.eq(TIME_BOX.MOTH), Matchers.any(Date.class), Matchers.any(SORT_TYPE.class)))
-                .thenReturn(filterListItem(Month,isInternal));
+                .thenReturn(TestHelper.filterListItem(Month,isInternal));
 
     }
     
@@ -336,14 +277,14 @@ public class CompositeTimeServiceTest {
 
         ///////////////     Project    ////////////////////////////////////////////////////
         ProjectBooking ti1 = new ProjectBooking();
-        ti1.setStart(dtF.parse("2016-01-01 12:00:00"));
-        ti1.setStop(dtF.parse("2016-01-01 13:00:00"));
+        ti1.setStart(TestHelper.dtF.parse("2016-01-01 12:00:00"));
+        ti1.setStop(TestHelper.dtF.parse("2016-01-01 13:00:00"));
         ti1.setProject(new Project());
         ti1.getProject().setId(1);
         
-        String ti1AsString = convertToString(ti1);
-        ProjectBooking ti1AsObj = convertToObj(ti1AsString,ProjectBooking.class);
-        String ti1AsString2 = convertToString(ti1AsObj);
+        String ti1AsString = TestHelper.convertToString(ti1);
+        ProjectBooking ti1AsObj = TestHelper.convertToObj(ti1AsString,ProjectBooking.class);
+        String ti1AsString2 = TestHelper.convertToString(ti1AsObj);
         ///////////////////////////////////////////////////////////////////////////////////
         assertTrue(ti1AsString.compareTo(ti1AsString2) == 0);
         ///////////////////////////////////////////////////////////////////////////////////
@@ -351,13 +292,13 @@ public class CompositeTimeServiceTest {
         
         ///////////////     Vacation    ////////////////////////////////////////////////////
         VacationBooking vi1 = new VacationBooking();
-        vi1.setStart(dtF.parse("2016-01-01 12:00:00"));
-        vi1.setStop(dtF.parse("2016-01-01 13:00:00"));
+        vi1.setStart(TestHelper.dtF.parse("2016-01-01 12:00:00"));
+        vi1.setStop(TestHelper.dtF.parse("2016-01-01 13:00:00"));
         vi1.setStatus(VacationBooking.StatusVacation.VACATION_CONFIRMED.toString());
         
-        String vi1AsString = convertToString(vi1);
-        VacationBooking vi1AsObj = convertToObj(vi1AsString,VacationBooking.class);
-        String vi1AsString2 = convertToString(vi1AsObj);
+        String vi1AsString = TestHelper.convertToString(vi1);
+        VacationBooking vi1AsObj = TestHelper.convertToObj(vi1AsString,VacationBooking.class);
+        String vi1AsString2 = TestHelper.convertToString(vi1AsObj);
         ///////////////////////////////////////////////////////////////////////////////////
         assertTrue(vi1AsString.compareTo(vi1AsString2) == 0);
         ///////////////////////////////////////////////////////////////////////////////////
@@ -365,12 +306,12 @@ public class CompositeTimeServiceTest {
         
         ///////////////     Workshop    ////////////////////////////////////////////////////
         WorkshopBooking wsi1 = new WorkshopBooking();
-        wsi1.setStart(dtF.parse("2016-01-01 12:00:00"));
-        wsi1.setStop(dtF.parse("2016-01-01 13:00:00"));
+        wsi1.setStart(TestHelper.dtF.parse("2016-01-01 12:00:00"));
+        wsi1.setStop(TestHelper.dtF.parse("2016-01-01 13:00:00"));
         
-        String wsi1AsString = convertToString(wsi1);
-        WorkshopBooking wsi1AsObj = convertToObj(wsi1AsString,WorkshopBooking.class);
-        String wsi1AsString2 = convertToString(wsi1AsObj);
+        String wsi1AsString = TestHelper.convertToString(wsi1);
+        WorkshopBooking wsi1AsObj = TestHelper.convertToObj(wsi1AsString,WorkshopBooking.class);
+        String wsi1AsString2 = TestHelper.convertToString(wsi1AsObj);
         ///////////////////////////////////////////////////////////////////////////////////
         assertTrue(wsi1AsString.compareTo(wsi1AsString2) == 0);
         ///////////////////////////////////////////////////////////////////////////////////
@@ -378,12 +319,12 @@ public class CompositeTimeServiceTest {
         
         ///////////////     Intern    ////////////////////////////////////////////////////
         BookingItem bi1 = new ProjectBooking();
-        bi1.setStart(dtF.parse("2016-01-01 12:00:00"));
-        bi1.setStop(dtF.parse("2016-01-01 13:00:00"));
+        bi1.setStart(TestHelper.dtF.parse("2016-01-01 12:00:00"));
+        bi1.setStop(TestHelper.dtF.parse("2016-01-01 13:00:00"));
         
-        String bi1AsString = convertToString(bi1);
-        BookingItem bi1AsObj = convertToObj(bi1AsString,BookingItem.class);
-        String bi1AsString2 = convertToString(bi1AsObj);
+        String bi1AsString = TestHelper.convertToString(bi1);
+        BookingItem bi1AsObj = TestHelper.convertToObj(bi1AsString,BookingItem.class);
+        String bi1AsString2 = TestHelper.convertToString(bi1AsObj);
         ///////////////////////////////////////////////////////////////////////////////////
         assertTrue(bi1AsString.compareTo(bi1AsString2) == 0);
         ///////////////////////////////////////////////////////////////////////////////////
@@ -433,11 +374,11 @@ public class CompositeTimeServiceTest {
                 
                 java.util.ListIterator<BookingItem> cur = list.listIterator();
                 BookingItem last = cur.next();
-                System.out.println(convertToString(last));
+                System.out.println(TestHelper.convertToString(last));
     
                 while(cur.hasNext()) {
                     BookingItem next = cur.next();
-                    System.out.println(convertToString(next));
+                    System.out.println(TestHelper.convertToString(next));
                     assertTrue(last.getStart().getTime() <= next.getStart().getTime());
                     last = next;
                 }

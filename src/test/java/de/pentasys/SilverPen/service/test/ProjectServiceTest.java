@@ -3,38 +3,56 @@ package de.pentasys.SilverPen.service.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.AssertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.exceptions.verification.NeverWantedButInvoked;
+import org.mockito.internal.matchers.Any;
+import org.mockito.internal.verification.AtLeast;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.mockito.verification.VerificationMode;
+
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
+import de.pentasys.SilverPen.model.booking.BookingItem;
+import de.pentasys.SilverPen.model.booking.ProjectBooking;
 import de.pentasys.SilverPen.service.ProjectService;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectServiceTest {
 
-    private static User user1;
-    private static User user2;
-    
-	private static Project project1; // <- User1 + User 2
-	private static Project project2; // <- User1
+    private static User user1; //< pr1, pr2, ---, ---,
+    private static User user2; //< pr1, ---, ---, ---,
+    private static User user3; //< ---, ---, ---, ---,
+
+    private static Project project1; // <- us1, us2, ---, ---
+	private static Project project2; // <- us1, ---, ---, ---,
+    private static Project project3; // <- ---, ---, ---, ---,
+	
 	
 
 	@Mock
@@ -58,6 +76,13 @@ public class ProjectServiceTest {
 		project2.setName("Half-Life 3");
 		project2.setProjectnumber("2");
 		project2.setId(2);
+
+
+        project3 = new Project();
+        project3.setName("Call of Duty");
+        project3.setProjectnumber("3");
+        project3.setId(3);
+
 		
 		user1 = new User();
 		user1.setEmail("test@test.de");
@@ -69,35 +94,46 @@ public class ProjectServiceTest {
 		user2.setUsername("Testuser2");
 		user2.setProjects(Arrays.asList(project1));
 
+
+		user3 = new User();
+	    user3.setEmail("test3@test3.de");
+	    user3.setUsername("Testuser3");
+	    user3.setProjects(new LinkedList<Project>());
+
 		project1.setUsers(new ArrayList<User>(Arrays.asList(user1, user2)));
 		project2.setUsers(new ArrayList<User>(Arrays.asList(user1)));
 
 		when(em.find(Project.class, "1")).thenReturn(project1);
 		when(em.find(Project.class, "2")).thenReturn(project2);
+        when(em.find(Project.class, "3")).thenReturn(project3);
         when(em.find(Project.class, 1)).thenReturn(project1);
         when(em.find(Project.class, 2)).thenReturn(project2);
+        when(em.find(Project.class, 3)).thenReturn(project3);
 		when(em.find(User.class, "test@test.de")).thenReturn(user1);
         when(em.find(User.class, "test2@test2.de")).thenReturn(user2);
-
+        when(em.find(User.class, "test3@test3.de")).thenReturn(user3);
 
         TypedQuery<Project> queryAllByUser = mock(TypedQuery.class);
         when( em.createNamedQuery(Project.findAllByUser,Project.class)).thenReturn(queryAllByUser);
         
         TypedQuery<Project> tqUser1 = mock(TypedQuery.class);
-        when(queryAllByUser.setParameter("user", user1)).thenReturn(tqUser1);
+        when(queryAllByUser.setParameter("userMail", user1.getEmail())).thenReturn(tqUser1);
         when(tqUser1.getResultList()).thenReturn(Arrays.asList(project1, project2));
         
         TypedQuery<Project> tqUser2 = mock(TypedQuery.class);
-        when(queryAllByUser.setParameter("user", user2)).thenReturn(tqUser2);
+        when(queryAllByUser.setParameter("userMail", user2.getEmail())).thenReturn(tqUser2);
         when(tqUser2.getResultList()).thenReturn(Arrays.asList(project1));
         
         TypedQuery<Project> query3 = mock(TypedQuery.class);
         when(query3.getResultList()).thenReturn(Arrays.asList(project1, project2));
         when( em.createNamedQuery(Project.findAll,Project.class)).thenReturn(query3);
-        
 
         when(em.contains(project1)).thenReturn(true);
 		when(em.contains(project2)).thenReturn(false);
+		when(em.contains(project3)).thenReturn(true);
+		when(em.contains(user3)).thenReturn(true);
+        
+
 	}
 
 	@Test
@@ -136,6 +172,8 @@ public class ProjectServiceTest {
 		mockedProjectService.removeProject(project2);
 		verify(em, times(1)).remove(em.merge(project2));
 
+		
+		
 	}
 	
 	@Test
@@ -170,4 +208,27 @@ public class ProjectServiceTest {
 	    
 	}
 
+    @Test
+    public void TestcommitTime() throws ParseException {
+
+        BookingItem bi1 = TestHelper.convertToObj("Carpe Diem|2016-12-31 07:00:00|2016-12-31 09:00:00",BookingItem.class);
+        ProjectBooking pr1 = (ProjectBooking) bi1;
+        
+        boolean bExeptionThrown = false;
+        
+        try {
+            // Kein Projekt, dann dürfen wir auch nicht über den Projekt-Service Buchen
+            mockedProjectService.commitTime(user3, bi1);
+        } catch (NotImplementedException e) {
+            bExeptionThrown = true;
+        }
+        
+        assertTrue(bExeptionThrown);
+        verify(em, Mockito.never()).persist(bi1);
+        
+        mockedProjectService.commitTime(user3, pr1,"3");
+        verify(em).persist(pr1);
+        assertTrue(pr1.getProject() == project3);
+        assertTrue(pr1.getUser() == user3);
+    }
 }
