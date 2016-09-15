@@ -41,60 +41,32 @@ public class BookProjectTest {
         driver.findElement(By.id("form:timeStart_input")).clear();
         driver.findElement(By.id("form:timeStart_input")).sendKeys("10:00");
         driver.findElement(By.id("form:timeStop_input")).clear();
-        driver.findElement(By.id("form:timeStop_input")).sendKeys("11:00");
-        driver.findElement(By.xpath("//div[@id='form:project']/div[3]/span")).click();
-        driver.findElement(By.id("form:project_1")).click();
+        driver.findElement(By.id("form:timeStop_input")).sendKeys("10:15");
         driver.findElement(By.xpath("//div[@id='form:project']/div[3]/span")).click();
         driver.findElement(By.id("form:project_0")).click();
+        Thread.sleep(500);
         driver.findElement(By.id("form:j_idt58")).click();
         
         // Projekt Buchung
         driver.findElement(By.id("form:j_idt34")).clear();
         driver.findElement(By.id("form:j_idt34")).sendKeys("Weiterbildung buchen");
         driver.findElement(By.id("form:timeStart_input")).clear();
-        driver.findElement(By.id("form:timeStart_input")).sendKeys("15:00");
+        driver.findElement(By.id("form:timeStart_input")).sendKeys("11:00");
         driver.findElement(By.id("form:timeStop_input")).clear();
-        driver.findElement(By.id("form:timeStop_input")).sendKeys("16:00");
+        driver.findElement(By.id("form:timeStop_input")).sendKeys("11:30");
         driver.findElement(By.xpath("//div[@id='form:project']/div[3]/span")).click();
         driver.findElement(By.id("form:project_1")).click();
+        Thread.sleep(500);
         driver.findElement(By.id("form:j_idt58")).click();
-        
-        
-        
-        /*
-        // Home -> Projektverwaltung
-        WebElement menuProj =  driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Projektverwaltung']/../.."));
-        Actions action = new Actions(driver);
-        action.moveToElement(menuProj).perform();
-        Thread.sleep(500);
-        driver.findElement(By.linkText("Kundenprojekt anlegen")).click();
-        Thread.sleep(500);
-
-        String sProjName = UUID.randomUUID().toString().replace("-", "");
-        driver.findElement(By.id("form:customer")).clear();
-        driver.findElement(By.id("form:customer")).sendKeys(sProjName);
-        driver.findElement(By.id("form:addBtn")).click();
-        Thread.sleep(500);
-
-        
-        WebElement lastProjectInList = driver.findElement(By.xpath("//div[@id='form:list']//li[last()]"));
-        String lastListProject = lastProjectInList.getText();
-        lastProjectInList.click();
-        Thread.sleep(500);
-        driver.findElement(By.id("form:removeBtn")).click();
-        Thread.sleep(500);
-        String lastListProject2 = driver.findElement(By.xpath("//div[@id='form:list']//li[last()]")).getText();
-
-        boolean addDone = lastListProject.contains(sProjName);
-        boolean removeDone = !lastListProject.equals(lastListProject2);
-
-        assertTrue(addDone && removeDone);
-        
-        // Projektverwaltung -> Home
-        driver.findElement(By.xpath("//*[@id='form:gridProject']//a[text()='home']")).click();
         Thread.sleep(500);
         
-        */
+//        )
+        String listElement1 = driver.findElement(By.xpath("//*[@id='dataT_data']//tr[1]//td[2]")).getText();
+        String listElement2 = driver.findElement(By.xpath("//*[@id='dataT_data']//tr[2]//td[2]")).getText();
+        
+        assertTrue(Double.parseDouble(listElement1) == 0.5);
+        assertTrue(Double.parseDouble(listElement2) == 0.25);
+    
     }
 
     @After
