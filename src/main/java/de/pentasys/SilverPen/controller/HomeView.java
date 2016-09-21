@@ -1,6 +1,5 @@
 package de.pentasys.SilverPen.controller;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.SelectEvent;
 
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.booking.ProjectBooking;
@@ -29,6 +30,16 @@ public class HomeView {
     private String projectID;
     private String category;
     private Map<String, String> projects;
+    private Date curSelected;
+
+    public Date getCurSelected() {
+        return curSelected;
+    }
+
+
+    public void setCurSelected(Date curSelected) {
+        this.curSelected = curSelected;
+    }
 
 
     public Map<String, String> getProjects() {
@@ -43,6 +54,7 @@ public class HomeView {
 
     @Inject private BookingItemService serviceTime;
     @Inject private LoginInfo curLogin;
+    @Inject private ViewContext curContext;
     @Inject private Logger lg;
     @Inject private BookingItemListView bookings;
     @Inject private ProjectService serProj;
@@ -50,11 +62,14 @@ public class HomeView {
     @PostConstruct
     public void init() {
 
-        curDate = new Date();
-        curHour = new ProjectBooking();
-        curHour.setStart(new Date());
-        curHour.setStop(new Date());
- 
+        if(curDate == null) {
+            curDate = new Date();
+
+            curHour = new ProjectBooking();
+            curHour.setStart(new Date());
+            curHour.setStop(new Date());
+        }
+        
         isAdmin = curLogin.getCurrentUser().hasRole("Admin");
         
         bookings.init();
@@ -101,6 +116,15 @@ public class HomeView {
         this.init();
     }
 
+    /**
+     * Datumswechsel verarbeiten
+     */
+    public void handleDateSelect(SelectEvent event){
+        lg.info(" Date selection changed:" + curContext.getPinDaten() + " (old)");
+        curContext.setPinDaten((Date) event.getObject());
+        lg.info(" Date selection changed:" + curContext.getPinDaten() + " (new)");
+        init();
+    }
 
     public String logout(){
         curLogin.setCurrentUser(null);

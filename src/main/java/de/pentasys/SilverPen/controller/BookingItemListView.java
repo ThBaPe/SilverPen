@@ -14,7 +14,8 @@ import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.service.BookingItemService;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.ProjectService;
-import de.pentasys.SilverPen.service.TimeService;
+import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
+import de.pentasys.SilverPen.util.CompositeTimeService;
 
 @Named
 @ManagedBean
@@ -23,16 +24,22 @@ public class BookingItemListView {
     
     @Inject BookingItemService bils;
     @Inject private ProjectService serProj;
-    @Inject private BookingItemService serBooking;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
+    @Inject private ViewContext curContext;
 
     private List<BookingItem> bookingItems;
     private List<BookingItem> weeklyBookings;
     
     @PostConstruct
     public void init(){
-        setBookingItems(bils.getBookingItems(curLogin.getCurrentUser()));
+        CompositeTimeService timeService = new CompositeTimeService();
+        timeService.add(serProj);
+
+        List<BookingItem> litems = timeService.getBookingList(curLogin.getCurrentUser(), curContext.getTimeBox(), curContext.getPinDaten(), SORT_TYPE.START);
+        lg.info("timeService Item Count: " + litems.size());
+
+        setBookingItems(litems);
         setWeeklyBookings();
     }
 
@@ -49,25 +56,6 @@ public class BookingItemListView {
 	}
 	
 	public void setWeeklyBookings() {
-
-//	    TestCode
-//	    List<BookingItem> litems = serProj.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.DAY, new java.util.Date(), TimeService.SORT_TYPE.START);
-//	    lg.info("ProjectItems Day: " + litems.size());
-//
-//        List<BookingItem> litems2 = serProj.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.WEEK, new java.util.Date(), TimeService.SORT_TYPE.START);
-//        lg.info("ProjectItems Week: " + litems2.size());
-//
-//        List<BookingItem> litems3 = serProj.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.MOTH, new java.util.Date(), TimeService.SORT_TYPE.START);
-//        lg.info("ProjectItems Month: " + litems3.size());
-//
-//        List<BookingItem> litems4 = serBooking.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.DAY, new java.util.Date(), TimeService.SORT_TYPE.START);
-//        lg.info("BookingItem Day: " + litems4.size());
-//
-//        List<BookingItem> litems5 = serBooking.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.WEEK, new java.util.Date(), TimeService.SORT_TYPE.START);
-//        lg.info("BookingItem Week: " + litems5.size());
-//        
-//        List<BookingItem> litems6 = serBooking.getBookingList(curLogin.getCurrentUser(), TimeService.TIME_BOX.MOTH, new java.util.Date(), TimeService.SORT_TYPE.START);
-//        lg.info("BookingItem Month: " + litems6.size());
 	    
 	    this.weeklyBookings = this.bookingItems;
 	    Collections.reverse(this.weeklyBookings);

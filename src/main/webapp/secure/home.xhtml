@@ -46,11 +46,11 @@
 
 
 	</nav>	
-
+  <h:form id="form">  
     <div id="group">
-    
+
     <div id="formular">
-	<h:form id="form">
+	
 	<p:panelGrid id="gridToTime">
 		<f:facet name="header">
 			<p:row>
@@ -65,7 +65,11 @@
 		</f:facet>
 	 
 		<p:row>
-			<p:column rowspan="5"><p:calendar id="inline"  value="#{homeView.curDate}" mode="inline" required="true"/></p:column>
+			<p:column rowspan="5">
+				<p:calendar id="inline"  value="#{homeView.curDate}" mode="inline" required="true">
+					<p:ajax event="dateSelect" listener="#{homeView.handleDateSelect}" update="form"></p:ajax>
+				</p:calendar>
+			</p:column>
 			<p:column colspan="4"><p:inputTextarea rows="1" value="#{homeView.curHour.description}" placeholder="Beschreibung der Tätigkeit" cols="50" autoResize="true"  /></p:column>
 		</p:row>
 		<p:row/>
@@ -104,7 +108,7 @@
 		</f:facet>
 	
 	</p:panelGrid>
-	</h:form>
+	
 	</div>
     
     <div id="overview">
@@ -118,6 +122,6 @@
 	</div>
 
 	</div>
-
+</h:form>
 </h:body>
 </html>

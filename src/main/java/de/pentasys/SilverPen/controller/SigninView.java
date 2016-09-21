@@ -1,6 +1,9 @@
 package de.pentasys.SilverPen.controller;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -11,14 +14,11 @@ import javax.inject.Named;
 
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.service.LoginInfo;
+import de.pentasys.SilverPen.service.TimeService.TIME_BOX;
 import de.pentasys.SilverPen.service.UserAccountService;
 import de.pentasys.SilverPen.util.ConfirmationException;
 import de.pentasys.SilverPen.util.NoUserException;
-import de.pentasys.SilverPen.util.PageNavigationResult;
 import de.pentasys.SilverPen.util.WrongPasswordException;
-
-import java.util.Map;
-import java.util.logging.Logger;
 
 @Named
 @RequestScoped
@@ -34,6 +34,7 @@ public class SigninView implements Serializable{
     @Inject private UserAccountService userService;
     @Inject private LoginInfo curSession;
     @Inject private Logger lg;
+    @Inject private ViewContext curContext;
     
     @PostConstruct
     public void init() {
@@ -73,6 +74,11 @@ public class SigninView implements Serializable{
                 context.getExternalContext().getFlash().setKeepMessages(true);
             } else {
                 curSession.setCurrentUser(userService.login(loginName, passwd));
+
+                // Festlegen, welche Betrachtung verwendet wird
+                curContext.setPinDaten(new Date());
+                curContext.setTimeBox(TIME_BOX.WEEK);
+
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Die Anmeldung war erfolgreich", null));
                 context.getExternalContext().getFlash().setKeepMessages(true);
