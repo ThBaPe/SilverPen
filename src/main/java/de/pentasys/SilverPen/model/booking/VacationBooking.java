@@ -12,8 +12,8 @@ import javax.persistence.Table;
  */
 @NamedQueries({ 
     @NamedQuery(name = "VacationBooking.findAllByUser", query = "SELECT b FROM BookingItem b Where b.user = :user "),
-    @NamedQuery(name = "VacationBooking.findSpanByUser", query = "SELECT b FROM BookingItem b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.start"),
-    @NamedQuery(name = "VacationBooking.findSpanByUserOrderStop", query = "SELECT b FROM BookingItem b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.stop")
+    @NamedQuery(name = "VacationBooking.findSpanByUser", query = "SELECT b FROM BookingItem b Where b.user = :user AND TYPE(b) = VacationBooking AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.start"),
+    @NamedQuery(name = "VacationBooking.findSpanByUserOrderStop", query = "SELECT b FROM BookingItem b Where b.user = :user AND TYPE(b) = VacationBooking AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.stop")
 })
 @Entity
 @Table(name = "VACATIONBOOKING")

@@ -18,8 +18,8 @@ import de.pentasys.SilverPen.model.Project;
  */
 @Entity
 @NamedQueries({ 
-    @NamedQuery(name = "ProjectBooking.findSpanByUser", query = "SELECT b FROM ProjectBooking b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.start"),
-    @NamedQuery(name = "ProjectBooking.findSpanByUserOrderStop", query = "SELECT b FROM ProjectBooking b Where b.user = :user AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.stop")
+    @NamedQuery(name = "ProjectBooking.findSpanByUser", query = "SELECT b FROM ProjectBooking b Where b.user = :user AND TYPE(b) = ProjectBooking  AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.start"),
+    @NamedQuery(name = "ProjectBooking.findSpanByUserOrderStop", query = "SELECT b FROM ProjectBooking b Where b.user = :user AND TYPE(b) = ProjectBooking  AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.stop")
 })
 @Table(name = "PROJECTBOOKING")
 @DiscriminatorValue("Project")

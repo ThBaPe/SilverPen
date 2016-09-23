@@ -15,6 +15,7 @@ import de.pentasys.SilverPen.service.BookingItemService;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.ProjectService;
 import de.pentasys.SilverPen.service.TimeService.SORT_TYPE;
+import de.pentasys.SilverPen.service.VacationService;
 import de.pentasys.SilverPen.util.CompositeTimeService;
 
 @Named
@@ -24,6 +25,7 @@ public class BookingItemListView {
     
     @Inject BookingItemService bils;
     @Inject private ProjectService serProj;
+    @Inject private VacationService serVaca;
     @Inject private LoginInfo curLogin;
     @Inject private Logger lg;
     @Inject private ViewContext curContext;
@@ -35,6 +37,7 @@ public class BookingItemListView {
     public void init(){
         CompositeTimeService timeService = new CompositeTimeService();
         timeService.add(serProj);
+        timeService.add(serVaca);
 
         List<BookingItem> litems = timeService.getBookingList(curLogin.getCurrentUser(), curContext.getTimeBox(), curContext.getPinDaten(), SORT_TYPE.START);
         lg.info("timeService Item Count: " + litems.size());
