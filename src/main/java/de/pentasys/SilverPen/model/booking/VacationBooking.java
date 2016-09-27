@@ -16,7 +16,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "VacationBooking.findSpanByUserOrderStop", query = "SELECT b FROM BookingItem b Where b.user = :user AND TYPE(b) = VacationBooking AND ((b.start < :spanStart  AND b.stop > :spanStop) OR ((b.start BETWEEN :spanStart AND :spanStop) OR (b.stop BETWEEN :spanStart AND :spanStop))) ORDER BY b.stop")
 })
 @Entity
-@Table(name = "VACATIONBOOKING")
 @DiscriminatorValue("Vacation")
 public class VacationBooking extends BookingItem{
     public static final String findAllByUser = "VacationBooking.findAllByUser";

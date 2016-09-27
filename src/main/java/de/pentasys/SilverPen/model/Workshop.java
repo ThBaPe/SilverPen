@@ -1,12 +1,16 @@
 package de.pentasys.SilverPen.model;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
@@ -14,48 +18,35 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import de.pentasys.SilverPen.model.booking.BookingItem;
-
+@NamedQueries({ 
+    @NamedQuery(name = "Workshop.findAll", query = "SELECT w FROM Workshop w")
+})
 @Entity
 @Table(name = "Workshop")
 public class Workshop {
+    
+    public static final String findAll = "Workshop.findAll";
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @Id @GeneratedValue                             private int id;
+    @Column(nullable = false) @Future               private Date start;
+    @Column(nullable = false) @Future               private Date stop;
+    @Column(nullable = false)                       private String title;
+    @Column(nullable = false)                       private String description;
+    @Column(nullable = false)                       private String tutor;
+    @Column(nullable = false)                       private String organizer;
+    @Column(nullable = false)                       private String location;
+    @Column(nullable = false)                       private String status;
+    @Column(nullable = false) @Max(100) @Min(1)     private int maxParticipants;
+    @OneToMany(fetch = FetchType.EAGER)             private Collection<BookingItem> hours;
+    @OneToMany                                      private Collection<WorkshopParticipant> participant = new LinkedList<WorkshopParticipant>();
 
-    @Column(nullable = false)
-    @Future
-    private java.util.Date start;
+    public Collection<WorkshopParticipant> getParticipant() {
+        return participant;
+    }
 
-    @Column(nullable = false)
-    @Future
-    private java.util.Date stop;
-
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false)
-    private String tutor;
-
-    @Column(nullable = false)
-    private String organizer;
-
-    @Column(nullable = false)
-    private String location;
-
-    @Column(nullable = false)
-    private String status;
-
-    @Column(nullable = false)
-    @Max(100)
-    @Min(1)
-    private int maxParticipants;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private Collection<BookingItem> hours;
+    public void setParticipant(Collection<WorkshopParticipant> participant) {
+        this.participant = participant;
+    }
 
     public Collection<BookingItem> getHours() {
         return hours;

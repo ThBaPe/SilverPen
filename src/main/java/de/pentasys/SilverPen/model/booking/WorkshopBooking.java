@@ -10,7 +10,6 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "WORKSHOPBOOKING")
 @DiscriminatorValue("Workshop")
 public class WorkshopBooking extends BookingItem{
   

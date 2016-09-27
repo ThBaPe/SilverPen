@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.Workshop;
+import de.pentasys.SilverPen.model.WorkshopParticipant;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 import de.pentasys.SilverPen.model.booking.WorkshopBooking;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -33,6 +34,42 @@ public class WorkshopService implements TimeService{
     public void createWorkshop(Workshop workshop){
         em.persist(workshop);
     }
+    
+    /**
+     * Liefert alle Workshops aus der Datenbank
+     * @return
+     */
+    public List<Workshop> listWorkshops()
+    {
+        return em.createNamedQuery(Workshop.findAll, Workshop.class)
+                    .getResultList();
+    }
+    
+    /**
+     * Fügt einen Benutzer als Teilnehmer zu einem Workshop hinzu
+     * @param ws Der Workshop zu dem der Benutzer angemeldet werden soll
+     * @param user Der User der den Workshop besuchen wird
+     */
+    public void addPartizipant(Workshop ws, User user){
+
+        Workshop curWorkshop = (em.contains(ws) ? ws : em.merge(ws));
+        User curUser = (em.contains(user) ? user: em.merge(user));
+
+        WorkshopParticipant curPart = new WorkshopParticipant();
+        curPart.setUsers(curUser);
+        curPart.setRole(WorkshopParticipant.WorkshopRole.PARTICIPANT.toString());
+        
+        boolean isFull = curWorkshop.getMaxParticipants() <= curWorkshop.getParticipant().size();
+        String userSate = isFull ? WorkshopParticipant.ParticipantState.QUEUE_UP.toString() : 
+                                   WorkshopParticipant.ParticipantState.CONFIRMED.toString();
+        
+        curPart.setState(userSate);
+        em.persist(curPart);
+        
+        curWorkshop.getParticipant().add(curPart);
+        em.persist(curWorkshop);
+     }
+
 
     @Override
     public String getServiceName() {
