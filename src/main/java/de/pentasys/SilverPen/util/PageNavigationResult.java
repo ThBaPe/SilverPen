@@ -35,5 +35,12 @@ public enum PageNavigationResult {
     /**
      * Navigiere zum Urlaubsantragsformular
      */
-    VACATION;
+    VACATION,
+
+    /**
+     * Navigiere zum Workshop
+     */
+    WORKSHOP,           // Anmeldung zu den WorkShops
+    WORKSHOP_CREATE;    // WorkShop anlegen
+    
 }

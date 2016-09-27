@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"/>
+
+<h:head>
+	<h:outputStylesheet name="css/mainTest.css" />
+</h:head>
+<body>
+	<header role="banner">
+		<h:graphicImage styleClass="headerLogo"
+			value="/resources/img/logo.jpg" width="10%" />
+	</header>
+
+	<p:messages id="menumessages" showDetail="false" autoUpdate="true" />
+
+	<h:form id="form">
+   <p:dataTable id="checkboxDT" var="workshop" value="#{workshopView.lWorkShop}" selection="#{workshopView.lWorkShopParticipated}" rowKey="#{workshop.id}" style="margin-bottom:0">
+        <f:facet name="header">
+            Checkbox
+        </f:facet>
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+        <p:column headerText="Id">
+            <h:outputText value="#{workshop.id}" />
+        </p:column>
+        <p:column headerText="Start">
+            <h:outputText value="#{workshop.start}" />
+        </p:column>
+        <p:column headerText="End">
+            <h:outputText value="#{workshop.stop}" />
+        </p:column>
+        <p:column headerText="Titel">
+            <h:outputText value="#{workshop.title}" />
+        </p:column>
+        <p:column headerText="Beschreibung">
+            <h:outputText value="#{workshop.description}" />
+        </p:column>
+        <f:facet name="footer">
+        </f:facet>
+    </p:dataTable>
+    
+	</h:form>
+</body>
+</html>

@@ -51,6 +51,15 @@
 			<from-outcome>VACATION</from-outcome>
 			<to-view-id>/secure/vacation_request.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>WORKSHOP</from-outcome>
+			<to-view-id>/secure/workshop_participant.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>WORKSHOP_CREATE</from-outcome>
+			<to-view-id>/secure/workshop_create.xhtml</to-view-id>
+		</navigation-case>
+		
 	</navigation-rule>
 	<navigation-rule>
 	<from-view-id>/signup.jsf</from-view-id>

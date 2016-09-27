@@ -38,7 +38,7 @@ public class Workshop {
     @Column(nullable = false)                       private String status;
     @Column(nullable = false) @Max(100) @Min(1)     private int maxParticipants;
     @OneToMany(fetch = FetchType.EAGER)             private Collection<BookingItem> hours;
-    @OneToMany                                      private Collection<WorkshopParticipant> participant = new LinkedList<WorkshopParticipant>();
+    @OneToMany(fetch = FetchType.EAGER)             private Collection<WorkshopParticipant> participant = new LinkedList<WorkshopParticipant>();
 
     public Collection<WorkshopParticipant> getParticipant() {
         return participant;

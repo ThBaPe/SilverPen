@@ -29,8 +29,8 @@
 					<p:menuitem value="Urlaubsantrag" outcome="VACATION" />
 				</p:submenu>
 				<p:submenu label="Workshopverwaltung">
-					<p:menuitem value="Workshopantrag" actionListener="#{mainMenuView.upload()}" update="menumessages" />
-					<p:menuitem value="Workshop anlegen" outcome="/secure/workshop_create" update="menumessages" rendered="#{homeView.admin}" />
+					<p:menuitem value="Workshopantrag" outcome="WORKSHOP"/>
+					<p:menuitem value="Workshop anlegen" outcome="WORKSHOP_CREATE"/>
 				</p:submenu>
 				<p:submenu label="Benutzerverwaltung" rendered="#{homeView.admin}" >
 					<p:menuitem value="Benutzer registrieren" outcome="SIGNUP_ADMIN" />
