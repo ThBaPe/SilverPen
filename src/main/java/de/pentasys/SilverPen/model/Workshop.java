@@ -19,13 +19,15 @@ import javax.validation.constraints.Min;
 
 import de.pentasys.SilverPen.model.booking.BookingItem;
 @NamedQueries({ 
-    @NamedQuery(name = "Workshop.findAll", query = "SELECT w FROM Workshop w")
+    @NamedQuery(name = "Workshop.findAll", query = "SELECT w FROM Workshop w"),
+    @NamedQuery(name = "Workshop.findByUserAndRole", query = "SELECT w FROM Workshop w JOIN FETCH w.participant WHERE exists(select p from w.participant p WHERE p.Role in :roles AND p.users in :users)")
 })
 @Entity
 @Table(name = "Workshop")
 public class Workshop {
     
     public static final String findAll = "Workshop.findAll";
+    public static final String findByUserAndRole = "Workshop.findByUserAndRole";
 
     @Id @GeneratedValue                             private int id;
     @Column(nullable = false) @Future               private Date start;

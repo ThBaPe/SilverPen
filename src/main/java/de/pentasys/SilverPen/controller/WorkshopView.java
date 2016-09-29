@@ -14,6 +14,7 @@ import javax.inject.Named;
 import de.pentasys.SilverPen.model.User;
 import de.pentasys.SilverPen.model.Workshop;
 import de.pentasys.SilverPen.model.WorkshopParticipant;
+import de.pentasys.SilverPen.model.WorkshopParticipant.WorkshopRole;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.WorkshopService;
 
@@ -37,26 +38,14 @@ public class WorkshopView implements Serializable{
     public void init(){
         
         lWorkShopParticipated = new LinkedList<>();
+        lWorkShopParticipated = new LinkedList<>();
+
         lg.info("Start Init");
         lWorkShop = srv.listWorkshops();
+        lWorkShopParticipated = srv.listWorkshops(curLogin.getCurrentUser(),WorkshopRole.PARTICIPANT);
         lg.info("WS List: " + lWorkShop.size());
-        
-        
-        // Prüfen in welchem Workshop der akt. angemeldete Benutzer eingetragen ist
-        for (Workshop ws : lWorkShop) {
-            
-            if(ws.getParticipant() != null) {
-                
-                for (WorkshopParticipant part : ws.getParticipant()) {
-                    if(part.getUsers() != null
-                            && part.getUsers() == curLogin.getCurrentUser()){
-                        lg.info("Start Init");
-                        lWorkShopParticipated.add(ws);
-                        break;
-                    }
-                }
-            }
-        }
+        lg.info("WS_P List: " + lWorkShopParticipated.size());
+    
     }
 
     public List<Workshop> getlWorkShop() {

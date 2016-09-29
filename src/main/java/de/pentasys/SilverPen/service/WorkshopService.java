@@ -1,5 +1,6 @@
 package de.pentasys.SilverPen.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -44,6 +45,23 @@ public class WorkshopService implements TimeService{
         return em.createNamedQuery(Workshop.findAll, Workshop.class)
                     .getResultList();
     }
+    
+    /**
+     * Liefert alle Workshops anhand des Benutzers und deiner Rolle im Workshop
+     * @param user Der gesuchte benutzer
+     * @param role Die Rolle die er in dem Workshop haben muss
+     * @return Liste aller Workshops
+     */
+    public List<Workshop> listWorkshops(User user, WorkshopParticipant.WorkshopRole role)
+    {
+        User aUser = em.contains(user) ? user : em.merge(user); 
+        
+        return em.createNamedQuery(Workshop.findByUserAndRole, Workshop.class)
+                .setParameter("users", Arrays.asList(aUser))
+                .setParameter("roles", Arrays.asList(role.toString()))
+                .getResultList();
+    }
+    
     
     /**
      * Fügt einen Benutzer als Teilnehmer zu einem Workshop hinzu
