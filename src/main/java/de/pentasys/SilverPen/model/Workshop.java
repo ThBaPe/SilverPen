@@ -20,7 +20,7 @@ import javax.validation.constraints.Min;
 import de.pentasys.SilverPen.model.booking.BookingItem;
 @NamedQueries({ 
     @NamedQuery(name = "Workshop.findAll", query = "SELECT w FROM Workshop w"),
-    @NamedQuery(name = "Workshop.findByUserAndRole", query = "SELECT w FROM Workshop w JOIN FETCH w.participant WHERE exists(select p from w.participant p WHERE p.Role in :roles AND p.users in :users)")
+    @NamedQuery(name = "Workshop.findByUserAndRole", query = "SELECT w FROM Workshop w JOIN w.participant p WHERE p.Role in :roles AND p.users in :users")
 })
 @Entity
 @Table(name = "Workshop")
