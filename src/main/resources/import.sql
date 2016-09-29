@@ -34,5 +34,27 @@ INSERT INTO USER (email, password, username) VALUES ('link@silverpen.de', '40258
 INSERT INTO USERCONSTRAINT (id,pinDate,type,user_email) VALUES ('45f5b6b0-dc7e-4f48-8d62-4e898bc3d094','2016-08-22 16:17:03','LOGIN_CONFIRMATION','link@silverpen.de')
 insert into ROLE_USER (roles_id, users_email) values (1,'link@silverpen.de')
 
-INSERT INTO WORKSHOP (id, description, location, maxParticipants, organizer, start, status, stop, title, tutor) VALUES (1,'Die Geschichte', 'Springfield', '30', 'homer j. Simpson', '2017-01-01 00:00:00', 'Creation', '2017-01-01 00:00:00', 'Duff-Drink', 'SilverPenMaster')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (1,	'Java for Web', 			'SilverPenMaster', 'Hugo Simpson',				'FFM', '15',  '2017-01-02 09:00:00', 'Creation', '2017-01-02 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (2,	'UI - UX', 					'SilverPenMaster', 'Abraham Simpson',			'FFM', '15',  '2017-01-03 09:00:00', 'Creation', '2017-01-03 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (3,	'Angular JS 2.0', 			'SilverPenMaster', 'Üter Zörker',				'FFM', '15',  '2017-01-04 09:00:00', 'Creation', '2017-01-04 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (4,	'Product Owner', 			'SilverPenMaster', 'Jeremy Freedman',			'FFM', '15',  '2017-01-05 09:00:00', 'Creation', '2017-01-05 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (5,	'Visual Thinking', 			'SilverPenMaster', 'El Barto',					'FFM', '15',  '2017-01-06 09:00:00', 'Creation', '2017-01-06 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (6,	'Graphical Recording', 		'SilverPenMaster', 'Adil Hoxha',				'FFM', '15',  '2017-01-09 09:00:00', 'Creation', '2017-01-09 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (7,	'Retailbanking', 			'SilverPenMaster', 'Kearney Zzyzwicz',			'FFM', '15',  '2017-01-11 09:00:00', 'Creation', '2017-01-11 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (8,	'Moderation technischer', 	'SilverPenMaster', 'Luke Perry',				'FFM', '15',  '2017-01-12 09:00:00', 'Creation', '2017-01-12 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (9,	'Java 1.3', 				'SilverPenMaster', 'Rabbi Hyman Krustofsky',	'FFM', '15',  '2017-01-13 09:00:00', 'Creation', '2017-01-13 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (10,	'Java 1.4', 				'SilverPenMaster', 'Sherri Mackleberry',		'FFM', '15',  '2017-01-16 09:00:00', 'Creation', '2017-01-16 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (11,	'JEE 5', 					'SilverPenMaster', 'Terri Mackleberry',			'FFM', '15',  '2017-01-17 09:00:00', 'Creation', '2017-01-17 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
+INSERT INTO WORKSHOP (id, title, organizer,tutor,location, maxParticipants,  start, status, stop, description) VALUES (12,	'JEE 7', 					'SilverPenMaster', 'Mr. Mackleberry ',			'FFM', '15',  '2017-01-18 09:00:00', 'Creation', '2017-01-18 17:00:00', 'Die im März 2014 veröffentliche Java-Version wird inzwischen...')
 
+INSERT INTO WORKSHOP_USER (id, Role, State, users_email) VALUES (1, 'PARTICIPANT', 'REQUESTED', 'tb@silverpen.de');
+INSERT INTO WORKSHOP_USER (id, Role, State, users_email) VALUES (2, 'PARTICIPANT', 'REQUESTED', 'tb@silverpen.de');
+INSERT INTO WORKSHOP_USER (id, Role, State, users_email) VALUES (3, 'PARTICIPANT', 'REQUESTED', 'tb@silverpen.de');
+INSERT INTO WORKSHOP_USER (id, Role, State, users_email) VALUES (4, 'PARTICIPANT', 'REQUESTED', 'tb@silverpen.de');
+INSERT INTO WORKSHOP_USER (id, Role, State, users_email) VALUES (5, 'PARTICIPANT', 'REQUESTED', 'tb@silverpen.de');
+
+INSERT INTO WORKSHOP_WORKSHOP_USER (Workshop_id, participant_id) VALUES (1,1);
+INSERT INTO WORKSHOP_WORKSHOP_USER (Workshop_id, participant_id) VALUES (3,2);
+INSERT INTO WORKSHOP_WORKSHOP_USER (Workshop_id, participant_id) VALUES (7,3);
+INSERT INTO WORKSHOP_WORKSHOP_USER (Workshop_id, participant_id) VALUES (10,4);
+INSERT INTO WORKSHOP_WORKSHOP_USER (Workshop_id, participant_id) VALUES (12,5);
