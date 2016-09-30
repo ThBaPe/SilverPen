@@ -42,7 +42,60 @@ public class WorkshopAddParticipant {
         action.moveToElement(menuProj).perform();
         Thread.sleep(500);
         driver.findElement(By.linkText("Workshopantrag")).click();
-        Thread.sleep(2000);
+        Thread.sleep(500);
+        
+        {
+            WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
+            boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
+            assertTrue(isChecked);
+            Thread.sleep(500);
+            ckeckBox.click();
+            Thread.sleep(500);
+        }
+        
+        driver.get(baseUrl + "/SilverPen");
+        
+        menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Workshopverwaltung']/../.."));
+        action = new Actions(driver);
+        action.moveToElement(menuProj).perform();
+        Thread.sleep(500);
+        driver.findElement(By.linkText("Workshopantrag")).click();
+        Thread.sleep(500);
+
+        {
+            WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
+            boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
+            assertTrue(!isChecked);
+            Thread.sleep(500);
+            ckeckBox.click();
+            Thread.sleep(500);
+        }
+
+        driver.get(baseUrl + "/SilverPen");
+        
+        menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Workshopverwaltung']/../.."));
+        action = new Actions(driver);
+        action.moveToElement(menuProj).perform();
+        Thread.sleep(500);
+        driver.findElement(By.linkText("Workshopantrag")).click();
+        Thread.sleep(500);
+
+        {
+            WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
+            boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
+            assertTrue(isChecked);
+            Thread.sleep(500);
+            ckeckBox.click();
+            Thread.sleep(500);
+        }
+
+        
+        
+        
+        
+        
+        
+        // driver.findElement(By.xpath("//tbody")).click()
 
         }
 
