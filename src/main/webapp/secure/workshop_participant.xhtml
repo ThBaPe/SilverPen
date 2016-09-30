@@ -23,6 +23,8 @@
         <f:facet name="header">
             Checkbox
         </f:facet>
+        <p:ajax event="rowSelectCheckbox" listener="#{workshopView. onRowSelect}" update="menumessages" />
+        <p:ajax event="rowUnselectCheckbox" listener="#{workshopView.onRowUnselect}" update="menumessages" />
         <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
         <p:column headerText="Id">
             <h:outputText value="#{workshop.id}" />

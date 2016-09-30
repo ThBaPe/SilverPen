@@ -7,13 +7,13 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.pentasys.SilverPen.model.User;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+
 import de.pentasys.SilverPen.model.Workshop;
-import de.pentasys.SilverPen.model.WorkshopParticipant;
 import de.pentasys.SilverPen.model.WorkshopParticipant.WorkshopRole;
 import de.pentasys.SilverPen.service.LoginInfo;
 import de.pentasys.SilverPen.service.WorkshopService;
@@ -62,6 +62,16 @@ public class WorkshopView implements Serializable{
 
     public void setlWorkShopParticipated(List<Workshop> lWorkShopParticipated) {
         this.lWorkShopParticipated = lWorkShopParticipated;
+    }
+    
+    public void onRowSelect(SelectEvent event) {
+        Workshop ws = (Workshop) event.getObject();
+        srv.addPartizipant(ws, curLogin.getCurrentUser());
+    }
+ 
+    public void onRowUnselect(UnselectEvent event) {
+        Workshop ws = (Workshop) event.getObject();
+        srv.remvoedPartizipant(ws, curLogin.getCurrentUser());
     }
 
 }

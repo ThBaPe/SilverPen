@@ -2,6 +2,7 @@ package de.pentasys.SilverPen.service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -69,7 +70,7 @@ public class WorkshopService implements TimeService{
      * @param user Der User der den Workshop besuchen wird
      */
     public void addPartizipant(Workshop ws, User user){
-
+        
         Workshop curWorkshop = (em.contains(ws) ? ws : em.merge(ws));
         User curUser = (em.contains(user) ? user: em.merge(user));
 
@@ -87,6 +88,40 @@ public class WorkshopService implements TimeService{
         curWorkshop.getParticipant().add(curPart);
         em.persist(curWorkshop);
      }
+
+    /**
+     * Benutzer von einem Workshop abmelden
+     * @param ws Der Workshop indem der Benutzer als Teilnehmer wurde
+     * @param user Der betroffene Benutzer
+     */
+    public void remvoedPartizipant(Workshop ws, User user){
+
+        Workshop curWorkshop = (em.contains(ws) ? ws : em.merge(ws));
+        User curUser = (em.contains(user) ? user: em.merge(user));
+        curWorkshop.getParticipant().size();
+    
+        List<WorkshopParticipant> removeElements = new LinkedList<WorkshopParticipant>();
+        
+        for (WorkshopParticipant part : curWorkshop.getParticipant()) {
+            
+            if(part.getUsers() == curUser) {
+                removeElements.add(part);
+            }
+        }
+        
+        for (WorkshopParticipant part : removeElements) {
+            curWorkshop.getParticipant().remove(part);
+        }
+        
+        em.persist(curWorkshop);
+
+        for (WorkshopParticipant part : removeElements) {
+            em.remove(part);
+        }
+        
+     }
+        
+    
 
 
     @Override
