@@ -70,7 +70,7 @@
 					<p:ajax event="dateSelect" listener="#{homeView.handleDateSelect}" update="form"></p:ajax>
 				</p:calendar>
 			</p:column>
-			<p:column colspan="4"><p:inputTextarea rows="1" value="#{homeView.curHour.description}" placeholder="Beschreibung der Tätigkeit" cols="50" autoResize="true"  /></p:column>
+			<p:column colspan="4"><p:inputTextarea id="Description_Input" rows="1" value="#{homeView.curHour.description}" placeholder="Beschreibung der Tätigkeit" cols="50" autoResize="true"  /></p:column>
 		</p:row>
 		<p:row/>
 		<p:row>
@@ -102,7 +102,7 @@
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="today" action="#}"/></p:column>
 			<p:column style="text-align: right;">
 				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="delete" update="form" action="#{homeView.init()}"/>
-				<p:commandButton  Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" update="dataT" action="#{homeView.commitTime}"/>
+				<p:commandButton  id="btn_Done" Class="material-icons" style="font-size: 1.5em !important; font-weight: normal" value="done" update="dataT" action="#{homeView.commitTime}"/>
 			</p:column>
 			</p:row>
 		</f:facet>

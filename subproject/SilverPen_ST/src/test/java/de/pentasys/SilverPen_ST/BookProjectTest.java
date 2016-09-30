@@ -35,9 +35,9 @@ public class BookProjectTest {
         signIn.signinUser("Thomas", "SilverPen", LoginState.noError);
        
         // Stunden auf Intern buchen
-        driver.findElement(By.id("form:j_idt34")).click();
-        driver.findElement(By.id("form:j_idt34")).clear();
-        driver.findElement(By.id("form:j_idt34")).sendKeys("Interne buchung");
+        driver.findElement(By.id("form:Description_Input")).click();
+        driver.findElement(By.id("form:Description_Input")).clear();
+        driver.findElement(By.id("form:Description_Input")).sendKeys("Interne buchung");
         driver.findElement(By.id("form:timeStart_input")).clear();
         driver.findElement(By.id("form:timeStart_input")).sendKeys("10:00");
         driver.findElement(By.id("form:timeStop_input")).clear();
@@ -45,11 +45,11 @@ public class BookProjectTest {
         driver.findElement(By.xpath("//div[@id='form:project']/div[3]/span")).click();
         driver.findElement(By.id("form:project_0")).click();
         Thread.sleep(500);
-        driver.findElement(By.id("form:j_idt58")).click();
+        driver.findElement(By.id("form:btn_Done")).click();
         
         // Projekt Buchung
-        driver.findElement(By.id("form:j_idt34")).clear();
-        driver.findElement(By.id("form:j_idt34")).sendKeys("Weiterbildung buchen");
+        driver.findElement(By.id("form:Description_Input")).clear();
+        driver.findElement(By.id("form:Description_Input")).sendKeys("Weiterbildung buchen");
         driver.findElement(By.id("form:timeStart_input")).clear();
         driver.findElement(By.id("form:timeStart_input")).sendKeys("11:00");
         driver.findElement(By.id("form:timeStop_input")).clear();
@@ -57,12 +57,12 @@ public class BookProjectTest {
         driver.findElement(By.xpath("//div[@id='form:project']/div[3]/span")).click();
         driver.findElement(By.id("form:project_1")).click();
         Thread.sleep(500);
-        driver.findElement(By.id("form:j_idt58")).click();
+        driver.findElement(By.id("form:btn_Done")).click();
         Thread.sleep(500);
         
 //        )
-        String listElement1 = driver.findElement(By.xpath("//*[@id='dataT_data']//tr[1]//td[2]")).getText();
-        String listElement2 = driver.findElement(By.xpath("//*[@id='dataT_data']//tr[2]//td[2]")).getText();
+        String listElement1 = driver.findElement(By.xpath("//*[@id='form:dataT_data']//tr[1]//td[2]")).getText();
+        String listElement2 = driver.findElement(By.xpath("//*[@id='form:dataT_data']//tr[2]//td[2]")).getText();
         
         assertTrue(Double.parseDouble(listElement1) == 0.5);
         assertTrue(Double.parseDouble(listElement2) == 0.25);
