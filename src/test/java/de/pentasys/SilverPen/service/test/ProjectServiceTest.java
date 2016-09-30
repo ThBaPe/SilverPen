@@ -3,23 +3,21 @@ package de.pentasys.SilverPen.service.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.validation.constraints.AssertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,13 +25,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.exceptions.verification.NeverWantedButInvoked;
-import org.mockito.internal.matchers.Any;
-import org.mockito.internal.verification.AtLeast;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.mockito.verification.VerificationMode;
 
 import de.pentasys.SilverPen.model.Project;
 import de.pentasys.SilverPen.model.User;
