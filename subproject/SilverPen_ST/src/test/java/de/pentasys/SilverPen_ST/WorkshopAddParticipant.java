@@ -31,7 +31,7 @@ public class WorkshopAddParticipant {
     }
 
     @Test
-    public void testVac() throws Exception {
+    public void testApplyWorkshop() throws Exception {
         // Login
         SignInTest signIn = new SignInTest(driver, baseUrl);
         signIn.signinUser("Thomas", "SilverPen", LoginState.noError);
@@ -47,12 +47,30 @@ public class WorkshopAddParticipant {
         {
             WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
             boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
-            assertTrue(isChecked);
+            assertTrue(!isChecked);
             Thread.sleep(500);
             ckeckBox.click();
             Thread.sleep(500);
         }
         
+        driver.get(baseUrl + "/SilverPen");
+        
+        menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Workshopverwaltung']/../.."));
+        action = new Actions(driver);
+        action.moveToElement(menuProj).perform();
+        Thread.sleep(500);
+        driver.findElement(By.linkText("Workshopantrag")).click();
+        Thread.sleep(500);
+
+        {
+            WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
+            boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
+            assertTrue(isChecked);
+            Thread.sleep(500);
+            ckeckBox.click();
+            Thread.sleep(500);
+        }
+
         driver.get(baseUrl + "/SilverPen");
         
         menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Workshopverwaltung']/../.."));
@@ -66,38 +84,9 @@ public class WorkshopAddParticipant {
             WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
             boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
             assertTrue(!isChecked);
-            Thread.sleep(500);
-            ckeckBox.click();
-            Thread.sleep(500);
         }
-
-        driver.get(baseUrl + "/SilverPen");
         
-        menuProj = driver.findElement(By.xpath("//*[@id='navigation:menu']//span[text() = 'Workshopverwaltung']/../.."));
-        action = new Actions(driver);
-        action.moveToElement(menuProj).perform();
-        Thread.sleep(500);
-        driver.findElement(By.linkText("Workshopantrag")).click();
-        Thread.sleep(500);
-
-        {
-            WebElement ckeckBox = driver.findElement(By.xpath("//*[@id='form:checkboxDT_data']/tr[2]/td/div/div[2]/span"));
-            boolean isChecked = ckeckBox.getAttribute("class").contains("ui-icon-check");
-            assertTrue(isChecked);
-            Thread.sleep(500);
-            ckeckBox.click();
-            Thread.sleep(500);
-        }
-
-        
-        
-        
-        
-        
-        
-        // driver.findElement(By.xpath("//tbody")).click()
-
-        }
+    }
 
     @After
     public void tearDown() throws Exception {
