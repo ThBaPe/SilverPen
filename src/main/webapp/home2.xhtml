@@ -1,0 +1,466 @@
+<ui:composition template="resources/template/SilverPenBase.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<ui:define name="content">
+
+		<!-- Kalender und Eingabemaske -->
+		<div
+			class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+
+						<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+							<div class="mdl-tabs__tab-bar">
+								<a href="#vacation-panel" class="mdl-tabs__tab">Urlaub</a> 
+								<a href="#project-panel" class="mdl-tabs__tab is-active">Projekt</a>
+								<a href="#internal-panel" class="mdl-tabs__tab">Intern</a> 
+								<a href="#workshop-panel" class="mdl-tabs__tab">Workshop</a>
+							</div>
+
+
+			<div class="mdl-grid">
+
+				<!-- Kalender für den betrachteten Zeitraum-->
+				<div class="mdl-cell mdl-cell--6-col " style="width: 300px;">
+					<div>
+						<p:calendar id="inline" mode="inline" />
+					</div>
+				</div>
+				<!-- Kalender für den betrachteten Zeitraum-->
+
+
+				<!-- Bereich Neben dem Kalender-->
+				<div class="mdl-cell mdl-cell--6-col">
+					<div>
+							<!-- Bereich für alle -->
+							<div> 
+
+							</div> 
+							<!-- Bereich für alle -->
+
+							<!-- Bereich für Projekte-->
+							<div class="mdl-tabs__panel is-active" id="project-panel"> 
+
+								<form action="#">
+									<!-- Bereich für die Beschreibung-->
+									<div class="mdl-textfield mdl-js-textfield">
+										<p:inputTextarea class="mdl-textfield__input"
+											id="Description_Input" autoResize="false" rows="2"
+											placeholder="Beschreibung der Tätigkeit"
+											style="box-shadow: unset" />
+
+										<label class="mdl-textfield__label" for="sample5">Beschreibung
+											der Tätigkeit...</label>
+									</div>
+									<!-- Bereich für die Beschreibung-->
+								</form>
+								
+								<div class="mdl-grid mdl-grid--no-spacing">
+									
+									<!-- Bereich für Startzeitpunkt-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="max-width: 30px; margin-top: 5px;">
+										<h:outputLabel value="Von:" />
+									</div>
+
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 40px;">
+										<span class="mdl-list__item-primary-content"
+											style="min-width: 50px;">
+											<form action="#">
+												<div class="mdl-textfield mdl-js-textfield"
+													style="width: 80%; padding-top: 0;">
+													<p:inputMask class="mdl-textfield__input" id="startTime"
+														mask="99:99" style="box-shadow: unset" />
+													<label class="mdl-textfield__label" for="startTime"></label>
+												</div>
+											</form>
+										</span>
+									</div>
+
+									<!-- Bereich für Start/Endezeitpunkt-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="max-width: 30px; margin-top: 5px;">
+										<h:outputLabel value="Bis:" />
+									</div>
+
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 40px;">
+										<span class="mdl-list__item-primary-content"
+											style="min-width: 50px;">
+											<form action="#">
+												<div class="mdl-textfield mdl-js-textfield"
+													style="width: 80%; padding-top: 0;">
+													<p:inputMask class="mdl-textfield__input" id="stopTime"
+														mask="99:99" style="box-shadow: unset" />
+													<label class="mdl-textfield__label" for="stopTime"></label>
+												</div>
+											</form>
+										</span>
+									</div>
+									<!-- Bereich für Start-/Endezeitpunkt-->
+
+								</div>
+
+								<div class="mdl-grid mdl-grid--no-spacing" style="min-width:375px">
+
+									<!-- Bereich für Projektauswahl-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 175px;">
+										<p:selectOneMenu id="country" value="-NotSet-">
+											<f:selectItem itemLabel="Select Projekt" itemValue=""
+												noSelectionOption="true" />
+										</p:selectOneMenu>
+									</div>
+									<!-- Bereich für Projektauswahl-->
+
+									<!-- Bereich für Tätigkeit-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 200px;">
+										<p:selectOneMenu id="doing" value="-NotSet-">
+											<f:selectItem itemLabel="Select Tätigkeit" itemValue=""
+												noSelectionOption="true" />
+										</p:selectOneMenu>
+									</div>
+									<!-- Bereich für Tätigkeit-->
+									
+								</div>
+							</div> 
+							<!-- Bereich für Projekte-->
+							
+							
+							<!-- Bereich für Urlaubsbeantragung-->
+							<div class="mdl-tabs__panel" id="vacation-panel">
+							
+								<div>
+									<div class="mdl-grid" >
+										
+										<div class="mdl-cell mdl-cell--4-col">
+											<h:outputLabel for="startDate" value="Beginn:" />
+											<p:calendar id="startDate" size="10"
+												locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+												
+											<h:outputLabel for="endDate" value="Ende:" />
+											<p:calendar id="endDate" size="10"
+												locale="de" navigator="true" pattern="yyyy-MMM-dd" />
+												
+										</div>
+									</div>
+										
+									<div class="mdl-grid" >
+										<div class="mdl-cell mdl-cell--12-col">
+											<h:outputLabel value="Es werden X Werktage bebucht" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Bereich für Urlaubsbeantragung-->
+							
+							<!-- Bereich für interne Buchungen-->
+							<div class="mdl-tabs__panel " id="internal-panel">
+							
+								<form action="#">
+									<!-- Bereich für die Beschreibung-->
+									<div class="mdl-textfield mdl-js-textfield">
+										<p:inputTextarea class="mdl-textfield__input"
+											id="Description_Input2" autoResize="false" rows="4"
+											placeholder="Beschreibung der Tätigkeit"
+											style="box-shadow: unset" />
+
+										<label class="mdl-textfield__label" for="Description_Input2">Beschreibung
+											der Tätigkeit...</label>
+									</div>
+									<!-- Bereich für die Beschreibung-->
+								</form>
+								
+								<div class="mdl-grid mdl-grid--no-spacing">
+									
+									<!-- Bereich für Startzeitpunkt-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="max-width: 30px; margin-top: 5px;">
+										<h:outputLabel value="Von:" />
+									</div>
+
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 40px;">
+										<span class="mdl-list__item-primary-content"
+											style="min-width: 50px;">
+											<form action="#">
+												<div class="mdl-textfield mdl-js-textfield"
+													style="width: 80%; padding-top: 0;">
+													<p:inputMask class="mdl-textfield__input" id="startTime2"
+														mask="99:99" style="box-shadow: unset" />
+													<label class="mdl-textfield__label" for="startTime2"></label>
+												</div>
+											</form>
+										</span>
+									</div>
+
+									<!-- Bereich für Start/Endezeitpunkt-->
+									<div class="mdl-cell mdl-cell--2-col"
+										style="max-width: 30px; margin-top: 5px;">
+										<h:outputLabel value="Bis:" />
+									</div>
+
+									<div class="mdl-cell mdl-cell--2-col"
+										style="min-width: 40px;">
+										<span class="mdl-list__item-primary-content"
+											style="min-width: 50px;">
+											<form action="#">
+												<div class="mdl-textfield mdl-js-textfield"
+													style="width: 80%; padding-top: 0;">
+													<p:inputMask class="mdl-textfield__input" id="stopTime2"
+														mask="99:99" style="box-shadow: unset" />
+													<label class="mdl-textfield__label" for="stopTime2"></label>
+												</div>
+											</form>
+										</span>
+									</div>
+									<!-- Bereich für Start-/Endezeitpunkt-->
+
+								</div>
+							 
+							</div>
+							
+							<!-- Bereich für Workshop-Buchungen -->
+							<div class="mdl-tabs__panel " id="workshop-panel">
+
+									<div class="mdl-grid" >
+										<div class="mdl-cell mdl-cell--12-col">
+										
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Name</th>
+      <th class="mdl-data-table__cell--non-numeric">Leiter</th>
+      <th class="mdl-data-table__cell--non-numeric">Termin</th>
+      <th class="mdl-data-table__cell--non-numeric">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">Java for Web</td>
+      <td class="mdl-data-table__cell--non-numeric">Homer Simpson</td>
+      <td class="mdl-data-table__cell--non-numeric">02 Jan 2017</td>
+      <td class="mdl-data-table__cell--non-numeric">Warteposition 2</td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">UI - UX</td>
+      <td class="mdl-data-table__cell--non-numeric">Matt Groening</td>
+      <td class="mdl-data-table__cell--non-numeric">05 Jan 2017</td>
+      <td class="mdl-data-table__cell--non-numeric">Beantragt</td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">Visual Thinking</td>
+      <td class="mdl-data-table__cell--non-numeric">Marge Simpson</td>
+      <td class="mdl-data-table__cell--non-numeric">13 Jan 2017</td>
+      <td class="mdl-data-table__cell--non-numeric">Teilnehmer 2/10</td>
+    </tr>
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">JEE 7</td>
+      <td class="mdl-data-table__cell--non-numeric">Maggie Simpson</td>
+      <td class="mdl-data-table__cell--non-numeric">23 Jan 2017</td>
+      <td class="mdl-data-table__cell--non-numeric">Teilnehmer 7/20</td>
+    </tr>
+
+    
+  </tbody>
+</table>
+</div>
+</div>
+							</div>
+							
+							
+							<!-- Bereich für Alle-->
+							<div class="mdl-grid">
+						    	<div class="mdl-cell mdl-cell--1-col mdl-cell--11-offset ">
+						    		<p:commandButton styleClass="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" value="Buchen" action="#"/>
+								</div>
+							</div>
+							<!-- Bereich für Alle-->
+							
+						</div>
+					</div>
+				</div>
+				<!-- Bereich Neben dem Kalender-->
+				
+			</div>
+		</div>
+		<!-- Kalender und Eingabemaske -->
+
+		<div class="mdl-shadow--4dp mdl-color--white mdl-cell mdl-cell--2-col" style="width: 140px;">
+			<h2 class="mdl-card__title-text" style="padding: 20px;">-=KW17=-</h2>
+		</div>
+
+			
+		<div class="mdl-grid">
+	 		<div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--6-col">
+														
+				<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable">
+				  <thead>
+				    <tr>
+				      <th class="mdl-data-table__cell--non-numeric">Art</th>
+				      <th class="mdl-data-table__cell--non-numeric">Beschreibung</th>
+				      <th class="mdl-data-table__cell--non-numeric">Dauer</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				      <td class="mdl-data-table__cell--non-numeric">Montag</td>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Intern</td>
+				      <td class="mdl-data-table__cell--non-numeric">BU TTL Meeting</td>
+				      <td class="mdl-data-table__cell--non-numeric">8h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Workshop</td>
+				      <td class="mdl-data-table__cell--non-numeric">Visual Thinking: Anreise</td>
+				      <td class="mdl-data-table__cell--non-numeric">2h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				      <td class="mdl-data-table__cell--non-numeric">Dienstag</td>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Intern</td>
+				      <td class="mdl-data-table__cell--non-numeric">BU TTL Meeting</td>
+				      <td class="mdl-data-table__cell--non-numeric">8h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Workshop</td>
+				      <td class="mdl-data-table__cell--non-numeric">Visual Thinking: Anreise</td>
+				      <td class="mdl-data-table__cell--non-numeric">2h</td>
+				    </tr>				
+				    				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				      <td class="mdl-data-table__cell--non-numeric">Mittwoch</td>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Intern</td>
+				      <td class="mdl-data-table__cell--non-numeric">BU TTL Meeting</td>
+				      <td class="mdl-data-table__cell--non-numeric">8h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Workshop</td>
+				      <td class="mdl-data-table__cell--non-numeric">Visual Thinking: Anreise</td>
+				      <td class="mdl-data-table__cell--non-numeric">2h</td>
+				    </tr>
+				    				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				      <td class="mdl-data-table__cell--non-numeric">Donnerstag</td>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Intern</td>
+				      <td class="mdl-data-table__cell--non-numeric">BU TTL Meeting</td>
+				      <td class="mdl-data-table__cell--non-numeric">8h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Workshop</td>
+				      <td class="mdl-data-table__cell--non-numeric">Visual Thinking: Anreise</td>
+				      <td class="mdl-data-table__cell--non-numeric">2h</td>
+				    </tr>
+				    				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				      <td class="mdl-data-table__cell--non-numeric">Freitag</td>
+				      <td class="mdl-data-table__cell--non-numeric"></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Projekt</td>
+				      <td class="mdl-data-table__cell--non-numeric">SilverPen: Verarbeitung der Oberfläche</td>
+				      <td class="mdl-data-table__cell--non-numeric">4h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Intern</td>
+				      <td class="mdl-data-table__cell--non-numeric">BU TTL Meeting</td>
+				      <td class="mdl-data-table__cell--non-numeric">8h</td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Workshop</td>
+				      <td class="mdl-data-table__cell--non-numeric">Visual Thinking: Anreise</td>
+				      <td class="mdl-data-table__cell--non-numeric">2h</td>
+				    </tr>
+				  </tbody>
+				</table> 		
+	        </div>
+	        
+	        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-colt mdl-cell--1-offset">
+		         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" >
+		              <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+		              	<div class="mdl-grid">
+		              		<div class="mdl-cell mdl-cell--4-col">
+			  	                <h2 class="mdl-card__title-text" style="z-index: 5">Soll-Stunden</h2>
+		  	                </div>
+	             			<div class="mdl-cell mdl-cell--4-col">
+			  	                <h2 class="mdl-card__title-text" style="z-index: 5">S2oll-St2unden</h2>
+				                <svg fill="currentColor" width="150px" height="150px" viewBox="0 0 1 1" class="demo-chart" style="z-index: 1">
+					              <use xlink:href="#piechart" mask="url(#piemask)" />
+					              <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82<tspan dy="-0.07" font-size="0.2">%</tspan></text>
+					            </svg>
+			            	</div>
+			            </div>
+		              </div>
+		              <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+		                Non dolore elit adipisicing ea reprehenderit consectetur culpa.
+		              </div>
+		              <div class="mdl-card__actions mdl-card--border">
+		                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a>
+		              </div>
+		            </div>
+           </div>
+		        
+		</div>
+	</ui:define>
+</ui:composition>
