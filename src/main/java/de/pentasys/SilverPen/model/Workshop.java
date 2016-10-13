@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,18 +30,18 @@ public class Workshop {
     public static final String findAll = "Workshop.findAll";
     public static final String findByUserAndRole = "Workshop.findByUserAndRole";
 
-    @Id @GeneratedValue                             private int id;
-    @Column(nullable = false) @Future               private Date start;
-    @Column(nullable = false) @Future               private Date stop;
-    @Column(nullable = false)                       private String title;
-    @Column(nullable = false)                       private String description;
-    @Column(nullable = false)                       private String tutor;
-    @Column(nullable = false)                       private String organizer;
-    @Column(nullable = false)                       private String location;
-    @Column(nullable = false)                       private String status;
-    @Column(nullable = false) @Max(100) @Min(1)     private int maxParticipants;
-    @OneToMany(fetch = FetchType.EAGER)             private Collection<BookingItem> hours;
-    @OneToMany(fetch = FetchType.EAGER)             private Collection<WorkshopParticipant> participant = new LinkedList<WorkshopParticipant>();
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id;
+    @Column(nullable = false) @Future                     private Date start;
+    @Column(nullable = false) @Future                     private Date stop;
+    @Column(nullable = false)                             private String title;
+    @Column(nullable = false)                             private String description;
+    @Column(nullable = false)                             private String tutor;
+    @Column(nullable = false)                             private String organizer;
+    @Column(nullable = false)                             private String location;
+    @Column(nullable = false)                             private String status;
+    @Column(nullable = false) @Max(100) @Min(1)           private int maxParticipants;
+    @OneToMany(fetch = FetchType.EAGER)                   private Collection<BookingItem> hours;
+    @OneToMany(fetch = FetchType.EAGER)                   private Collection<WorkshopParticipant> participant = new LinkedList<WorkshopParticipant>();
 
     public Collection<WorkshopParticipant> getParticipant() {
         return participant;
